@@ -58,10 +58,12 @@ public class Cliente {
     //Metodo para validar um CPF (algoritmo utilizado pela Receita Federal)
 
     public boolean validarCpf(String cpf) {
+        char DV1, DV2; // Digito Validador;
+        int multiplicador, resto, soma, i; // Variaveis para calculo DV1 DV2
 
-        String newCpf = cpf.replaceAll("\\.", ""); // eh possivel passar mais parametros de substituicao?
-        newCpf = newCpf.replace("-", "");
-
+        // Converte o CPF para apenas numeros, retirando qualquer caractere nao numerico
+        String newCpf = cpf.replaceAll("[^0-9]", ""); // nao ta funcionando
+       
         // Se o CPF não tiver 11 digitos retorna falso (invalido)
         if(newCpf.length() != 11) {
             return false;
@@ -76,10 +78,7 @@ public class Cliente {
         {   
             return false;
         }
-
-        char DV1, DV2; // Digito Validador;
-        int multiplicador, resto, soma, i; // Variaveis para calculo
-        
+       
         // Calculo do primeiro digito verificador
         multiplicador = 10;
         soma = 0;
@@ -94,6 +93,10 @@ public class Cliente {
         else{
             DV1 = (char)(resto + 48); // retorna o decimo digito do cpf para um char
         }
+        
+        if(DV1 != newCpf.charAt(9)){
+            return false;
+        }
 
         // Calculo do segundo digito verificador
         multiplicador = 11;
@@ -107,16 +110,13 @@ public class Cliente {
         if (resto == 10 || resto == 11){
             DV2 = '0';
         }
-        else{
+        else
             DV2 = (char)(resto + 48); // retorna o decimo digito do cpf para um char
-        }
 
-        // Checando os digitos verificadores do CPF informado
-        if(DV1 != newCpf.charAt(9) || DV2 != newCpf.charAt(10)){
+        // Checando o 2o digito verificador do CPF informado
+        if(DV2 != newCpf.charAt(10)){
             return false;
         }
-        else{
-            return true;
-        }
+        return true;
     }
 }
