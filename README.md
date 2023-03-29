@@ -1,2 +1,3 @@
 # MC322-TurmaA
-repositorio para os projetos de programação orientada a objetos
+Repositorio para os projetos em JAVA de programação orientada a objetos
+1S2023
