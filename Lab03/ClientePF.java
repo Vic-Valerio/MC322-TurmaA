@@ -1,54 +1,18 @@
 import java.util.Date;
 
-public class Cliente {
-    // Atributos instanciados (caracterizacao do objeto)
-    private String nome;
-    private String endereco;
-    private Date dataLicenca;
-    private List <Veiculo> listaVeiculos;
-    
+public class ClientePF extends Cliente {
+    private String cpf;
+    private Date dataNascimento;
+    private String educacao;
+    private String genero;
+    private String classeEconomica;
 
-     // Metodo de construcao
-    public Cliente(String nome, String cpf, String dataNascimento, int idade, String endereco) {
-        this.nome = nome;
+    public ClientePF(String nome, String endereco, Date dataLicenca, String educacao,
+                     String genero, String classeEconomica, List<Veiculo> listaVeiculos,
+                     String cpf, Date dataNascimento) {
+        super(nome, endereco, dataLicenca, educacao, genero, classeEconomica, listaVeiculos);
         this.cpf = cpf;
-        this.dataNascimento = dataNascimento;     
-    }
-
-    // Metodos de acesso (getters and setters)
-    public String getNome() {
-        return nome;
-    }
-    public void setnome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getDataNascimento() {
-        return dataNascimento;
-    }
-    public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
-    }
-
-    public int getIdade() {
-        return idade;
-    }
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
-
-    public String getendereco() {
-        return endereco;
-    }
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
     }
 
     //Metodo de conversao para string
@@ -57,8 +21,7 @@ public class Cliente {
         return str;
     } 
 
-    //Metodo para validar um CPF (algoritmo utilizado pela Receita Federal)
-
+    // Metodo para validar o CPF informado
     public boolean validarCpf(String cpf) {
         char DV1, DV2; // Digito Validador;
         int multiplicador, resto, soma, i; // Variaveis para calculo DV1 DV2
