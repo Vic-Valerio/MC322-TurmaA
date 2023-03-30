@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.List;
 
 public class ClientePF extends Cliente {
     private String cpf;
@@ -10,10 +11,19 @@ public class ClientePF extends Cliente {
     public ClientePF(String nome, String endereco, Date dataLicenca, String educacao,
                      String genero, String classeEconomica, List<Veiculo> listaVeiculos,
                      String cpf, Date dataNascimento) {
-        super(nome, endereco, dataLicenca, educacao, genero, classeEconomica, listaVeiculos);
+
+        super(nome, endereco, dataLicenca, listaVeiculos);
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
+        this.educacao = educacao;
+        this.genero = genero;
+        this.classeEconomica = classeEconomica;
     }
+
+
+    // Metodos de acesso
+
+
 
     //Metodo de conversao para string
     public String toString() {
