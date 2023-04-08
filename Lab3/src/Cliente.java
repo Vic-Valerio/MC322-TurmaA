@@ -43,9 +43,12 @@ public class Cliente {
 
     // Entender como tratar as listas
 
+
+
     //Metodo de conversao para string
     public String toString() {
-        String str = "informacoes do cliente:\n" + "Nome: " + nome +"\n" + "CPF: " + cpf +"\n" + "Nascimento: " + dataNascimento +"\n" + "Idade: " + idade +"\n" + "Endereco: " + endereco +"\n";
+        String str = "informacoes do cliente:\n" + "Nome: " + nome +"\n" + "Endereco: " + endereco +"\n" + "Data da licença: " + dataLicenca +"\n";
         return str;
-    } 
+    }
+
 }
