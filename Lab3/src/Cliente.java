@@ -2,14 +2,14 @@ import java.util.Date;
 import java.util.List;
 
 public class Cliente {
-    // Atributos instanciados (caracterizacao do objeto)
+    // Atributos instanciados
     private static int numVeiculos = 0; // Static mesmo?
     private String nome;
     private String endereco;
     private Date dataLicenca;
     private List <Veiculo> listaVeiculos;
     
-     // Metodo de construcao
+     // Metodo construtor
     public Cliente(String nome, String endereco, Date dataLicenca, List<Veiculo> listaVeiculos) {
         this.nome = nome;
         this.endereco = endereco;
@@ -39,12 +39,10 @@ public class Cliente {
         this.dataLicenca = dataLicenca;
     }
 
-    // Entender como tratar as listas
-
-    // por que tem q ser boolean e pq o retorno eh convertido em boolean?
-    public boolean registerVehicle(Veiculo veiculo) {
+    // Metodo para inserir veiculo na lista de veiculos do cliente
+    public void registerVehicle(Veiculo veiculo) {
         numVeiculos++;
-        return listaVeiculos.add(veiculo);
+        listaVeiculos.add(veiculo);
     }
 
     //Metodo de conversao para string
