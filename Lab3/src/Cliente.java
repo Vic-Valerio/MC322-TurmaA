@@ -3,7 +3,6 @@ import java.util.List;
 
 public class Cliente {
     // Atributos instanciados
-    private static int numVeiculos = 0; // Static mesmo?
     private String nome;
     private String endereco;
     private Date dataLicenca;
@@ -39,10 +38,17 @@ public class Cliente {
         this.dataLicenca = dataLicenca;
     }
 
+    public List<Veiculo> getListaVeiculos(){
+        return listaVeiculos;
+    }
+
     // Metodo para inserir veiculo na lista de veiculos do cliente
-    public void registerVehicle(Veiculo veiculo) {
-        numVeiculos++;
-        listaVeiculos.add(veiculo);
+    public boolean registerVehicle(Veiculo veiculo) {
+        return listaVeiculos.add(veiculo);
+    }
+    // Metodo para remover veiculo na lista de veiculos do cliente
+    public boolean removeVehicle(Veiculo veiculo){
+        return listaVeiculos.remove(veiculo);
     }
 
     //Metodo de conversao para string

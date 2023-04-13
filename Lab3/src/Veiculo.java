@@ -5,12 +5,12 @@ public class Veiculo {
     private String modelo;
     private int anoFabricacao;
 
-    // Metodo de construcao
+    // Metodo construtor
     public Veiculo(String placa, String marca, String modelo, int anoFabricacao) {
         this.placa = placa;
         this.marca = marca;
         this.modelo = modelo;
-        this.anoFabricacao = anoFabricacao; 
+        this.anoFabricacao = anoFabricacao;
     }
 
     // Metodos de acesso (getters and setters)
@@ -39,10 +39,10 @@ public class Veiculo {
         return anoFabricacao;
     }
     public void setAnoFabricacao(int anoFabricacao){
-        this.anoFabricacao = anoFabricacao
+        this.anoFabricacao = anoFabricacao;
     }
 
-    //Metodo de conversao para string
+    // Metodo de conversao para string
     public String toString() {
         String str = "";
         str += "informacoes do veiculo:\n" + "Modelo: " + modelo +"\n" 

@@ -1,13 +1,13 @@
 public class Sinistro {
     private static int counter = 0;
-    private int id;
+    private final int id;
     private String data;
     private String endereco;
     private Seguradora seguradora;
     private Veiculo veiculo;
     private Cliente cliente;
     
-    // Metodo de construcao
+    // Metodo construtor
     public Sinistro(String data, String endereco, Veiculo veiculo, Cliente cliente) {
         this.id = setUniqueId();
         this.data = data;
@@ -17,7 +17,7 @@ public class Sinistro {
         }
 
         // Metodo para definir um identificador unico para objeto da classe Sinistro
-        private int setUniqueId() { //posso usar uma biblioteca para esse fim? UUID por exemplo?
+        private int setUniqueId() {
             id = counter;
             counter ++;
             return id;
@@ -26,23 +26,22 @@ public class Sinistro {
         // Metodos de acesso (Getters and setters)    
         public int getId() {
         return id;
-        }     
+        }
 
         public String getData() {
             return data;
-        }
-        
+        }        
         public void setData(String data) {
             this.data = data;
         }
-        
+
         public String getEndereco() {
             return endereco;
         }
         public void setEndereco(String endereco) {
             this.endereco = endereco;
         }
-        
+
         public Cliente getCliente(){
             return cliente;
         }
