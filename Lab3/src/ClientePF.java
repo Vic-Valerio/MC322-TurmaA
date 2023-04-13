@@ -44,11 +44,13 @@ public class ClientePF extends Cliente {
 
     //Metodo de conversao para string
     public String toString() {
-        String str = "informacoes de pessoa fisica:\n" + "CPF: " + CPF +"\n" 
-                    + "Nascimento: " + dataNascimento +"\n" 
-                    + "Gênero: " + genero +"\n"
-                    + "Escolaridade: " + educacao +"\n"
-                    + "Classe econômica" + classeEconomica + "\n";
+        String str = "";
+        str += "informacoes de pessoa fisica:\n" 
+                + "CPF: " + CPF +"\n" 
+                + "Nascimento: " + dataNascimento +"\n" 
+                + "Gênero: " + genero +"\n"
+                + "Escolaridade: " + educacao +"\n"
+                + "Classe econômica" + classeEconomica + "\n";
         return str;
     } 
 

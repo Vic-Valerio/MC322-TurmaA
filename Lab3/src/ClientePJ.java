@@ -30,7 +30,10 @@ public class ClientePJ extends Cliente {
 
     //Metodo de conversao para string
     public String toString() {
-        String str = "informacoes de pessoa juridica:\n" + "CNPJ: " + CNPJ +"\n" + "Fundação: " + dataFundacao +"\n";
+        String str = "";
+        str += "informacoes de pessoa juridica:\n" 
+                    + "CNPJ: " + CNPJ +"\n" 
+                    + "Fundação: " + dataFundacao +"\n";
         return str;
     }
     
