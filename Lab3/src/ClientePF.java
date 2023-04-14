@@ -1,18 +1,17 @@
 import java.util.Date;
-import java.util.List;
 
 public class ClientePF extends Cliente {
-    private String CPF;
+    private final String CPF;
     private Date dataNascimento;
     private String educacao;
     private String genero;
     private String classeEconomica;
 
     public ClientePF(String nome, String endereco, Date dataLicenca, String educacao,
-                     String genero, String classeEconomica, List<Veiculo> listaVeiculos,
-                     String CPF, Date dataNascimento) {
+                    String genero, String classeEconomica, String CPF, Date dataNascimento) {
 
-        super(nome, endereco, dataLicenca, listaVeiculos);
+        super(nome, endereco, dataLicenca);
+
         this.CPF = CPF;
         this.dataNascimento = dataNascimento;
         this.educacao = educacao;
@@ -40,6 +39,23 @@ public class ClientePF extends Cliente {
     }
     public void setClasseEconomica(String classeEconomica) {
         this.classeEconomica = classeEconomica;
+    }
+
+    public String getCPF(){
+        return CPF;
+    }
+    //Precisa do set CPF? o CPF nao pode mudar incluir aqui o metodo de validacao?a
+    // nao entendi direito os conceitos da variavel final, como atribuo valor?
+    /*
+    public void setCPF(String CPF){
+        this.CPF = CPF;
+    } */
+
+    public Date getDataNascimento(){
+        return dataNascimento;
+    }
+    public void setDataNascimento(Date dataNascimento){
+        this.dataNascimento = dataNascimento;
     }
 
     //Metodo de conversao para string

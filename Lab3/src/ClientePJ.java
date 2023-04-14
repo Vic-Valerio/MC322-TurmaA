@@ -1,25 +1,28 @@
 import java.util.Date;
-import java.util.List;
 
 public class ClientePJ extends Cliente {
-    private String CNPJ;
+    private final String CNPJ;
     private Date dataFundacao;
 
-    public ClientePJ(String nome, String endereco, Date dataLicenca, List<Veiculo> listaVeiculos,
+    public ClientePJ(String nome, String endereco, Date dataLicenca,
                      String CNPJ, Date dataFundacao) {
 
-        super(nome, endereco, dataLicenca, listaVeiculos);
+        super(nome, endereco, dataLicenca);
         this.CNPJ = CNPJ;
         this.dataFundacao = dataFundacao;
     }
     
+    // Preciso definir getter e setter da classe mae com override?
+
     // Metodos de acesso
     public String getCNPJ() {
         return CNPJ;
     }
+    // Mesmo caso do cliente PF
+    /*
     public void setCNPJ(String CNPJ) {
         this.CNPJ = CNPJ;
-    }
+    } */
 
     public Date getDataFundacao() {
         return dataFundacao;
@@ -55,8 +58,8 @@ public class ClientePJ extends Cliente {
         || newCNPJ.equals("22222222222222") || newCNPJ.equals("33333333333333")
         || newCNPJ.equals("44444444444444") || newCNPJ.equals("55555555555555")
         || newCNPJ.equals("66666666666666") || newCNPJ.equals("77777777777777")
-        || newCNPJ.equals("88888888888888") || newCNPJ.equals("99999999999999"))
-        {   
+        || newCNPJ.equals("88888888888888") || newCNPJ.equals("99999999999999")){
+
             return false;
         }
     
@@ -97,7 +100,7 @@ public class ClientePJ extends Cliente {
             DV2 = '0';
         }
         else{
-            DV2 = (char)(resto + 48); // retorna o 13o digito do CNPJ para um char
+            DV2 = (char)(resto + 48); // retorna o 14o digito do CNPJ para um char
         }
         // Checando o 2o digito verificador do CNPJ informado
         if(DV2 != newCNPJ.charAt(13)){
@@ -106,4 +109,3 @@ public class ClientePJ extends Cliente {
         return true;
     }
 }
-

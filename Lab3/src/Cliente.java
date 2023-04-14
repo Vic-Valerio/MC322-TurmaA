@@ -1,5 +1,6 @@
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Cliente {
     // Atributos instanciados
@@ -9,11 +10,11 @@ public class Cliente {
     private List <Veiculo> listaVeiculos;
     
      // Metodo construtor
-    public Cliente(String nome, String endereco, Date dataLicenca, List<Veiculo> listaVeiculos) {
+    public Cliente(String nome, String endereco, Date dataLicenca) {
         this.nome = nome;
         this.endereco = endereco;
         this.dataLicenca = dataLicenca;   
-        this.listaVeiculos = listaVeiculos;  
+        listaVeiculos = new ArrayList<>();
     }
 
     // Metodos de acesso (getters and setters)
@@ -43,23 +44,27 @@ public class Cliente {
     }
 
     // Metodo para inserir veiculo na lista de veiculos do cliente
-    public boolean registerVehicle(Veiculo veiculo) {
-        return listaVeiculos.add(veiculo);
+    public boolean registerVeiculo(Veiculo veiculo) {
+        if (listaVeiculos.contains(veiculo))
+            return false;
+        else
+            return listaVeiculos.add(veiculo);
     }
+    
     // Metodo para remover veiculo na lista de veiculos do cliente
-    public boolean removeVehicle(Veiculo veiculo){
+    public boolean removeVeiculo(Veiculo veiculo){
         return listaVeiculos.remove(veiculo);
     }
 
-    //Metodo de conversao para string
+    //Metodo de conversao para string (validar na main a lista de veiculos)
+    //@Overrride
     public String toString() {
         String str = "";
         str += "informacoes do cliente:\n" 
                 + "Nome: " + nome +"\n" 
                 + "Endereco: " + endereco +"\n" 
-                + "Data da licença: " + dataLicenca +"\n";
-                // "Veiculos: " + veiculo;
+                + "Data da licença: " + dataLicenca +"\n"
+                + "Veiculos: " + listaVeiculos;
         return str;
     }
-
 }

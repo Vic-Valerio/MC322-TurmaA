@@ -17,10 +17,10 @@ public class Sinistro {
         }
 
         // Metodo para definir um identificador unico para objeto da classe Sinistro
+        // Problema com variavel final
         private int setUniqueId() {
-            id = counter;
-            counter ++;
-            return id;
+            //id = counter;
+            return counter++;
         }
 
         // Metodos de acesso (Getters and setters)    

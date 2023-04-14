@@ -74,23 +74,49 @@ public class Seguradora {
     }
 
     // Metodo para listar clientes
-    public List<Cliente> listarClientes(String tipoCliente){
-        List<Cliente> clientesPF = new ArrayList<>();
-        List<Cliente> clientesPJ = new ArrayList<>();
-        // percorrer a liosta separando clientes PF e PJ;
-        Cliente c;
-        if (c instanceof ClientePF);
+    public void listarClientes(String tipoCliente){
+        List<Cliente> listaClientesPF = new ArrayList<>();
+        List<Cliente> listaClientesPJ = new ArrayList<>();
+        
+        // percorrer a lista separando clientes PF e PJ;
+        for(int i = 0; i < listaClientes.size(); i++){
+            if (listaClientes.get(i) instanceof ClientePF){
+                listaClientesPF.add(listaClientes.get(i));
+            }
+            if (listaClientes.get(i) instanceof ClientePJ){
+                listaClientesPJ.add(listaClientes.get(i));
+            }
+        }
+        if (tipoCliente == "PF"){
+            System.out.println("Clientes Pessoa Fisica:\n");
+            for (int i = 0; i < listaClientesPF.size(); i++){
+                System.out.println(listaClientesPF.get(i) + "\n");
+            }
+        }
+        if (tipoCliente == "PJ"){
+            System.out.println("Clientes Pessoa Juridica:\n");
+            for (int i = 0; i < listaClientesPJ.size(); i++){
+                System.out.println(listaClientesPJ.get(i) + "\n");
+            }
+        }
     }
 
     // Metodo para gerar sinistros
     public boolean gerarSinistros(String data, String enderecoSinistro, Veiculo veiculo, Cliente cliente){
         Sinistro sinistro = new Sinistro(data, enderecoSinistro, veiculo, cliente);
-        // Verificar se o cliente eh valido, se o veiculo instanciado consta e se a data faz sentido
-        if (listaClientes.contains(cliente)){
+        // Verificar se o cliente eh valido, em caso afirmativo gera sinistro caso contrario nao
+        if (listaClientes.contains(cliente))
             return listaSinistros.add(sinistro);
-        }
-        return false;
+        else
+            return false;
     }
 
-    // Metodo para listar sinistros 
+    // Metodo para listar sinistros
+    public void listarSinistros(){
+        System.out.println("Sinistros:\n");
+        for (int i = 0; i < listaSinistros.size(); i++){
+            System.out.println(listaSinistros.get(i) + "\n");
+        }
+    }
+    // Metodo para visualizar sinistros
 }
