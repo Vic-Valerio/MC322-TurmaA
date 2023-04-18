@@ -8,11 +8,10 @@ public class Main {
         String nome = nomeInserido.next();
         System.out.println("Nome inserido: " + nome +"\n");
 
-        String endereco;
         System.out.println("Insira seu endereço:\n");
         Scanner enderecoInserido = new Scanner(System.in);
-        endereco = enderecoInserido.next();
-        System.out.println("Endereço inserido: " + enderecoInserido +"\n");
+        String endereco = enderecoInserido.next();
+        System.out.println("Endereço inserido: " + endereco +"\n");
 
         Cliente c1 = new Cliente(nome, endereco);
     }
