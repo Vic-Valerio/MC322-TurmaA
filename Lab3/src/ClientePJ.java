@@ -4,10 +4,10 @@ public class ClientePJ extends Cliente {
     private final String CNPJ;
     private Date dataFundacao;
 
-    public ClientePJ(String nome, String endereco, Date dataLicenca,
+    public ClientePJ(String nome, String endereco,
                      String CNPJ, Date dataFundacao) {
 
-        super(nome, endereco, dataLicenca);
+        super(nome, endereco);
         this.CNPJ = CNPJ;
         this.dataFundacao = dataFundacao;
     }

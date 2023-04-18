@@ -1,25 +1,35 @@
 import java.util.Date;
 
 public class ClientePF extends Cliente {
-    private final String CPF;
-    private Date dataNascimento;
+
+    private Date dataLicenca;
     private String educacao;
     private String genero;
     private String classeEconomica;
+    private final String CPF;
+    private Date dataNascimento;
 
     public ClientePF(String nome, String endereco, Date dataLicenca, String educacao,
                     String genero, String classeEconomica, String CPF, Date dataNascimento) {
 
-        super(nome, endereco, dataLicenca);
+        super(nome, endereco);
 
-        this.CPF = CPF;
-        this.dataNascimento = dataNascimento;
+        this.dataLicenca = dataLicenca;
         this.educacao = educacao;
         this.genero = genero;
         this.classeEconomica = classeEconomica;
+        this.CPF = CPF;
+        this.dataNascimento = dataNascimento;
     }
 
     // Metodos de acesso
+    public Date getDataLicenca() {
+        return dataLicenca;
+    }
+    public void setDataLicenca(Date dataLicenca) {
+        this.dataLicenca = dataLicenca;
+    }
+
     public String getEducacao() {
         return educacao;
     }
@@ -44,13 +54,7 @@ public class ClientePF extends Cliente {
     public String getCPF(){
         return CPF;
     }
-    //Precisa do set CPF? o CPF nao pode mudar incluir aqui o metodo de validacao?a
-    // nao entendi direito os conceitos da variavel final, como atribuo valor?
-    /*
-    public void setCPF(String CPF){
-        this.CPF = CPF;
-    } */
-
+    //YYYY/MM/DD
     public Date getDataNascimento(){
         return dataNascimento;
     }
@@ -66,7 +70,8 @@ public class ClientePF extends Cliente {
                 + "Nascimento: " + dataNascimento +"\n" 
                 + "Gênero: " + genero +"\n"
                 + "Escolaridade: " + educacao +"\n"
-                + "Classe econômica" + classeEconomica + "\n";
+                + "Classe econômica: " + classeEconomica + "\n"
+                + "Data da licença: " + dataLicenca;
         return str;
     } 
 

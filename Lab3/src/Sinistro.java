@@ -8,18 +8,17 @@ public class Sinistro {
     private Cliente cliente;
     
     // Metodo construtor
-    public Sinistro(String data, String endereco, Veiculo veiculo, Cliente cliente) {
+    public Sinistro(String data, String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente) {
         this.id = setUniqueId();
         this.data = data;
         this.endereco = endereco;
+        this.seguradora = seguradora;
         this.veiculo = veiculo;
         this.cliente = cliente;
         }
 
         // Metodo para definir um identificador unico para objeto da classe Sinistro
-        // Problema com variavel final
         private int setUniqueId() {
-            //id = counter;
             return counter++;
         }
 

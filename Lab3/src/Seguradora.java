@@ -59,7 +59,7 @@ public class Seguradora {
     }
 
     // Metodo para criar clientes e armazenar numa lista
-    // Se o cliente ja esta cadastrado retorna False se nao, cadastra o cliente 
+    // Se o cliente ja esta cadastrado retorna False, se nao, cadastra o cliente 
     public boolean registerCliente(Cliente cliente) {
         if (listaClientes.contains(cliente))
             return false;
@@ -102,13 +102,15 @@ public class Seguradora {
     }
 
     // Metodo para gerar sinistros
-    public boolean gerarSinistros(String data, String enderecoSinistro, Veiculo veiculo, Cliente cliente){
-        Sinistro sinistro = new Sinistro(data, enderecoSinistro, veiculo, cliente);
+    public boolean gerarSinistros(String data, String enderecoSinistro, Seguradora seguradora, Veiculo veiculo, Cliente cliente){
+        Sinistro sinistro = new Sinistro(data, enderecoSinistro, seguradora, veiculo, cliente);
         // Verificar se o cliente eh valido, em caso afirmativo gera sinistro caso contrario nao
         if (listaClientes.contains(cliente))
             return listaSinistros.add(sinistro);
-        else
+        else {
+            System.out.println("Sinistro invalido\n");
             return false;
+        }
     }
 
     // Metodo para listar sinistros
@@ -118,5 +120,18 @@ public class Seguradora {
             System.out.println(listaSinistros.get(i) + "\n");
         }
     }
+
     // Metodo para visualizar sinistros
+    public boolean visualizarSinistro(String cliente){
+        // Percorre a lista de sinistros procurando pelo cliente informado;
+        // Caso encontre, imprime na tela e retorna True;
+        // Se não, retorna False;
+        for (int i = 0; i < listaSinistros.size(); i++){
+            if (listaSinistros.get(i).getCliente().getNome() == cliente){
+                System.out.println(listaSinistros.get(i));
+                return true;
+            }
+        }
+        return false;
+    }
 }

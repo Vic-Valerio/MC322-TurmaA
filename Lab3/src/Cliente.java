@@ -1,4 +1,3 @@
-import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -6,14 +5,12 @@ public class Cliente {
     // Atributos instanciados
     private String nome;
     private String endereco;
-    private Date dataLicenca;
     private List <Veiculo> listaVeiculos;
     
      // Metodo construtor
-    public Cliente(String nome, String endereco, Date dataLicenca) {
+    public Cliente(String nome, String endereco) {
         this.nome = nome;
-        this.endereco = endereco;
-        this.dataLicenca = dataLicenca;   
+        this.endereco = endereco;  
         listaVeiculos = new ArrayList<>();
     }
 
@@ -32,13 +29,6 @@ public class Cliente {
         this.endereco = endereco;
     }
 
-    public Date getDataLicenca() {
-        return dataLicenca;
-    }
-    public void setDataLicenca(Date dataLicenca) {
-        this.dataLicenca = dataLicenca;
-    }
-
     public List<Veiculo> getListaVeiculos(){
         return listaVeiculos;
     }
@@ -50,7 +40,7 @@ public class Cliente {
         else
             return listaVeiculos.add(veiculo);
     }
-    
+
     // Metodo para remover veiculo na lista de veiculos do cliente
     public boolean removeVeiculo(Veiculo veiculo){
         return listaVeiculos.remove(veiculo);
@@ -62,8 +52,7 @@ public class Cliente {
         String str = "";
         str += "informacoes do cliente:\n" 
                 + "Nome: " + nome +"\n" 
-                + "Endereco: " + endereco +"\n" 
-                + "Data da licença: " + dataLicenca +"\n"
+                + "Endereco: " + endereco +"\n"
                 + "Veiculos: " + listaVeiculos;
         return str;
     }
