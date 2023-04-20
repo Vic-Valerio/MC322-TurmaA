@@ -54,7 +54,7 @@ public class ClientePF extends Cliente {
     public String getCPF(){
         return CPF;
     }
-    //YYYY/MM/DD
+    
     public Date getDataNascimento(){
         return dataNascimento;
     }
@@ -71,7 +71,7 @@ public class ClientePF extends Cliente {
                 + "Gênero: " + genero +"\n"
                 + "Escolaridade: " + educacao +"\n"
                 + "Classe econômica: " + classeEconomica + "\n"
-                + "Data da licença: " + dataLicenca;
+                + "Data da licença: " + dataLicenca + "\n";
         return str;
     } 
 

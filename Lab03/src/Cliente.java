@@ -46,14 +46,13 @@ public class Cliente {
         return listaVeiculos.remove(veiculo);
     }
 
-    //Metodo de conversao para string (validar na main a lista de veiculos)
-    //@Overrride
+    // Metodo de conversao para string 
     public String toString() {
         String str = "";
         str += "informacoes do cliente:\n" 
                 + "Nome: " + nome +"\n" 
                 + "Endereco: " + endereco +"\n"
-                + "Veiculos: " + listaVeiculos;
+                + "Veiculos: " + listaVeiculos + "\n";
         return str;
     }
 }

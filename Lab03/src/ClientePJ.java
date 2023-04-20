@@ -11,18 +11,11 @@ public class ClientePJ extends Cliente {
         this.CNPJ = CNPJ;
         this.dataFundacao = dataFundacao;
     }
-    
-    // Preciso definir getter e setter da classe mae com override?
 
     // Metodos de acesso
     public String getCNPJ() {
         return CNPJ;
     }
-    // Mesmo caso do cliente PF
-    /*
-    public void setCNPJ(String CNPJ) {
-        this.CNPJ = CNPJ;
-    } */
 
     public Date getDataFundacao() {
         return dataFundacao;

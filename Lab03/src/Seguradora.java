@@ -58,8 +58,8 @@ public class Seguradora {
         return listaClientes;
     }
 
-    // Metodo para criar clientes e armazenar numa lista
-    // Se o cliente ja esta cadastrado retorna False, se nao, cadastra o cliente 
+    /*         Metodo para cadastrar clientes e armazenar numa lista
+    Se o cliente ja esta cadastrado retorna False, se nao, cadastra o cliente e retorna True */
     public boolean registerCliente(Cliente cliente) {
         if (listaClientes.contains(cliente))
             return false;
@@ -67,8 +67,8 @@ public class Seguradora {
             return listaClientes.add(cliente);
     }
 
-    // Metodo para remover cliente da lista clientes
-    // Retorna False se o cliente nao esta na lista e True se removeu o cliente com sucesso;
+    /*         Metodo para remover cliente da lista clientes
+    Retorna False se o cliente nao esta na lista e True se removeu o cliente com sucesso */
     public boolean removeCliente(Cliente cliente) {
         return listaClientes.remove(cliente);
     }
@@ -77,8 +77,28 @@ public class Seguradora {
     public void listarClientes(String tipoCliente){
         List<Cliente> listaClientesPF = new ArrayList<>();
         List<Cliente> listaClientesPJ = new ArrayList<>();
+
+        if (tipoCliente == "PF")
+            System.out.println("Clientes Pessoa Fisica:\n");
         
+        if (tipoCliente == "PJ")
+            System.out.println("Clientes Pessoa Juridica:\n");
+
         // percorrer a lista separando clientes PF e PJ;
+        /*for (Cliente c: listaClientes){
+            if (c instanceof ClientePF){
+                if (tipoCliente == "PF"){
+                    System.out.println(c + "\n");
+                }
+            }
+            if (c instanceof ClientePJ){
+                if (tipoCliente == "PJ"){
+                    System.out.println(c + "\n");
+                }
+            }
+        }
+    }*/
+
         for(int i = 0; i < listaClientes.size(); i++){
             if (listaClientes.get(i) instanceof ClientePF){
                 listaClientesPF.add(listaClientes.get(i));
@@ -87,14 +107,15 @@ public class Seguradora {
                 listaClientesPJ.add(listaClientes.get(i));
             }
         }
+
         if (tipoCliente == "PF"){
-            System.out.println("Clientes Pessoa Fisica:\n");
+            //System.out.println("Clientes Pessoa Fisica:\n");
             for (int i = 0; i < listaClientesPF.size(); i++){
                 System.out.println(listaClientesPF.get(i) + "\n");
             }
         }
         if (tipoCliente == "PJ"){
-            System.out.println("Clientes Pessoa Juridica:\n");
+            //System.out.println("Clientes Pessoa Juridica:\n");
             for (int i = 0; i < listaClientesPJ.size(); i++){
                 System.out.println(listaClientesPJ.get(i) + "\n");
             }
@@ -116,8 +137,8 @@ public class Seguradora {
     // Metodo para listar sinistros
     public void listarSinistros(){
         System.out.println("Sinistros:\n");
-        for (int i = 0; i < listaSinistros.size(); i++){
-            System.out.println(listaSinistros.get(i) + "\n");
+        for (Sinistro s: listaSinistros){
+            System.out.println(s + "\n");
         }
     }
 
@@ -127,7 +148,7 @@ public class Seguradora {
         // Caso encontre, imprime na tela e retorna True;
         // Se não, retorna False;
         for (int i = 0; i < listaSinistros.size(); i++){
-            if (listaSinistros.get(i).getCliente().getNome() == cliente){
+            if (listaSinistros.get(i).getCliente().getNome().equalsIgnoreCase(cliente)){
                 System.out.println(listaSinistros.get(i));
                 return true;
             }
