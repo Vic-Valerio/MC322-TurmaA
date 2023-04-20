@@ -1,6 +1,8 @@
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ClientePJ extends Cliente {
+    private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private final String CNPJ;
     private Date dataFundacao;
 
@@ -27,9 +29,10 @@ public class ClientePJ extends Cliente {
     //Metodo de conversao para string
     public String toString() {
         String str = "";
-        str += "informacoes de pessoa juridica:\n" 
-                    + "CNPJ: " + CNPJ +"\n" 
-                    + "Fundação: " + dataFundacao +"\n";
+        str += super.toString()
+                + "\ninformacoes de pessoa juridica:\n"
+                + "CNPJ: " + CNPJ +"\n" 
+                + "Fundação: " + sdf.format(dataFundacao) +"\n";
         return str;
     }
     

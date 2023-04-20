@@ -61,4 +61,15 @@ public class Sinistro {
         public void setSeguradora(Seguradora seguradora){
             this.seguradora = seguradora;
         }
+
+        public String toString() {
+            String str = "";
+            str += "informacoes do sinistro:\n" + "ID: " + id +"\n" 
+                        + "Data: " + data +"\n" 
+                        + "Endereço: " + endereco +"\n"
+                        + "Seguradora: " + seguradora +"\n"
+                        + veiculo + "\n"
+                        + cliente + "\n";
+            return str;
+        }
 }

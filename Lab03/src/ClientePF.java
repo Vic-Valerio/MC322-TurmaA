@@ -1,7 +1,8 @@
 import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class ClientePF extends Cliente {
-
+    private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private Date dataLicenca;
     private String educacao;
     private String genero;
@@ -9,6 +10,7 @@ public class ClientePF extends Cliente {
     private final String CPF;
     private Date dataNascimento;
 
+    // Metodo construtor
     public ClientePF(String nome, String endereco, Date dataLicenca, String educacao,
                     String genero, String classeEconomica, String CPF, Date dataNascimento) {
 
@@ -65,13 +67,14 @@ public class ClientePF extends Cliente {
     //Metodo de conversao para string
     public String toString() {
         String str = "";
-        str += "informacoes de pessoa fisica:\n" 
+        str +=  super.toString()
+                + "\ninformacoes de pessoa fisica:\n"
                 + "CPF: " + CPF +"\n" 
-                + "Nascimento: " + dataNascimento +"\n" 
+                + "Nascimento: " + sdf.format(dataNascimento) +"\n" 
                 + "Gênero: " + genero +"\n"
                 + "Escolaridade: " + educacao +"\n"
                 + "Classe econômica: " + classeEconomica + "\n"
-                + "Data da licença: " + dataLicenca + "\n";
+                + "Data da licença: " + sdf.format(dataLicenca) + "\n";
         return str;
     } 
 

@@ -58,6 +58,16 @@ public class Seguradora {
         return listaClientes;
     }
 
+    //Metodo de conversao para string
+    public String toString() {
+        String str = "";
+        str +=     "Nome: " + nome +"\n" 
+                    + "Telefone: " + telefone +"\n"
+                    + "Email: " + email + "\n"
+                    + "Endereço: " + endereco+"\n";
+        return str;
+    }
+
     /*         Metodo para cadastrar clientes e armazenar numa lista
     Se o cliente ja esta cadastrado retorna False, se nao, cadastra o cliente e retorna True */
     public boolean registerCliente(Cliente cliente) {
@@ -109,13 +119,11 @@ public class Seguradora {
         }
 
         if (tipoCliente == "PF"){
-            //System.out.println("Clientes Pessoa Fisica:\n");
             for (int i = 0; i < listaClientesPF.size(); i++){
                 System.out.println(listaClientesPF.get(i) + "\n");
             }
         }
         if (tipoCliente == "PJ"){
-            //System.out.println("Clientes Pessoa Juridica:\n");
             for (int i = 0; i < listaClientesPJ.size(); i++){
                 System.out.println(listaClientesPJ.get(i) + "\n");
             }
@@ -129,7 +137,7 @@ public class Seguradora {
         if (listaClientes.contains(cliente))
             return listaSinistros.add(sinistro);
         else {
-            System.out.println("Sinistro invalido\n");
+            System.out.println("Sinistro não criado, cliente invalido\n");
             return false;
         }
     }

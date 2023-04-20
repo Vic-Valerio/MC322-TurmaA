@@ -49,7 +49,7 @@ public class Cliente {
     // Metodo de conversao para string 
     public String toString() {
         String str = "";
-        str += "informacoes do cliente:\n" 
+        str += "Cliente:\n" 
                 + "Nome: " + nome +"\n" 
                 + "Endereco: " + endereco +"\n"
                 + "Veiculos: " + listaVeiculos + "\n";
