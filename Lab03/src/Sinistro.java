@@ -67,7 +67,7 @@ public class Sinistro {
             str += "informacoes do sinistro:\n" + "ID: " + id +"\n" 
                         + "Data: " + data +"\n" 
                         + "Endereço: " + endereco +"\n"
-                        + "Seguradora: " + seguradora +"\n"
+                        + "Seguradora:\n" + seguradora +"\n"
                         + veiculo + "\n"
                         + cliente + "\n";
             return str;

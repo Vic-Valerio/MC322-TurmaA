@@ -47,21 +47,26 @@ public class Main {
         else
             System.out.println("\nCPF " + c2.getCPF() + " do cliente " + c2.getNome() + " eh invalido\n");
         
-        // Declarando veiculo do cliente 2;
+        // Declarando e cadastrando veiculo do cliente 2;
         Veiculo v1_c2 = new Veiculo("DEF0147", "Ford", "Ka", 2008);
         c2.registerVeiculo(v1_c2);
 
         ClientePJ c3 = new ClientePJ("Programacao Basica LTDA", "Rua do Python, n_o MC102",
                                 "45.773.100/0001-99",sdf.parse("05/02/2010"));
-
-        ClientePJ c4 = new ClientePJ("Programacao avançada LTDA", "Rua do Java, n_o MC322",
-                                "45.773.100/0001-90",sdf.parse("05/01/2000"));
+        
+        // Declarando e cadastrando veiculo do cliente 3;
+        Veiculo v1_c3 = new Veiculo("GHI4596", "Chevrolet", "Omega", 1994);
+        c3.registerVeiculo(v1_c3);
 
         if (c3.validarCNPJ(c3.getCNPJ()))
             System.out.println("\nCNPJ " + c3.getCNPJ() + " da empresa " + c3.getNome() + " eh valido\n");
         else
             System.out.println("\nCNPJ " + c3.getCNPJ() + " da empresa " + c3.getNome() + " eh invalido\n");
-        
+
+        // Cliente 4 apenas para demonstrar validaçao do CNPJ;
+        ClientePJ c4 = new ClientePJ("Programacao avançada LTDA", "Rua do Java, n_o MC322",
+                                "45.773.100/0001-90",sdf.parse("05/01/2000"));
+
         if (c4.validarCNPJ(c4.getCNPJ()))
             System.out.println("\nCNPJ " + c4.getCNPJ() + " da empresa " + c4.getNome() + " eh valido\n");
         else
@@ -80,7 +85,7 @@ public class Main {
         
         // Removendo 1 cliente PF da seguradora Sol Seguros e mostrando atualizaçao na tela;
         seg1.removeCliente(c2);
-        System.out.println("Atualização de clientes da seguradora Sol Seguros:\n" + seg1.getListaClientes() + "\n");
+        System.out.println("Cliente excluido\nAtualização de clientes da seguradora Sol Seguros:\n" + seg1.getListaClientes() +"\n");
     
         // Gerando 1 sinistro para o cliente 1;
         seg1.gerarSinistros("20/04/2023", "Rua dos acidentes", seg1, v1_c1, c1);

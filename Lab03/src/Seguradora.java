@@ -88,27 +88,7 @@ public class Seguradora {
         List<Cliente> listaClientesPF = new ArrayList<>();
         List<Cliente> listaClientesPJ = new ArrayList<>();
 
-        if (tipoCliente == "PF")
-            System.out.println("Clientes Pessoa Fisica:\n");
-        
-        if (tipoCliente == "PJ")
-            System.out.println("Clientes Pessoa Juridica:\n");
-
         // percorrer a lista separando clientes PF e PJ;
-        /*for (Cliente c: listaClientes){
-            if (c instanceof ClientePF){
-                if (tipoCliente == "PF"){
-                    System.out.println(c + "\n");
-                }
-            }
-            if (c instanceof ClientePJ){
-                if (tipoCliente == "PJ"){
-                    System.out.println(c + "\n");
-                }
-            }
-        }
-    }*/
-
         for(int i = 0; i < listaClientes.size(); i++){
             if (listaClientes.get(i) instanceof ClientePF){
                 listaClientesPF.add(listaClientes.get(i));
@@ -119,11 +99,13 @@ public class Seguradora {
         }
 
         if (tipoCliente == "PF"){
+            System.out.println("Os Clientes Pessoa Fisica são:\n");
             for (int i = 0; i < listaClientesPF.size(); i++){
                 System.out.println(listaClientesPF.get(i) + "\n");
             }
         }
         if (tipoCliente == "PJ"){
+            System.out.println("Os Clientes Pessoa Juridica são:\n");
             for (int i = 0; i < listaClientesPJ.size(); i++){
                 System.out.println(listaClientesPJ.get(i) + "\n");
             }
