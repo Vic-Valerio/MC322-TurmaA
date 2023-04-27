@@ -9,6 +9,8 @@ public class ClientePF extends Cliente {
     private final String CPF;
     private Date dataNascimento;
 
+    //private CalcSeguro valorBase = new CalcSeguro(100.0);
+
     public ClientePF(String nome, String endereco, Date dataLicenca, String educacao,
                     String genero, String classeEconomica, String CPF, Date dataNascimento) {
 
@@ -73,5 +75,11 @@ public class ClientePF extends Cliente {
                 + "Classe econômica: " + classeEconomica + "\n"
                 + "Data da licença: " + dataLicenca + "\n";
         return str;
-    } 
+    }
+
+    // Metodo para calcular o valor a ser pago do seguro
+    @Override
+    public double calculaScore(double valorBase, double fatorIdade, int qtdCarros){
+        return valorBase*fatorIdade*qtdCarros;
+    }
 }

@@ -39,9 +39,11 @@ public class Cliente {
     public double getValorSeguro() {
         return valorSeguro;
     }
+    /*
     public void setValorSeguro(double valorSeguro) {
         this.valorSeguro = valorSeguro;
     }
+    */
 
     // Metodo para inserir veiculo na lista de veiculos do cliente
     public boolean registerVeiculo(Veiculo veiculo) {
@@ -68,8 +70,6 @@ public class Cliente {
 
     // Metodo para calcular o valor a ser pago do seguro
     public double calculaScore(){
-        double score = 0.0;
-        
-        return score;
+        return 0;
     }
 }
