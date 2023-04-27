@@ -7,6 +7,7 @@ public class Cliente {
     private String endereco;
     private List <Veiculo> listaVeiculos;
     private double valorSeguro;
+    protected int qtdCarros = 0;
     
 
     // Metodo construtor
@@ -14,7 +15,7 @@ public class Cliente {
         this.nome = nome;
         this.endereco = endereco;  
         listaVeiculos = new ArrayList<>();
-        valorSeguro = 100.0; // valor base
+        //valorSeguro = 100.0; // valor base
     }
 
     // Metodos de acesso (getters and setters)
@@ -39,23 +40,24 @@ public class Cliente {
     public double getValorSeguro() {
         return valorSeguro;
     }
-    /*
-    public void setValorSeguro(double valorSeguro) {
-        this.valorSeguro = valorSeguro;
-    }
-    */
 
     // Metodo para inserir veiculo na lista de veiculos do cliente
     public boolean registerVeiculo(Veiculo veiculo) {
         if (listaVeiculos.contains(veiculo))
             return false;
-        else
+        else{
+            qtdCarros++;
             return listaVeiculos.add(veiculo);
+        }
     }
 
     // Metodo para remover veiculo na lista de veiculos do cliente
     public boolean removeVeiculo(Veiculo veiculo){
-        return listaVeiculos.remove(veiculo);
+        if (listaVeiculos.remove(veiculo)){
+            qtdCarros--;
+            return true;
+        }
+        return false;
     }
 
     // Metodo de conversao para string 

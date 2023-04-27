@@ -1,5 +1,5 @@
-public enum MenuOperacoes{
-    CADASTRAR_CLIENTE(1),
+public enum MenuPrincipal{
+    CADASTRAR(1),
     LISTAR(2),
     EXCLUIR(3),
     GERAR_SINISTRO(4),
@@ -9,7 +9,7 @@ public enum MenuOperacoes{
 
     public final int operacao;
 
-    MenuOperacoes(int operacao){
+    MenuPrincipal(int operacao){
         this.operacao = operacao;
     }
     public int getOperacao(){

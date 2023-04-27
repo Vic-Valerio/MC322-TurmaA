@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.Period;
 
 public class Validacao {
 
@@ -145,12 +146,15 @@ public class Validacao {
         return nome.matches(expRegular);
     }
 
-    // Metodo para validar a idade
+    // Metodo estatico para validar a idade do cliente PF;
     public static boolean validaNascimento(LocalDate dataNascimento){
-        if (dataNascimento.getYear() < 2023){
-            //if (dataNascimento.getMonthValue() < 5)        
+        LocalDate dataHoje = LocalDate.now();
+        Period p = Period.between(dataNascimento, dataHoje);
+        
+        if (p.getYears() >= 18){   
             return true;
         }
+        
         return false;
     }
 }

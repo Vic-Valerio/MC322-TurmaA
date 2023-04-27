@@ -84,21 +84,6 @@ public class Seguradora {
         if (tipoCliente == "PJ")
             System.out.println("Clientes Pessoa Juridica:\n");
 
-        // percorrer a lista separando clientes PF e PJ;
-        /*for (Cliente c: listaClientes){
-            if (c instanceof ClientePF){
-                if (tipoCliente == "PF"){
-                    System.out.println(c + "\n");
-                }
-            }
-            if (c instanceof ClientePJ){
-                if (tipoCliente == "PJ"){
-                    System.out.println(c + "\n");
-                }
-            }
-        }
-    }*/
-
         for(int i = 0; i < listaClientes.size(); i++){
             if (listaClientes.get(i) instanceof ClientePF){
                 listaClientesPF.add(listaClientes.get(i));

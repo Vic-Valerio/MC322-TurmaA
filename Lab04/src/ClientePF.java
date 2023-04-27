@@ -1,18 +1,20 @@
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
 
 public class ClientePF extends Cliente {
 
-    private Date dataLicenca;
+    private LocalDate dataLicenca;
     private String educacao;
     private String genero;
     private String classeEconomica;
     private final String CPF;
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
+    private LocalDate dataHoje = LocalDate.now();
+    private Period p = Period.between(dataNascimento, dataHoje);
+    private int idade = p.getYears();
 
-    //private CalcSeguro valorBase = new CalcSeguro(100.0);
-
-    public ClientePF(String nome, String endereco, Date dataLicenca, String educacao,
-                    String genero, String classeEconomica, String CPF, Date dataNascimento) {
+    public ClientePF(String nome, String endereco, LocalDate dataLicenca, String educacao,
+                    String genero, String classeEconomica, String CPF, LocalDate dataNascimento) {
 
         super(nome, endereco);
 
@@ -25,10 +27,10 @@ public class ClientePF extends Cliente {
     }
 
     // Metodos de acesso
-    public Date getDataLicenca() {
+    public LocalDate getDataLicenca() {
         return dataLicenca;
     }
-    public void setDataLicenca(Date dataLicenca) {
+    public void setDataLicenca(LocalDate dataLicenca) {
         this.dataLicenca = dataLicenca;
     }
 
@@ -57,10 +59,10 @@ public class ClientePF extends Cliente {
         return CPF;
     }
     
-    public Date getDataNascimento(){
+    public LocalDate getDataNascimento(){
         return dataNascimento;
     }
-    public void setDataNascimento(Date dataNascimento){
+    public void setDataNascimento(LocalDate dataNascimento){
         this.dataNascimento = dataNascimento;
     }
 
@@ -79,7 +81,22 @@ public class ClientePF extends Cliente {
 
     // Metodo para calcular o valor a ser pago do seguro
     @Override
-    public double calculaScore(double valorBase, double fatorIdade, int qtdCarros){
+    public double calculaScore(){
+        double valorBase;
+        double fatorIdade = 1;
+        //qtdCarros foi herdado da classe mae Cliente;
+
+        valorBase = CalcSeguro.VALOR_BASE.getFator();
+
+        if (idade >= 18 || idade < 30){
+            fatorIdade = CalcSeguro.FATOR_18_30.getFator();
+        }
+        if (idade >= 30 || idade < 60){
+            fatorIdade = CalcSeguro.FATOR_30_60.getFator();
+        }
+        if (idade >= 60 || idade < 90){
+            fatorIdade = CalcSeguro.FATOR_60_90.getFator();
+        }
         return valorBase*fatorIdade*qtdCarros;
     }
 }
