@@ -1,7 +1,11 @@
+import java.util.Scanner;
+
+
 public class ImplementarMenu {
     //Definir se vai ser tudo private;
     Scanner teclado = new Scanner(System.in);
     final int operacao;
+    ArrayList<Seguradora> listaSeguradoras= new ArrayList<>();
 
     // inicializar a operação no construtor? 
     public ImplementarMenu(int operacao){
@@ -13,8 +17,9 @@ public class ImplementarMenu {
     String telefone;
     String email;
     String endereco;
-    System.out.println("Cadastre uma seguradora para começar\n
-                        Insira o nome da seguradora:\n");
+    
+    System.out.println("Cadastre uma seguradora para começar\n"+
+                        "Insira o nome da seguradora:\n");
 
     nome = teclado.nextLine();
     while (!validarNome(nome)){
@@ -34,14 +39,14 @@ public class ImplementarMenu {
     
     // Preciso criar uma lista para armazenar as seguradoras?
 
-    System.out.println("O que voce quer realizar?\n
-                        (1) CADASTRAR\n
-                        (2) LISTAR\n
-                        (3) EXCLUIR\n
-                        (4) GERAR_SINISTRO\n
-                        (5) TRANSFERIR_SEGURO\n
-                        (6) CALCULAR_RECEITA_SEGURADORA\n
-                        (0) SAIR\n");
+    System.out.println("O que voce quer realizar?\n"+
+                        "(1) CADASTRAR\n" +
+                        "(2) LISTAR\n" +
+                        "(3) EXCLUIR\n" +
+                        "(4) GERAR_SINISTRO\n" +
+                        "(5) TRANSFERIR_SEGURO\n" +
+                        "(6) CALCULAR_RECEITA_SEGURADORA\n" +
+                        "(0) SAIR\n");
 
     MenuPrincipal op;
 

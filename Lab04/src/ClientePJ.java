@@ -1,12 +1,12 @@
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ClientePJ extends Cliente {
     private final String CNPJ;
-    private Date dataFundacao;
+    private LocalDate dataFundacao;
     private int qtdFuncionarios;
 
     public ClientePJ(String nome, String endereco,
-                     String CNPJ, Date dataFundacao, int qtdFuncionarios) {
+                     String CNPJ, LocalDate dataFundacao, int qtdFuncionarios) {
 
         super(nome, endereco);
         this.CNPJ = CNPJ;
@@ -19,10 +19,10 @@ public class ClientePJ extends Cliente {
         return CNPJ;
     }
 
-    public Date getDataFundacao() {
+    public LocalDate getDataFundacao() {
         return dataFundacao;
     }
-    public void setDataFundacao(Date dataFundacao) {
+    public void setDataFundacao(LocalDate dataFundacao) {
         this.dataFundacao = dataFundacao;
     }
 

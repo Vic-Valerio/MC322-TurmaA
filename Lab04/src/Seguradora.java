@@ -151,7 +151,7 @@ public class Seguradora {
         if(cliente instanceof ClientePJ){
             score = ClientePJ.calculaScore();
         }
-        return score *(1 + qtdSinistros);
+        //return score *(1 + qtdSinistros);
     }
 
     // Metodo para calcular o balanço de seguros de todos os clientes da seguradora;
