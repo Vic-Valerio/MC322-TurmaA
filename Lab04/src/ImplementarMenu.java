@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -5,7 +6,7 @@ public class ImplementarMenu {
     //Definir se vai ser tudo private;
     Scanner teclado = new Scanner(System.in);
     final int operacao;
-    ArrayList<Seguradora> listaSeguradoras= new ArrayList<>();
+    ArrayList<Seguradora> listaSeguradoras = new ArrayList<>();
 
     // inicializar a operação no construtor? 
     public ImplementarMenu(int operacao){

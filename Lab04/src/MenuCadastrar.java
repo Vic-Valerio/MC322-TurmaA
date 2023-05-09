@@ -16,7 +16,7 @@ public enum MenuCadastrar {
     public int getOperacao(){
         return operacao;
     }
-
+    // Passar essa função para a classe ImplementaMenu
     public static void implementaMenuCadastrar(){
         int ope;
         System.out.println("O que voce quer cadastrar?\n" +
@@ -88,7 +88,6 @@ public enum MenuCadastrar {
                     ClientePJ c2 = new ClientePJ (nome, endereco, CNPJ, MenuCadastrar.converteDataStrToLD(dataFundacao), qtdFuncionarios);
                     
                     s.registerCliente(c2);
-
                 }
                 break;
             

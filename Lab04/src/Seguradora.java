@@ -142,7 +142,7 @@ public class Seguradora {
     }
 
     // Metodo para calcular o preço do seguro para cada cliente
-    public void calcularPrecoSeguroCliente(Cliente cliente){
+    public double calcularPrecoSeguroCliente(Cliente cliente){
         int qtdSinistros = listaSinistros.size();
         double score;
         if(cliente instanceof ClientePF){
@@ -151,7 +151,7 @@ public class Seguradora {
         if(cliente instanceof ClientePJ){
             score = ClientePJ.calculaScore();
         }
-        //return score *(1 + qtdSinistros);
+        return score *(1 + qtdSinistros);
     }
 
     // Metodo para calcular o balanço de seguros de todos os clientes da seguradora;

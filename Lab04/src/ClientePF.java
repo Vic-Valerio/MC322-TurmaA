@@ -9,6 +9,7 @@ public class ClientePF extends Cliente {
     private String classeEconomica;
     private final String CPF;
     private LocalDate dataNascimento;
+    
     private LocalDate dataHoje = LocalDate.now();
     private Period p = Period.between(dataNascimento, dataHoje);
     private int idade = p.getYears();
