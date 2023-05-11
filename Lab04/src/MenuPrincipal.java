@@ -16,3 +16,6 @@ public enum MenuPrincipal{
         return operacao;
     }
 }
+
+// while (entrada_teclado != MenuPrincipal.SAIR.getOperacao()) 
+// para sair do menu

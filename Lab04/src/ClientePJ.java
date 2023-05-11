@@ -48,4 +48,9 @@ public class ClientePJ extends Cliente {
         //qtdCarros foi herdado da classe mae Cliente;
         return valorBase* (1+(qtdFuncionarios/100))*qtdCarros;
     }
+
+    @Override
+    public String getIdentificador(){
+        return CNPJ;
+    }
 }

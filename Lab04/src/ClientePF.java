@@ -100,4 +100,9 @@ public class ClientePF extends Cliente {
         }
         return valorBase*fatorIdade*qtdCarros;
     }
+
+    @Override
+    public String getIdentificador(){
+        return CPF;
+    }
 }

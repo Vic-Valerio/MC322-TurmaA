@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class ImplementarMenu {
     final int operacao;
     private ArrayList<Seguradora> listaSeguradoras = new ArrayList<>();
-    Scanner teclado = new Scanner(System.in);
+    private Scanner teclado = new Scanner(System.in);
 
     // Metodo construtor;
     public ImplementarMenu(int operacao){
@@ -23,51 +23,64 @@ public class ImplementarMenu {
     // Metodos de implementacao;
     public void implementaMenu(){     
         int ope;
-        System.out.println("""
-                O que voce deseja realizar?\n
-                (1) Cadastrar\n
-                (2) Listar\n
-                (3) Excluir\n
-                (4) Gerar sinistro\n
-                (5) Transferir seguro\n
-                (6) Calcular receita da seguradora\n
-                (0) Sair\n""");
-        ope = teclado.nextInt();
-        teclado.nextLine();
+        boolean flagMenu = true;
 
-        switch (ope) {
-            case 1:
-                implementaMenuCadastrar();
-                break;
-        
-            case 2:
-                implementaMenuListar();
-                break;
+        while(flagMenu){
+            System.out.println("""
+                    O que voce deseja realizar?\n
+                    (1) Cadastrar\n
+                    (2) Listar\n
+                    (3) Excluir\n
+                    (4) Gerar sinistro\n
+                    (5) Transferir seguro\n
+                    (6) Calcular receita da seguradora\n
+                    (0) Sair\n""");
+            ope = teclado.nextInt();
+            teclado.nextLine();
+
+            switch (ope) {
+                case 1:
+                    implementaMenuCadastrar();
+                    break;
             
-            case 3:
-                implementaMenuExcluir();
-                break;
+                case 2:
+                    implementaMenuListar();
+                    break;
+                
+                case 3:
+                    implementaMenuExcluir();
+                    break;
 
-            case 4:
+                case 4:
 
-                break;
+                    break;
 
-            case 5:
+                case 5:
 
-                break;
-            
-            case 6: 
+                    break;
+                
+                case 6: 
 
-                break;
+                    break;
 
-            case 0:
-
-                break;
+                case 0:
+                    System.out.println("Opção escolhida: Sair\n");
+                    flagMenu = false;
+                    break;
+            }
         }
     }
 
     public void implementaMenuCadastrar(){
-        int ope;
+        int ope, qtdFuncionarios, anoFabricacao;
+        String nomeCliente, nomeSeguradora, endereco, tipoCliente, 
+        dataLicenca, educacao, genero, classeEconomica, CPF, dataNascimento, 
+        CNPJ,dataFundacao, identificadorCliente, placa, modelo, marca,
+        telefone, email;;
+  
+        Seguradora s;
+        Cliente c;
+        Veiculo v;
         System.out.println("""
                         O que voce quer cadastrar?\n
                         (1) Cliente\n
@@ -76,24 +89,15 @@ public class ImplementarMenu {
                         (4) Voltar\n""");
         ope = teclado.nextInt();
         teclado.nextLine();
+    
         switch(ope){
             case 1: // Cadastrar cliente
-                String nomeCliente, nomeSeguradora, endereco, tipoCliente;
-                Seguradora s;
                 System.out.println("""
                                     Opção escolhida: Cadastrar cliente\n
                                     Qual será a seguradora? Informe o nome dela""");
                 nomeSeguradora = teclado.nextLine();
 
-                // buscar na listaSeguradoras e inicializar s
-                for (Seguradora seg : listaSeguradoras){
-                    if(seg.getNome() == nomeSeguradora){
-                        System.out.println("Seguradora encontrada\n");
-                        s = seg;
-                        break;
-                        // sair do for com continue?;
-                    }
-                }
+                s = buscarSeguradora(nomeSeguradora); 
                 if(s == null){
                     System.out.println("Seguradora não encontrada\n");
                     break;
@@ -115,7 +119,7 @@ public class ImplementarMenu {
                 tipoCliente = teclado.nextLine();
 
                 if(tipoCliente == "PF"){
-                    String dataLicenca, educacao, genero, classeEconomica, CPF, dataNascimento;
+                    
                     System.out.println("Insira a data da licença no formato DD/MM/AAA\n");
                     dataLicenca = teclado.nextLine(); // convertida para LocalDate no construtor do cliente;
 
@@ -140,12 +144,11 @@ public class ImplementarMenu {
 
                     ClientePF c1 = new ClientePF(nomeCliente, endereco,converteDataStrToLD(dataLicenca), educacao, genero,
                                                 classeEconomica, CPF, converteDataStrToLD(dataNascimento));
-                    s.registerCliente(c1); // escopo local, como tornar global?
+
+                    s.registerCliente(c1);
                 }
 
                 if(tipoCliente == "PJ"){
-                    String CNPJ,dataFundacao;
-                    int qtdFuncionarios; 
                     System.out.println("Insira o CNPJ\n");
                     CNPJ = teclado.nextLine();
                     while(!Validacao.validarCNPJ(CNPJ)){
@@ -161,119 +164,177 @@ public class ImplementarMenu {
 
                     ClientePJ c2 = new ClientePJ (nomeCliente, endereco, CNPJ, converteDataStrToLD(dataFundacao), qtdFuncionarios);
                     
-                    s.registerCliente(c2); // escopo local;
+                    s.registerCliente(c2);
                 }
                 break;
             
             case 2: // Cadastrar veiculo
-                Cliente c; // Buscar cliente na listaClientes da seguradora X
                 System.out.println("""
                                     Opção escolhida: Cadastrar veículo\n
-                                    Informe o nome do cliente""");
-                nomeCliente = teclado.nextLine();
+                                    Informe o CPF ou CNPJ do cliente""");
+                identificadorCliente = teclado.nextLine();
 
                 System.out.println("Informe o nome da seguradora do cliente\n");
                 nomeSeguradora = teclado.nextLine();
 
-                // buscar na listaSeguradoras e inicializar s
-                for (Seguradora seg : listaSeguradoras){
-                    if(seg.getNome() == nomeSeguradora){
-                        System.out.println("Seguradora encontrada\n");
-                        for (Cliente cli: seg.getListaClientes()){
-                            if (seg.getListaClientes().contains(cli)){
-                                System.out.println("Cliente encontrado\n");
-                                c = cli;
-                                continue;
-                            }
-                            else{
-                                System.out.println("Cliente não encontrado\n");
-                                break;
-                            }
-                        }
-                    }
-                    else{
-                        System.out.println("Seguradora não encontrada\n");
-                        break;
-                    }
+                s = buscarSeguradora(nomeSeguradora);
+                if(s == null){
+                    System.out.println("Seguradora não encontrada\n");
+                    break;
+                }
+                c = buscarCliente(s, identificadorCliente);
+                
+                if (c == null){
+                    System.out.println("Cliente não encontrado\n");
+                    break;
                 }
 
                 System.out.println("Insira a placa do veiculo\n");
-                String placa = teclado.nextLine();
+                placa = teclado.nextLine();
+
+                if (buscarVeiculo(c, placa) != null){
+                    System.out.println("Veiculo já cadastrado\n");
+                    break;
+                }
 
                 System.out.println("Insira o modelo do veiculo\n");
-                String modelo = teclado.nextLine();
+                modelo = teclado.nextLine();
 
                 System.out.println("Insira a marca do veiculo\n");
-                String marca = teclado.nextLine();
+                marca = teclado.nextLine();
 
                 System.out.println("Insira o ano de fabricação\n");
-                int anoFabricacao = teclado.nextInt();
+                anoFabricacao = teclado.nextInt();
                 teclado.nextLine();
 
-                Veiculo v = new Veiculo(placa, modelo, marca, anoFabricacao);
+                v = new Veiculo(placa, modelo, marca, anoFabricacao);
                 c.registerVeiculo(v);
                 break;
 
             case 3: // Cadastrar seguradora
-                //String nomeSeguradora;
                 System.out.println("""
                                     Opção escolhida: Cadastrar seguradora\n
                                     Insira o nome da seguradora:\n""");
                 nomeSeguradora = teclado.nextLine();
 
+                if (buscarSeguradora(nomeSeguradora) !=  null){
+                    System.out.println("Seguradora ja cadastrada\n");
+                    break;
+                }
+
                 System.out.println("Insira o telefone da seguradora no padrao (DDD)XXXXX-XXXX:\n");
-                String telefone = teclado.nextLine();
+                telefone = teclado.nextLine();
 
                 System.out.println("Insira o email da seguradora:\n");
-                String email = teclado.nextLine();
+                email = teclado.nextLine();
 
                 System.out.println("Insira o endereco da seguradora:\n");
                 endereco = teclado.nextLine();
 
-                Seguradora s1 = new Seguradora(nomeSeguradora, telefone, email, endereco);
-                if(!listaSeguradoras.contains(s1)){
-                    listaSeguradoras.add(s1); // tratar o caso da seguradora ja cadastrada antes de instanciar objt?
-                }
+                s = new Seguradora(nomeSeguradora, telefone, email, endereco);
+                listaSeguradoras.add(s);
                 break;
             
             case 4: // Voltar
                 System.out.println("Opção escolhida: Voltar\n");
                 implementaMenu();
-                break;
-        }
+        }  
     }
 
     public void implementaMenuExcluir(){
         int ope;
+        String identificadorCliente, nomeSeguradora, placa;
+        Seguradora s;
+        Cliente c;
+        Veiculo v;
+
         System.out.println("""
-                O que voce quer excluir?\n
-                (1) Cliente\n
-                (2) Veiculo\n
-                (3) Sinistro\n
-                (4) Voltar\n""");
-                ope = teclado.nextInt();
-                teclado.nextLine();
+                            O que voce quer excluir?\n
+                            (1) Cliente\n
+                            (2) Veiculo\n
+                            (3) Sinistro\n
+                            (4) Voltar\n""");
+        ope = teclado.nextInt();
+        teclado.nextLine();
 
-                switch(ope){
-                    case 1: // excluir cliente;
-                        break;
-                    
-                    case 2: // excluir veículo;
-                        break;
+        switch(ope){
+            case 1: // excluir cliente;
+                System.out.println("""
+                    Opção escolhida: Cadastrar seguradora\n
+                    Insira o nome da seguradora:\n""");
+                
+                nomeSeguradora = teclado.nextLine();
+                s = buscarSeguradora(nomeSeguradora);
+                if (s == null){
+                    System.out.println("Seguradora não encontrada\n");
+                    break;
+                }
 
-                    case 3: // excluir seguradora;
-                        break;
+                System.out.println("Informe o CPF ou CNPJ do cliente que deseja excluir\n");
+                identificadorCliente = teclado.nextLine();
+                c = buscarCliente(s, identificadorCliente);
+                if (c == null){
+                    System.out.println("Cliente não encontrado\n");
+                    break;
+                }
 
-                    case 4: // Voltar;
-                        System.out.println("Opção escolhida: Voltar\n");
-                        implementaMenu();
-                        break;
-                }    
+                s.removeCliente(c);  
+                break;
+            
+            case 2: // excluir veículo;
+                System.out.println("""
+                    Opção escolhida: Excluir veículo\n
+                    Informe o nome da seguradora do cliente\n""");
+                nomeSeguradora = teclado.nextLine();
+                s = buscarSeguradora(nomeSeguradora);
+                if(s == null){
+                    System.out.println("Seguradora não encontrada\n");
+                    break;
+                }
+
+                System.out.println("Informe  o CPF ou CNPJ do cliente\n");
+                identificadorCliente = teclado.nextLine();
+                c = buscarCliente(s, identificadorCliente);
+                if (c == null){
+                    System.out.println("Cliente não encontrado\n");
+                    break;
+                }
+
+                System.out.println("Informe  a placa do veículo que deseja excluir\n");
+                placa = teclado.nextLine();
+                v = buscarVeiculo(c, placa);
+                if (v == null){
+                    System.out.println("Veiculo não encontrado\n");
+                    break;
+                }
+                c.removeVeiculo(v);
+                break;
+
+            case 3: // excluir seguradora;
+                System.out.println("""
+                                    Opção escolhida: Excluir seguradora\n
+                                    Insira o nome da seguradora que deseja excluir:\n""");
+                nomeSeguradora = teclado.nextLine();
+                s = buscarSeguradora(nomeSeguradora);
+                if (s ==  null){
+                    System.out.println("Seguradora não encontrada\n");
+                    break;
+                }
+                listaSeguradoras.remove(s);
+                break;
+
+            case 4: // Voltar;
+                System.out.println("Opção escolhida: Voltar\n");
+                implementaMenu();
+        }    
     }
 
     public void implementaMenuListar(){
         int ope;
         String nomeSeguradora;
+        Seguradora s;
+        Cliente c;
+
         System.out.println("""
                 O que voce quer listar?\n
                 (1) Cliente por seguradora\n
@@ -287,21 +348,16 @@ public class ImplementarMenu {
         teclado.nextLine();
 
         switch(ope){
-            case 1: // listar cliente por seguradora;
+            case 1: // listar clientes por seguradora;
                 System.out.println("Opção escolhida: listar cliente por seguradora\n");
                 System.out.println("Informe o nome da seguradora\n");
                 nomeSeguradora = teclado.nextLine();
-
-                // buscar na listaSeguradoras e inicializar s
-                for (Seguradora seg : listaSeguradoras){
-                    if(seg.getNome() == nomeSeguradora){
-                        System.out.println("Seguradora encontrada\n"+"Lista de clientes da seguradora "
-                                            +seg.getNome() +":\n" + seg.getListaClientes()+ "\n");
-                        break;
-
-
-                    }
-                }    
+                s = buscarSeguradora(nomeSeguradora);
+                if (s ==  null){
+                    System.out.println("Seguradora não encontrada\n");
+                    break;
+                }
+                System.out.println("Lista de clientes da seguradora "+s.getNome()+":\n" + s.getListaClientes()+ "\n");
                 break;
             
             case 2: // listar sinistros por seguradora;
@@ -312,18 +368,17 @@ public class ImplementarMenu {
             System.out.println("Opção escolhida: listar sinistros por cliente\n");
                 break;
 
-            case 4:
+            case 4: // listar veiculos por cliente
                 System.out.println("Opção escolhida: listar veiculos por cliente\n");
                 break;
 
-            case 5:
+            case 5: // listar veiculos por seguradora
                 System.out.println("Opção escolhida: listar veiculos por seguradora\n");
                 break;
 
             case 6: // Voltar;
                 System.out.println("Opção escolhida: Voltar\n");
                 implementaMenu();
-                break;
         }    
     }
 
@@ -333,4 +388,39 @@ public class ImplementarMenu {
         return LocalDate.of(Integer.valueOf(dataSplitted[2]), Integer.valueOf(dataSplitted[1]),
                             Integer.valueOf(dataSplitted[0]));
     }
+
+    // Metodo para buscar uma seguradora na lista de seguradoras;
+    public Seguradora buscarSeguradora(String nomeSeg){
+        for (Seguradora seg : listaSeguradoras){
+            if(seg.getNome().equals(nomeSeg)){
+                System.out.println("Seguradora encontrada\n");
+                return seg;
+            }
+        }
+        return null;
+    }
+
+    // Metodo para buscar um cliente na lista de clientes de uma seguradora
+    public Cliente buscarCliente(Seguradora seg, String clienteID){
+        for (Cliente cli: seg.getListaClientes()){
+            if (cli.getIdentificador().equals(clienteID)){
+                System.out.println("Cliente encontrado\n");
+                return cli;
+            }
+        }
+        return null;
+    }
+
+    // Metodo para buscar veiculo na lista de veiculos de um cliente
+    public Veiculo buscarVeiculo (Cliente cliente, String placaVeiculo){
+        for(Veiculo v: cliente.getListaVeiculos()){
+            if(v.getPlaca().equals(placaVeiculo)){
+                System.out.println("Veiculo encontrado\n");
+                return v;
+            }
+        }
+        return null;
+    }
+
+
 }

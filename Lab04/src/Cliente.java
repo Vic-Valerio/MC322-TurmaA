@@ -74,4 +74,9 @@ public class Cliente {
     public double calculaScore(){
         return 0;
     }
+
+    // Metodo para receber o identificador do cliente (CPF ou CNPJ) -> Sera sobrescrito
+    public String getIdentificador(){
+        return "";
+    }
 }
