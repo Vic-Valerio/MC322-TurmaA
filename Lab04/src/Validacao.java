@@ -154,7 +154,6 @@ public class Validacao {
         if (p.getYears() >= 18){   
             return true;
         }
-        
         return false;
     }
 }

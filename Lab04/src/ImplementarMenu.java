@@ -41,17 +41,6 @@ public class ImplementarMenu {
                 break;
         
             case 2:
-                System.out.println("""
-                O que voce quer listar?\n
-                (1) Cliente por seguradora\n
-                (2) Sinistros por seguradora\n
-                (3) Sinistro por cliente\n
-                (4) Veiculo por cliente\n
-                (5) Veiculo por seguradora\n
-                (6) Voltar\n""");
-
-                ope = teclado.nextInt();
-                teclado.nextLine();
                 implementaMenuListar();
                 break;
             
@@ -101,13 +90,13 @@ public class ImplementarMenu {
                     if(seg.getNome() == nomeSeguradora){
                         System.out.println("Seguradora encontrada\n");
                         s = seg;
+                        break;
                         // sair do for com continue?;
                     }
-                    else{
-                        System.out.println("Seguradora não encontrada\n");
-                        s = null;
-                        break;
-                    }
+                }
+                if(s == null){
+                    System.out.println("Seguradora não encontrada\n");
+                    break;
                 }
 
                 System.out.println("Insira o nome do cliente\n");
@@ -249,7 +238,7 @@ public class ImplementarMenu {
             
             case 4: // Voltar
                 System.out.println("Opção escolhida: Voltar\n");
-                // voltar pro metodo implementaMenu?;
+                implementaMenu();
                 break;
         }
     }
@@ -266,18 +255,76 @@ public class ImplementarMenu {
                 teclado.nextLine();
 
                 switch(ope){
-                    case 1:
+                    case 1: // excluir cliente;
                         break;
                     
-                    case 2:
+                    case 2: // excluir veículo;
                         break;
 
-                    case 3:
+                    case 3: // excluir seguradora;
                         break;
 
-                    case 4:
+                    case 4: // Voltar;
+                        System.out.println("Opção escolhida: Voltar\n");
+                        implementaMenu();
                         break;
                 }    
+    }
+
+    public void implementaMenuListar(){
+        int ope;
+        String nomeSeguradora;
+        System.out.println("""
+                O que voce quer listar?\n
+                (1) Cliente por seguradora\n
+                (2) Sinistros por seguradora\n
+                (3) Sinistro por cliente\n
+                (4) Veiculo por cliente\n
+                (5) Veiculo por seguradora\n
+                (6) Voltar\n""");
+
+        ope = teclado.nextInt();
+        teclado.nextLine();
+
+        switch(ope){
+            case 1: // listar cliente por seguradora;
+                System.out.println("Opção escolhida: listar cliente por seguradora\n");
+                System.out.println("Informe o nome da seguradora\n");
+                nomeSeguradora = teclado.nextLine();
+
+                // buscar na listaSeguradoras e inicializar s
+                for (Seguradora seg : listaSeguradoras){
+                    if(seg.getNome() == nomeSeguradora){
+                        System.out.println("Seguradora encontrada\n"+"Lista de clientes da seguradora "
+                                            +seg.getNome() +":\n" + seg.getListaClientes()+ "\n");
+                        break;
+
+
+                    }
+                }    
+                break;
+            
+            case 2: // listar sinistros por seguradora;
+                System.out.println("Opção escolhida: listar sinistros por seguradora\n");
+                break;
+
+            case 3: // listar sinistros por cliente;
+            System.out.println("Opção escolhida: listar sinistros por cliente\n");
+                break;
+
+            case 4:
+                System.out.println("Opção escolhida: listar veiculos por cliente\n");
+                break;
+
+            case 5:
+                System.out.println("Opção escolhida: listar veiculos por seguradora\n");
+                break;
+
+            case 6: // Voltar;
+                System.out.println("Opção escolhida: Voltar\n");
+                implementaMenu();
+                break;
+        }    
     }
 
     // Metodo para converter uma string para LocalDate separando a String
