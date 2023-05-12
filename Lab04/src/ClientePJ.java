@@ -35,8 +35,7 @@ public class ClientePJ extends Cliente {
 
     //Metodo de conversao para string
     public String toString() {
-        String str = "";
-        str += "informacoes de pessoa juridica:\n" 
+        String str = "informacoes de pessoa juridica:\n" 
                     + "CNPJ: " + CNPJ +"\n" 
                     + "Fundação: " + dataFundacao +"\n";
         return str;
@@ -45,7 +44,8 @@ public class ClientePJ extends Cliente {
     @Override
     public double calculaScore(){
         double valorBase = CalcSeguro.VALOR_BASE.getFator();
-        //qtdCarros foi herdado da classe mae Cliente;
+        int qtdCarros = listaVeiculos.size();
+
         return valorBase* (1+(qtdFuncionarios/100))*qtdCarros;
     }
 

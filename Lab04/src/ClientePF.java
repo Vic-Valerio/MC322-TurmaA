@@ -85,17 +85,17 @@ public class ClientePF extends Cliente {
     public double calculaScore(){
         double valorBase;
         double fatorIdade = 1;
-        //qtdCarros foi herdado da classe mae Cliente;
+        int qtdCarros = listaVeiculos.size();
 
         valorBase = CalcSeguro.VALOR_BASE.getFator();
 
-        if (idade >= 18 || idade < 30){
+        if (idade >= 18 && idade < 30){
             fatorIdade = CalcSeguro.FATOR_18_30.getFator();
         }
-        if (idade >= 30 || idade < 60){
+        if (idade >= 30 && idade < 60){
             fatorIdade = CalcSeguro.FATOR_30_60.getFator();
         }
-        if (idade >= 60 || idade < 90){
+        if (idade >= 60 && idade < 90){
             fatorIdade = CalcSeguro.FATOR_60_90.getFator();
         }
         return valorBase*fatorIdade*qtdCarros;

@@ -111,12 +111,14 @@ public class Seguradora {
     public boolean gerarSinistros(String data, String enderecoSinistro, Seguradora seguradora, Veiculo veiculo, Cliente cliente){
         Sinistro sinistro = new Sinistro(data, enderecoSinistro, seguradora, veiculo, cliente);
         // Verificar se o cliente eh valido, em caso afirmativo gera sinistro caso contrario nao
-        if (listaClientes.contains(cliente))
-            return listaSinistros.add(sinistro);
-        else {
-            System.out.println("Sinistro invalido\n");
-            return false;
+        for(Cliente c: listaClientes){
+            if(c.getIdentificador() == cliente.getIdentificador()){
+                System.out.println("Sinistro registrado\n");
+                return listaSinistros.add(sinistro);
+            }
         }
+        System.out.println("Sinistro invalido\n");
+        return false;
     }
 
     // Metodo para listar sinistros
@@ -144,22 +146,23 @@ public class Seguradora {
     // Metodo para calcular o preço do seguro para cada cliente
     public double calcularPrecoSeguroCliente(Cliente cliente){
         int qtdSinistros = listaSinistros.size();
-        double score;
-        if(cliente instanceof ClientePF){
+        double score = cliente.calculaScore();
+
+        /*if(cliente instanceof ClientePF){
             score = ClientePF.calculaScore();
         }
         if(cliente instanceof ClientePJ){
             score = ClientePJ.calculaScore();
-        }
+        }*/
+
         return score *(1 + qtdSinistros);
     }
 
     // Metodo para calcular o balanço de seguros de todos os clientes da seguradora;
     public double calcularReceita(Seguradora seguradora){
         double receita = 0;
-
-        for(int i = 0; i < listaClientes.size(); i++){
-            receita += calcularPrecoSeguroCliente(listaClientes(i));
+        for(Cliente c:listaClientes){
+            receita += calcularPrecoSeguroCliente(c);
         }
         return receita;
     }

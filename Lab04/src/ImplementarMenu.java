@@ -40,30 +40,36 @@ public class ImplementarMenu {
 
             switch (ope) {
                 case 1:
+                    System.out.println("Opção escolhida: Cadastrar\n");
                     implementaMenuCadastrar();
                     break;
             
                 case 2:
+                    System.out.println("Opção escolhida: Listar\n");
                     implementaMenuListar();
                     break;
                 
                 case 3:
+                    System.out.println("Opção escolhida: Excluir\n");
                     implementaMenuExcluir();
                     break;
 
                 case 4:
-
+                    System.out.println("Opção escolhida: Gerar sinistro\n");
+                    geraSinistro();
                     break;
 
                 case 5:
-
+                    System.out.println("Opção escolhida: Transferir seguro\n");
+                    transferirSeguro();
                     break;
                 
                 case 6: 
-
+                    System.out.println("Opção escolhida: Calcular receita da seguradora\n");
+                    calcularReceitaSeguradora();
                     break;
 
-                case 0:
+                case 0: // MenuPrincipal.SAIR.getOperacao() ??
                     System.out.println("Opção escolhida: Sair\n");
                     flagMenu = false;
                     break;
@@ -119,6 +125,17 @@ public class ImplementarMenu {
                 tipoCliente = teclado.nextLine();
 
                 if(tipoCliente == "PF"){
+
+                    System.out.println("Insira o CPF\n");
+                    CPF = teclado.nextLine();
+                    while(!Validacao.validarCPF(CPF)){
+                        System.out.println("CPF invalido, insira novamente\n");
+                        CPF = teclado.nextLine();
+                    }
+                    if (buscarCliente(s, CPF) == null){
+                        System.out.println("Cliente já cadastrado\n");
+                        break;
+                    }
                     
                     System.out.println("Insira a data da licença no formato DD/MM/AAA\n");
                     dataLicenca = teclado.nextLine(); // convertida para LocalDate no construtor do cliente;
@@ -132,13 +149,6 @@ public class ImplementarMenu {
                     System.out.println("Insira a classe econômica\n");
                     classeEconomica = teclado.nextLine();
 
-                    System.out.println("Insira o CPF\n");
-                    CPF = teclado.nextLine();
-                    while(!Validacao.validarCPF(CPF)){
-                        System.out.println("CPF invalido, insira novamente\n");
-                        CPF = teclado.nextLine();
-                    }
-
                     System.out.println("Insira a data de nascimento\n");
                     dataNascimento = teclado.nextLine(); // convertida para LocalDate no construtor do cliente;
 
@@ -146,6 +156,7 @@ public class ImplementarMenu {
                                                 classeEconomica, CPF, converteDataStrToLD(dataNascimento));
 
                     s.registerCliente(c1);
+                    break;
                 }
 
                 if(tipoCliente == "PJ"){
@@ -154,6 +165,10 @@ public class ImplementarMenu {
                     while(!Validacao.validarCNPJ(CNPJ)){
                         System.out.println("CNPJ invalido, insira novamente\n");
                         CNPJ = teclado.nextLine();
+                    }
+                    if (buscarCliente(s, CNPJ) == null){
+                        System.out.println("Cliente já cadastrado\n");
+                        break;
                     }
 
                     System.out.println("Insira a data de fundação da empresa\n");
@@ -165,25 +180,25 @@ public class ImplementarMenu {
                     ClientePJ c2 = new ClientePJ (nomeCliente, endereco, CNPJ, converteDataStrToLD(dataFundacao), qtdFuncionarios);
                     
                     s.registerCliente(c2);
+                    break;
                 }
+                System.out.println("Tipo de cliente invalido\n");
                 break;
             
             case 2: // Cadastrar veiculo
                 System.out.println("""
                                     Opção escolhida: Cadastrar veículo\n
-                                    Informe o CPF ou CNPJ do cliente""");
-                identificadorCliente = teclado.nextLine();
-
-                System.out.println("Informe o nome da seguradora do cliente\n");
+                                    Informe o nome da seguradora do cliente""");
                 nomeSeguradora = teclado.nextLine();
-
                 s = buscarSeguradora(nomeSeguradora);
                 if(s == null){
                     System.out.println("Seguradora não encontrada\n");
                     break;
                 }
+
+                System.out.println("Informe o CPF ou CNPJ do cliente\n");
+                identificadorCliente = teclado.nextLine();
                 c = buscarCliente(s, identificadorCliente);
-                
                 if (c == null){
                     System.out.println("Cliente não encontrado\n");
                     break;
@@ -283,8 +298,8 @@ public class ImplementarMenu {
             
             case 2: // excluir veículo;
                 System.out.println("""
-                    Opção escolhida: Excluir veículo\n
-                    Informe o nome da seguradora do cliente\n""");
+                                    Opção escolhida: Excluir veículo\n
+                                    Informe o nome da seguradora do cliente\n""");
                 nomeSeguradora = teclado.nextLine();
                 s = buscarSeguradora(nomeSeguradora);
                 if(s == null){
@@ -331,7 +346,7 @@ public class ImplementarMenu {
 
     public void implementaMenuListar(){
         int ope;
-        String nomeSeguradora;
+        String nomeSeguradora, identificadorCliente;
         Seguradora s;
         Cliente c;
 
@@ -362,18 +377,67 @@ public class ImplementarMenu {
             
             case 2: // listar sinistros por seguradora;
                 System.out.println("Opção escolhida: listar sinistros por seguradora\n");
+                System.out.println("Informe o nome da seguradora\n");
+                nomeSeguradora = teclado.nextLine();
+                s = buscarSeguradora(nomeSeguradora);
+                if (s ==  null){
+                    System.out.println("Seguradora não encontrada\n");
+                    break;
+                }
+                System.out.println("Lista de sinistros da seguradora "+s.getNome()+":\n" + s.getListaSinistros()+"\n");
                 break;
 
             case 3: // listar sinistros por cliente;
-            System.out.println("Opção escolhida: listar sinistros por cliente\n");
+                System.out.println("Opção escolhida: listar sinistros por cliente\n");
+                System.out.println("Informe o nome da seguradora do cliente\n");
+                nomeSeguradora = teclado.nextLine();
+                s = buscarSeguradora(nomeSeguradora);
+                if (s ==  null){
+                    System.out.println("Seguradora não encontrada\n");
+                    break;
+                }
+
+                System.out.println("Informe o CPF OU CNPJ do cliente\n");
+                identificadorCliente = teclado.nextLine();
+                c = buscarCliente(s, identificadorCliente);
+                if (c == null){
+                    System.out.println("Cliente não encontrado\n");
+                    break;
+                }
+                listarSinistrosCliente(s,c);
                 break;
 
             case 4: // listar veiculos por cliente
                 System.out.println("Opção escolhida: listar veiculos por cliente\n");
+                System.out.println("Informe o nome da seguradora do cliente\n");
+                nomeSeguradora = teclado.nextLine();
+                s = buscarSeguradora(nomeSeguradora);
+                if (s ==  null){
+                    System.out.println("Seguradora não encontrada\n");
+                    break;
+                }
+
+                System.out.println("Informe o CPF ou CNPJ do cliente\n");
+                identificadorCliente = teclado.nextLine();
+                c = buscarCliente(s, identificadorCliente);
+                if (c == null){
+                    System.out.println("Cliente não encontrado\n");
+                    break;
+                }
+                System.out.println("Lista de veiculos do clinte "+c.getNome()+":\n" + c.getListaVeiculos()+"\n");
                 break;
+
 
             case 5: // listar veiculos por seguradora
                 System.out.println("Opção escolhida: listar veiculos por seguradora\n");
+                System.out.println("Informe o nome da seguradora do cliente\n");
+                nomeSeguradora = teclado.nextLine();
+                s = buscarSeguradora(nomeSeguradora);
+                if (s ==  null){
+                    System.out.println("Seguradora não encontrada\n");
+                    break;
+                }
+                listarVeiculosSeguradora(s);
                 break;
 
             case 6: // Voltar;
@@ -422,5 +486,129 @@ public class ImplementarMenu {
         return null;
     }
 
+    public void listarSinistrosCliente(Seguradora seg, Cliente cli){
+        int count = 0;
+        boolean temSinistro = false;
+        for(Sinistro sin: seg.getListaSinistros()){
+            if (sin.getCliente().getIdentificador().equals(cli.getIdentificador())){
+                System.out.println("Sinistro "+sin.getId()+":\n"+sin+"\n");
+                if(!temSinistro){
+                    temSinistro = true;
+                }
+            }
+            // Se a lista chegou ao fim e o cliente não foi encontrado, ele não possui sinistros;
+            // verificar se flag funciona corretamente;
+            if(count == seg.getListaSinistros().size() -1 && !temSinistro){
+                System.out.println("Nenhum sinistro gerado por esse cliente\n");
+            }
+            count++;
+        }
+    }
+    public void listarVeiculosSeguradora(Seguradora seg){
+        int count = 0;
+        boolean temVeiculo = false;
+        System.out.println("Lista de veiculos da seguradora "+seg.getNome()+":\n");
 
+        for (Cliente cli: seg.getListaClientes()){
+            if(cli.getListaVeiculos() != null){
+                System.out.println(cli.getListaVeiculos()+"\n");
+                temVeiculo = true;
+            }
+            if (count == seg.getListaClientes().size() -1 && !temVeiculo){
+                System.out.println("Nenhum veiculo cadastrado para essa seguradora\n");
+            }
+            count++;
+        }
+    }
+
+    public void geraSinistro(){
+        Seguradora s;
+        Cliente c;
+        Veiculo v;
+        String nomeSeguradora, identificadorCliente, placa, dataSinistro, enderecoSinistro;
+        System.out.println("Informe o nome da seguradora\n");
+        nomeSeguradora = teclado.nextLine();
+        s = buscarSeguradora(nomeSeguradora);
+        if (s ==  null){
+            System.out.println("Seguradora não encontrada\n");
+            return;
+        }
+
+        System.out.println("Informe o CPF ou CNPJ do cliente\n");
+        identificadorCliente = teclado.nextLine();
+        c = buscarCliente(s, identificadorCliente);
+        if (c ==  null){
+            System.out.println("Cliente não encontrada\n");
+            return;
+        }
+
+        System.out.println("Informe  a placa do veículo que deseja excluir\n");
+        placa = teclado.nextLine();
+        v = buscarVeiculo(c, placa);
+        if (v == null){
+            System.out.println("Veiculo não encontrado\n");
+            return;
+        }
+
+        System.out.println("Insira a data do sinistro no padrao DD/MM/AAAA:\n");
+        dataSinistro = teclado.nextLine();
+
+        System.out.println("Insira o endereco do sinistro:\n");
+        enderecoSinistro = teclado.nextLine();
+
+        s.gerarSinistros(dataSinistro, enderecoSinistro, s, v, c);
+        return;
+    }
+
+    public void transferirSeguro(){
+        Seguradora s;
+        Cliente c, cNew;
+        String nomeSeguradora, identificadorCliente, identificadorNewCliente;
+
+        System.out.println("Informe o nome da seguradora\n");
+        nomeSeguradora = teclado.nextLine();
+        s = buscarSeguradora(nomeSeguradora);
+        if (s ==  null){
+            System.out.println("Seguradora não encontrada, transferência nao realizada\n");
+            return;
+        }
+
+        System.out.println("Informe o CPF ou CNPJ do cliente\n");
+        identificadorCliente = teclado.nextLine();
+        c = buscarCliente(s, identificadorCliente);
+        if (c ==  null){
+            System.out.println("Cliente não encontrado, transferência nao realizada\n");
+            return;
+        }
+
+        System.out.println("Informe o CPF ou CNPJ do cliente para o qual deseja transferir o seguro\n");
+        identificadorNewCliente = teclado.nextLine();
+        cNew = buscarCliente(s, identificadorNewCliente);
+        if (cNew ==  null){
+            System.out.println("Cliente não encontrado, transferência invalida\n");
+            return;
+        }
+        // Transfere os veiculos segurados de um cliente para o outro;
+        cNew.getListaVeiculos().addAll(c.getListaVeiculos());
+        // Calculando novamente o score do cliente com novos carros atribuidos
+        cNew.calculaScore();
+        // Apaga os veiculos segurados do cliente após transferência;
+        c.getListaVeiculos().removeAll(c.getListaVeiculos());
+    }
+
+    public double calcularReceitaSeguradora(){
+        Seguradora s;
+        String nomeSeguradora;
+        double receita;
+
+        System.out.println("Informe o nome da seguradora\n");
+        nomeSeguradora = teclado.nextLine();
+        s = buscarSeguradora(nomeSeguradora);
+        if (s ==  null){
+            System.out.println("Seguradora não encontrada, nao foi possivel calcular receita\n");
+            return 0;
+        }
+        receita = s.calcularReceita(s);
+        return receita;
+    }
 }

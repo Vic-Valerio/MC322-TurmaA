@@ -5,9 +5,8 @@ public class Cliente {
     // Atributos instanciados
     private String nome;
     private String endereco;
-    private List <Veiculo> listaVeiculos;
+    protected List <Veiculo> listaVeiculos;
     private double valorSeguro;
-    protected int qtdCarros = 0;
     
 
     // Metodo construtor
@@ -15,7 +14,6 @@ public class Cliente {
         this.nome = nome;
         this.endereco = endereco;  
         listaVeiculos = new ArrayList<>();
-        //valorSeguro = 100.0; // valor base
     }
 
     // Metodos de acesso (getters and setters)
@@ -46,7 +44,6 @@ public class Cliente {
         if (listaVeiculos.contains(veiculo))
             return false;
         else{
-            qtdCarros++;
             return listaVeiculos.add(veiculo);
         }
     }
@@ -54,7 +51,6 @@ public class Cliente {
     // Metodo para remover veiculo na lista de veiculos do cliente
     public boolean removeVeiculo(Veiculo veiculo){
         if (listaVeiculos.remove(veiculo)){
-            qtdCarros--;
             return true;
         }
         return false;
