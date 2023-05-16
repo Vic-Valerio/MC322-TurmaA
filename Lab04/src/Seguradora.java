@@ -130,13 +130,12 @@ public class Seguradora {
     }
 
     // Metodo para visualizar sinistros
-    public boolean visualizarSinistro(String cliente){
-        // Percorre a lista de sinistros procurando pelo cliente informado;
-        // Caso encontre, imprime na tela e retorna True;
-        // Se não, retorna False;
-        for (int i = 0; i < listaSinistros.size(); i++){
-            if (listaSinistros.get(i).getCliente().getNome().equalsIgnoreCase(cliente)){
-                System.out.println(listaSinistros.get(i));
+    public boolean visualizarSinistro(String clienteID){
+        // Percorre a lista de sinistros procurando pelo CPF/CNPJ do cliente;
+        // Caso encontre, imprime na tela e retorna True, caso contrario retorna False;
+        for(Sinistro s : listaSinistros){
+            if (s.getCliente().getIdentificador().equals(clienteID)){
+                System.out.println("Sinistro "+ s.getId()+":\n"+ s);
                 return true;
             }
         }
@@ -144,25 +143,23 @@ public class Seguradora {
     }
 
     // Metodo para calcular o preço do seguro para cada cliente
-    public double calcularPrecoSeguroCliente(Cliente cliente){
-        int qtdSinistros = listaSinistros.size();
+    public void calcularPrecoSeguroCliente(Cliente cliente){
+        int qtdSinistros = 0;
         double score = cliente.calculaScore();
-
-        /*if(cliente instanceof ClientePF){
-            score = ClientePF.calculaScore();
+        for (Sinistro s:listaSinistros){
+            if (s.getCliente().getIdentificador().equals(cliente.getIdentificador())){
+                qtdSinistros++;
+            }
         }
-        if(cliente instanceof ClientePJ){
-            score = ClientePJ.calculaScore();
-        }*/
-
-        return score *(1 + qtdSinistros);
+        cliente.setValorSeguro(score *(1 + qtdSinistros));
+        //return score *(1 + qtdSinistros);
     }
 
     // Metodo para calcular o balanço de seguros de todos os clientes da seguradora;
     public double calcularReceita(Seguradora seguradora){
         double receita = 0;
         for(Cliente c:listaClientes){
-            receita += calcularPrecoSeguroCliente(c);
+            receita += c.getValorSeguro();
         }
         return receita;
     }

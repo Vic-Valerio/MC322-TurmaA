@@ -38,6 +38,9 @@ public class Cliente {
     public double getValorSeguro() {
         return valorSeguro;
     }
+    public void setValorSeguro(double valor){
+        this.valorSeguro = valor;
+    }
 
     // Metodo para inserir veiculo na lista de veiculos do cliente
     public boolean registerVeiculo(Veiculo veiculo) {

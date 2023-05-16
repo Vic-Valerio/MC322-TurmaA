@@ -2,20 +2,16 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
 public class ImplementarMenu {
-    final int operacao;
     private ArrayList<Seguradora> listaSeguradoras = new ArrayList<>();
     private Scanner teclado = new Scanner(System.in);
-
-    // Metodo construtor;
-    public ImplementarMenu(int operacao){
-        this.operacao = operacao;
+    
+    // Metodo construtor vazio apenas para instanciar objeto e chamar as funcoes;
+    // Deveria ser estatico mas vai mudar muitas implementações ja resolvidas;
+    public ImplementarMenu(){
+        
     }
     // Metodos de acesso;
-    public int getOperacao() {
-        return operacao;
-    }
     public ArrayList<Seguradora> getListaSeguradoras() {
         return listaSeguradoras;
     }
@@ -28,12 +24,12 @@ public class ImplementarMenu {
         while(flagMenu){
             System.out.println("""
                     O que voce deseja realizar?\n
-                    (1) Cadastrar\n
-                    (2) Listar\n
-                    (3) Excluir\n
-                    (4) Gerar sinistro\n
-                    (5) Transferir seguro\n
-                    (6) Calcular receita da seguradora\n
+                    (1) Cadastrar
+                    (2) Listar
+                    (3) Excluir
+                    (4) Gerar sinistro
+                    (5) Transferir seguro
+                    (6) Calcular receita da seguradora
                     (0) Sair\n""");
             ope = teclado.nextInt();
             teclado.nextLine();
@@ -69,7 +65,7 @@ public class ImplementarMenu {
                     calcularReceitaSeguradora();
                     break;
 
-                case 0: // MenuPrincipal.SAIR.getOperacao() ??
+                case 0:
                     System.out.println("Opção escolhida: Sair\n");
                     flagMenu = false;
                     break;
@@ -82,7 +78,7 @@ public class ImplementarMenu {
         String nomeCliente, nomeSeguradora, endereco, tipoCliente, 
         dataLicenca, educacao, genero, classeEconomica, CPF, dataNascimento, 
         CNPJ,dataFundacao, identificadorCliente, placa, modelo, marca,
-        telefone, email;;
+        telefone, email;
   
         Seguradora s;
         Cliente c;
@@ -252,7 +248,7 @@ public class ImplementarMenu {
             
             case 4: // Voltar
                 System.out.println("Opção escolhida: Voltar\n");
-                implementaMenu();
+                break;
         }  
     }
 
@@ -340,7 +336,7 @@ public class ImplementarMenu {
 
             case 4: // Voltar;
                 System.out.println("Opção escolhida: Voltar\n");
-                implementaMenu();
+                break;
         }    
     }
 
@@ -442,12 +438,13 @@ public class ImplementarMenu {
 
             case 6: // Voltar;
                 System.out.println("Opção escolhida: Voltar\n");
-                implementaMenu();
+                break;
         }    
     }
 
-    // Metodo para converter uma string para LocalDate separando a String
+    // Metodo para converter uma string para LocalDate separando a String pelo '/'
     public static LocalDate converteDataStrToLD(String data){
+        // data type: dd/mm/aaaa
         String dataSplitted[] = data.split("/");
         return LocalDate.of(Integer.valueOf(dataSplitted[2]), Integer.valueOf(dataSplitted[1]),
                             Integer.valueOf(dataSplitted[0]));
@@ -594,6 +591,8 @@ public class ImplementarMenu {
         cNew.calculaScore();
         // Apaga os veiculos segurados do cliente após transferência;
         c.getListaVeiculos().removeAll(c.getListaVeiculos());
+
+        // -------- precisa chamar o metodo calculaPrecoSeguro? --------- //
     }
 
     public double calcularReceitaSeguradora(){

@@ -83,11 +83,9 @@ public class ClientePF extends Cliente {
     // Metodo para calcular o valor a ser pago do seguro
     @Override
     public double calculaScore(){
-        double valorBase;
+        double valorBase = CalcSeguro.VALOR_BASE.getFator();
         double fatorIdade = 1;
         int qtdCarros = listaVeiculos.size();
-
-        valorBase = CalcSeguro.VALOR_BASE.getFator();
 
         if (idade >= 18 && idade < 30){
             fatorIdade = CalcSeguro.FATOR_18_30.getFator();
@@ -98,6 +96,7 @@ public class ClientePF extends Cliente {
         if (idade >= 60 && idade < 90){
             fatorIdade = CalcSeguro.FATOR_60_90.getFator();
         }
+        
         return valorBase*fatorIdade*qtdCarros;
     }
 
