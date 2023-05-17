@@ -68,5 +68,6 @@ public class AppMain {
         ImplementarMenu a = new ImplementarMenu();
         a.setListaSeguradoras(s1);
         a.implementaMenu();
+        System.out.println("Você saiu do menu\n");
     }
 }

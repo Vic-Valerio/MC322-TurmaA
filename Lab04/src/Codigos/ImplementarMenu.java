@@ -544,7 +544,7 @@ public class ImplementarMenu {
             return;
         }
 
-        System.out.println("Informe  a placa do veículo que deseja excluir\n");
+        System.out.println("Informe  a placa do veículo\n");
         placa = teclado.nextLine();
         v = buscarVeiculo(c, placa);
         if (v == null){
