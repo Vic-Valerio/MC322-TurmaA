@@ -63,9 +63,10 @@ public class Sinistro {
         this.seguradora = seguradora;
     }
 
+    @Override
     public String toString() {
         String str = "";
-        str += "informacoes do sinistro\nID: "+id +"\nData: " + data +
+        str += "ID: "+id +"\nData: " + data +
                 "\nEndereço: "+endereco+"\nSeguradora: "+seguradora.getNome()+"\nVeiculo placa: "+veiculo.getPlaca()+
                 "\nCliente do CPF/CNPJ: "+cliente.getIdentificador()+"\n";
         return str;

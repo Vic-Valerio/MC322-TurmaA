@@ -121,7 +121,7 @@ public class ImplementarMenu {
                                     "PJ = Pessoa juridica\n");
                 tipoCliente = teclado.nextLine();
 
-                if(tipoCliente == "PF"){
+                if(tipoCliente.equals("PF")){
 
                     System.out.println("Insira o CPF\n");
                     CPF = teclado.nextLine();
@@ -129,7 +129,7 @@ public class ImplementarMenu {
                         System.out.println("CPF invalido, insira novamente\n");
                         CPF = teclado.nextLine();
                     }
-                    if (buscarCliente(s, CPF) == null){
+                    if (buscarCliente(s, CPF) != null){
                         System.out.println("Cliente já cadastrado\n");
                         break;
                     }
@@ -153,17 +153,18 @@ public class ImplementarMenu {
                                                 classeEconomica, CPF, converteDataStrToLD(dataNascimento));
 
                     s.registerCliente(c1);
+                    System.out.println("Cliente cadastrado com sucesso\n");
                     break;
                 }
 
-                if(tipoCliente == "PJ"){
+                if(tipoCliente.equals("PJ")){
                     System.out.println("Insira o CNPJ\n");
                     CNPJ = teclado.nextLine();
                     while(!Validacao.validarCNPJ(CNPJ)){
                         System.out.println("CNPJ invalido, insira novamente\n");
                         CNPJ = teclado.nextLine();
                     }
-                    if (buscarCliente(s, CNPJ) == null){
+                    if (buscarCliente(s, CNPJ) != null){
                         System.out.println("Cliente já cadastrado\n");
                         break;
                     }
@@ -177,6 +178,7 @@ public class ImplementarMenu {
                     ClientePJ c2 = new ClientePJ (nomeCliente, endereco, CNPJ, converteDataStrToLD(dataFundacao), qtdFuncionarios);
                     
                     s.registerCliente(c2);
+                    System.out.println("Cliente cadastrado com sucesso\n");
                     break;
                 }
                 System.out.println("Tipo de cliente invalido\n");
@@ -219,6 +221,7 @@ public class ImplementarMenu {
 
                 v = new Veiculo(placa, modelo, marca, anoFabricacao);
                 c.registerVeiculo(v);
+                System.out.println("Veículo cadastrado com sucesso\n");
                 break;
 
             case CADASTRAR_SEGURADORA: // Cadastrar seguradora
@@ -250,7 +253,8 @@ public class ImplementarMenu {
     }
 
     public void implementaMenuExcluir(){
-        int ope;
+        boolean temSinistro = false;
+        int ope, identificadorSinistro;
         String identificadorCliente, nomeSeguradora, placa;
         Seguradora s;
         Cliente c;
@@ -273,7 +277,7 @@ public class ImplementarMenu {
                     break;
                 }
 
-                System.out.println("Informe o CPF ou CNPJ do cliente que deseja excluir\n");
+                System.out.println("Informe o CPF ou CNPJ do cliente que deseja excluir, com a pontuação correta\n");
                 identificadorCliente = teclado.nextLine();
                 c = buscarCliente(s, identificadorCliente);
                 if (c == null){
@@ -282,6 +286,7 @@ public class ImplementarMenu {
                 }
 
                 s.removeCliente(c);  
+                System.out.println("Cliente removido com sucesso\n");
                 break;
             
             case EXCLUIR_VEICULO: // excluir veículo;
@@ -309,17 +314,33 @@ public class ImplementarMenu {
                     break;
                 }
                 c.removeVeiculo(v);
+                System.out.println("Veículo removido com sucesso\n");
                 break;
 
-            case EXCLUIR_SINISTRO: // excluir seguradora;
-                System.out.println("Opção escolhida: Excluir seguradora\nInsira o nome da seguradora que deseja excluir:\n");
+            case EXCLUIR_SINISTRO: // excluir sinistro;
+                System.out.println("Opção escolhida: Excluir sinistro\nInsira o nome da seguradora que contém o sinistro:\n");
                 nomeSeguradora = teclado.nextLine();
                 s = buscarSeguradora(nomeSeguradora);
                 if (s ==  null){
                     System.out.println("Seguradora não encontrada\n");
                     break;
                 }
-                listaSeguradoras.remove(s);
+
+                System.out.println("Informe  o ID do sinistro que deseja excluir:\n");
+                identificadorSinistro = teclado.nextInt();
+                teclado.nextLine();
+                for(Sinistro sin: s.getListaSinistros()){
+                    if(sin.getId() == identificadorSinistro){
+                        temSinistro = true;
+                        s.getListaSinistros().remove(sin);
+                        System.out.println("Sinistro removido com sucesso\n");
+                        
+                        break;
+                    }
+                }
+                if(!temSinistro)
+                    System.out.println("Sinistro não encontrado não pode ser removido\n");
+
                 break;
 
             case VOLTAR: // Voltar;
@@ -351,7 +372,7 @@ public class ImplementarMenu {
                     System.out.println("Seguradora não encontrada\n");
                     break;
                 }
-                System.out.println("Lista de clientes da seguradora "+s.getNome()+":\n" + s.getListaClientes()+ "\n");
+                System.out.println("Lista de clientes da seguradora "+s.getNome()+":\n"+ s.getListaClientes());
                 break;
             
             case LISTAR_SINISTRO_POR_SEGURADORA: // listar sinistros por seguradora;
@@ -363,7 +384,7 @@ public class ImplementarMenu {
                     System.out.println("Seguradora não encontrada\n");
                     break;
                 }
-                System.out.println("Lista de sinistros da seguradora "+s.getNome()+":\n" + s.getListaSinistros()+"\n");
+                System.out.println("Lista de sinistros da seguradora "+s.getNome()+":\n" + s.getListaSinistros());
                 break;
 
             case LISTAR_SINISTRO_POR_CLIENTE: // listar sinistros por cliente;
@@ -376,7 +397,7 @@ public class ImplementarMenu {
                     break;
                 }
 
-                System.out.println("Informe o CPF OU CNPJ do cliente\n");
+                System.out.println("Informe o CPF OU CNPJ do cliente com a pontuação correta\n");
                 identificadorCliente = teclado.nextLine();
                 c = buscarCliente(s, identificadorCliente);
                 if (c == null){
@@ -396,20 +417,20 @@ public class ImplementarMenu {
                     break;
                 }
 
-                System.out.println("Informe o CPF ou CNPJ do cliente\n");
+                System.out.println("Informe o CPF ou CNPJ do cliente com a pontuação correta\n");
                 identificadorCliente = teclado.nextLine();
                 c = buscarCliente(s, identificadorCliente);
                 if (c == null){
                     System.out.println("Cliente não encontrado\n");
                     break;
                 }
-                System.out.println("Lista de veiculos do clinte "+c.getNome()+":\n" + c.getListaVeiculos()+"\n");
+                System.out.println("Lista de veiculos do clinte "+c.getNome()+":\n" + c.getListaVeiculos());
                 break;
 
 
             case LISTAR_VEICULO_POR_SEGURADORA: // listar veiculos por seguradora
                 System.out.println("Opção escolhida: listar veiculos por seguradora\n");
-                System.out.println("Informe o nome da seguradora do cliente\n");
+                System.out.println("Informe o nome da seguradora\n");
                 nomeSeguradora = teclado.nextLine();
                 s = buscarSeguradora(nomeSeguradora);
                 if (s ==  null){
@@ -470,15 +491,15 @@ public class ImplementarMenu {
     public void listarSinistrosCliente(Seguradora seg, Cliente cli){
         int count = 0;
         boolean temSinistro = false;
+        System.out.println("Sinistros do cliente "+cli.getNome()+":\n");
         for(Sinistro sin: seg.getListaSinistros()){
             if (sin.getCliente().getIdentificador().equals(cli.getIdentificador())){
-                System.out.println("Sinistro "+sin.getId()+":\n"+sin+"\n");
+                System.out.println("Sinistro " + sin);
                 if(!temSinistro){
                     temSinistro = true;
                 }
             }
             // Se a lista chegou ao fim e o cliente não foi encontrado, ele não possui sinistros;
-            // verificar se flag funciona corretamente;
             if(count == seg.getListaSinistros().size() -1 && !temSinistro){
                 System.out.println("Nenhum sinistro gerado por esse cliente\n");
             }
@@ -538,6 +559,7 @@ public class ImplementarMenu {
         enderecoSinistro = teclado.nextLine();
 
         s.gerarSinistros(dataSinistro, enderecoSinistro, s, v, c);
+        System.out.println("Sinistro cadastrado com sucesso\n");
         return;
     }
 
@@ -575,11 +597,12 @@ public class ImplementarMenu {
         s.calcularPrecoSeguroCliente(cNew);
         // Apaga os veiculos segurados do cliente após transferência;
         c.getListaVeiculos().removeAll(c.getListaVeiculos());
+        // Atualiza o score do cliente que fez a transferência;
         s.calcularPrecoSeguroCliente(c);
-
+        System.out.println("Transferência realizada com sucesso\n");
     }
 
-    public double calcularReceitaSeguradora(){
+    public void calcularReceitaSeguradora(){
         Seguradora s;
         String nomeSeguradora;
         double receita;
@@ -589,9 +612,10 @@ public class ImplementarMenu {
         s = buscarSeguradora(nomeSeguradora);
         if (s ==  null){
             System.out.println("Seguradora não encontrada, nao foi possivel calcular receita\n");
-            return 0;
+            return;
         }
         receita = s.calcularReceita(s);
-        return receita;
+        System.out.println("Receita total da seguradora "+s.getNome()+ ": R$"+ String.format("%.1f",receita)+"\n");
+        return;
     }
 }

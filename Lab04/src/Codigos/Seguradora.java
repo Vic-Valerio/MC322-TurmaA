@@ -153,13 +153,13 @@ public class Seguradora {
             }
         }
         cliente.setValorSeguro(score *(1 + qtdSinistros));
-        //return score *(1 + qtdSinistros);
     }
 
     // Metodo para calcular o balanço de seguros de todos os clientes da seguradora;
     public double calcularReceita(Seguradora seguradora){
         double receita = 0;
         for(Cliente c:listaClientes){
+            calcularPrecoSeguroCliente(c);
             receita += c.getValorSeguro();
         }
         return receita;

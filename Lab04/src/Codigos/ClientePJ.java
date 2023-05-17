@@ -35,8 +35,11 @@ public class ClientePJ extends Cliente {
     }
 
     //Metodo de conversao para string
+    @Override
     public String toString() {
-        String str = "informacoes de pessoa juridica:\n" 
+        String str = "Nome: " + super.getNome()+"\n"
+                    + "Endereço: "+ super.getEndereco()+"\n"
+                    + "Valor do seguro: "+String.format("%.1f",super.getValorSeguro())+"\n"
                     + "CNPJ: " + CNPJ +"\n" 
                     + "Fundação: " + dataFundacao +"\n";
         return str;
