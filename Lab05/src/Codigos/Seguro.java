@@ -68,8 +68,9 @@ public abstract class Seguro {
     // Metodo abstrato para calcular o valor mensal;
     public abstract double calcularValor();
 
-    // Metodo para gerar sinistros
-    public boolean gerarSinistros(String dataSinistro, String enderecoSinistro, Condutor condutorSinistro, Seguro seguroSinistro, Seguradora seguradoraSinistro){
+    // Metodo para gerar sinistros (ABSTRACT)
+    public boolean gerarSinistros(String dataSinistro, String enderecoSinistro, Condutor condutorSinistro,
+                                  Seguro seguroSinistro, Seguradora seguradoraSinistro){
         boolean temCondutor = false, temSeguro = false;
         Sinistro sinistro = new Sinistro(dataSinistro, enderecoSinistro, condutorSinistro, seguroSinistro);
 
@@ -77,15 +78,20 @@ public abstract class Seguro {
         for (Condutor cond: listaCondutores){
             if(cond.getCpf().equals(condutorSinistro.getCpf())){
                 temCondutor = true;
-                // Verificar se condutor esta autorizado?;
+                // Verifica tambem se o condutor esta habilitado ou nao;
+                if (!cond.isHabilitado()){
+                    System.out.println("Condutor não habilitado, sinistro não pode ser gerado\n");
+                    return false;
+                }
                 break;
             }
         }
         if(!temCondutor){
-            System.out.println("Condutor não cadastrado");
+            System.out.println("Condutor não cadastrado, sinistro não pode ser gerado\n");
             return false;
         }
 
+        // Verifica s o seguro esta contido na seguradora
         for(Seguro seguro: seguradoraSinistro.getListaSeguros()){
             if(seguro.getId() == seguroSinistro.getId()){
                 temSeguro = true;
@@ -93,11 +99,17 @@ public abstract class Seguro {
             }
         }
         if(!temSeguro){
-            System.out.println("Seguro não existente");
+            System.out.println("Seguro não existente, sinistro não pode ser gerado\n");
             return false;
         }
-
-        System.out.println("Sinistro invalido\n");
-        return false;
+        return listaSinistros.add(sinistro);
     }
+
+    // Metodos para habilitar ou desabilitar um condutor (pode gerar ou nao sinistros);
+    public abstract void habilitarCondutor(Condutor condutor);
+
+    public abstract void desabilitarCondutor(Condutor condutor);
+
+    // Metodo para calcular o valor do seguro
+    public abstract void calcularValor(Seguro seguro);
 }

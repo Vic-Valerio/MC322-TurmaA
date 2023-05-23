@@ -12,8 +12,9 @@ public class Condutor {
     private String email;
     private LocalDate dataNasc;
     private List<Sinistro> listaSinistros;
+    private boolean habilitado = false;
 
-    // Metodo construtor
+    // Metodo construtor;
     public Condutor(String cpf, String nome, String endereco, String telefone, String email, LocalDate dataNasc) {
         this.cpf = cpf;
         this.nome = nome;
@@ -24,7 +25,7 @@ public class Condutor {
         listaSinistros = new ArrayList<>(null);
     }
 
-    // Metodos de acesso
+    // Metodos de acesso;
     public String getCpf() {
         return cpf;
     }
@@ -67,9 +68,17 @@ public class Condutor {
     public List<Sinistro> getListaSinistros() {
         return listaSinistros;
     }
-
-    public void adicionarSinistro(Sinistro sinis){
         
+    public boolean isHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(boolean habilitado) {
+        this.habilitado = habilitado;
+    }
+
+    // Metodo para adicionar um sinistro na lista de sinistros de cada condutor;
+    public void adicionarSinistro(Sinistro sinis){
         listaSinistros.add(sinis);
     }
 }
