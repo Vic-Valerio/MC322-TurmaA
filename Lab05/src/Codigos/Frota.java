@@ -27,7 +27,7 @@ public class Frota {
     }
 
     // Metodo para inserir veiculo na lista de veiculos do cliente
-    public boolean registerVeiculo(Veiculo veiculo) {
+    public boolean adicionarVeiculo(Veiculo veiculo) {
         for(Veiculo v: listaVeiculos){
             if (v.getPlaca().equals(veiculo.getPlaca())){
                 System.out.println("Veiculo já cadastrado\n");

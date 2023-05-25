@@ -1,5 +1,6 @@
 package Codigos;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,13 +9,23 @@ public class ClientePJ extends Cliente {
     private LocalDate dataFundacao;
     private List<Frota> listaFrota;
 
+    private int tempoFundacao;
+    private LocalDate dataHoje = LocalDate.now();
+    private Period p;
+
         public ClientePJ(String nome, String endereco, String telefone, String email,
                      String CNPJ, LocalDate dataFundacao) {
 
         super(nome, endereco, telefone, email);
         this.CNPJ = CNPJ;
         this.dataFundacao = dataFundacao;
+        
         listaFrota = new ArrayList<>();
+
+        if (dataFundacao != null && dataHoje != null) {
+            p = Period.between(dataFundacao, dataHoje);
+        }
+        tempoFundacao = p.getYears();
     }
 
     // Metodos de acesso
@@ -31,6 +42,10 @@ public class ClientePJ extends Cliente {
 
     public List<Frota> getListaFrota() {
         return listaFrota;
+    }
+
+    public int getTempoFundacao() {
+        return tempoFundacao;
     }
 
     //Metodo de conversao para string;
@@ -62,30 +77,21 @@ public class ClientePJ extends Cliente {
         return CNPJ;
     }
 
-    public boolean getVeiculosPorFrota(Frota frota){
-        System.out.println("Veiculos da frota "+frota.getCode()+":\n");
-        if (frota.getListaVeiculos() == null){
-            System.out.println("Frota não possui veículos registrados\n");
-            return false;
+    public boolean getVeiculosporFrota(Frota frota){
+        boolean existeFrota = false;
+        for (Frota f: listaFrota){
+            if (f.getCode().equals(frota.getCode())){
+                existeFrota = true;
+                System.out.println("Veiculos da frota "+f.getCode()+":\n" + f.getListaVeiculos());
+                break;
+            }
         }
-        for(Veiculo v: frota.getListaVeiculos()){
-            System.out.println(v);
-        }
-        return true;
+        return existeFrota;
     }
 
-    /* public boolean atualizarFrota(){
-        O que faz esse metodo?
+    /* public boolean atualizarFrota(Veiculo veiculo, boolean acao){
+        // acao = 0: remove veiculo da frota; acao = 1: adiciona veiculo na frota;
+        // se veiculos = 0 remove a frota
     }
     */
-
-
-    /*
-    @Override
-    public double calculaScore(){
-        double valorBase = CalcSeguro.VALOR_BASE.getFator();
-        int qtdCarros = listaVeiculos.size();
-
-        return valorBase* (1+(qtdFuncionarios/100.0))*qtdCarros;
-    } */
 }

@@ -15,6 +15,7 @@ public class ClientePF extends Cliente {
     private Period p;
     private int idade;
 
+    // Metodo construtor
     public ClientePF(String nome, String endereco, String telefone, String email,
                      String CPF, String genero, String educacao, LocalDate dataNascimento) {
 
@@ -33,7 +34,6 @@ public class ClientePF extends Cliente {
     }
 
     // Metodos de acesso
-
     public String getEducacao() {
         return educacao;
     }
@@ -83,7 +83,7 @@ public class ClientePF extends Cliente {
     }
 
     // Metodo para inserir veiculo na lista de veiculos do cliente
-    public boolean registerVeiculo(Veiculo veiculo) {
+    public boolean adicionarVeiculo(Veiculo veiculo) {
         for(Veiculo v: listaVeiculos){
             if (v.getPlaca().equals(veiculo.getPlaca())){
                 System.out.println("Veiculo já cadastrado\n");
@@ -95,33 +95,12 @@ public class ClientePF extends Cliente {
     }
 
     // Metodo para remover veiculo na lista de veiculos do cliente
-    public boolean removeVeiculo(Veiculo veiculo){
+    public boolean removerVeiculo(Veiculo veiculo){
         if (listaVeiculos.remove(veiculo)){
             return true;
         }
         return false;
     }
-    /*
-    // Metodo para calcular o valor a ser pago do seguro
-    @Override
-    public double calculaScore(){
-        double valorBase = CalcSeguro.VALOR_BASE.getFator();
-        double fatorIdade = 1;
-        int qtdCarros = listaVeiculos.size();
-
-        if (idade >= 18 && idade < 30){
-            fatorIdade = CalcSeguro.FATOR_18_30.getFator();
-        }
-        if (idade >= 30 && idade < 60){
-            fatorIdade = CalcSeguro.FATOR_30_60.getFator();
-        }
-        if (idade >= 60 && idade < 90){
-            fatorIdade = CalcSeguro.FATOR_60_90.getFator();
-        }
-        
-        return valorBase*fatorIdade*qtdCarros;
-    }
-    */
 
     @Override
     public String getIdentificador(){

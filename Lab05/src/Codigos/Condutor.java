@@ -77,6 +77,42 @@ public class Condutor {
         this.habilitado = habilitado;
     }
 
+    public boolean gerarSinistros(String dataSinistro, String enderecoSinistro, Condutor condutorSinistro,
+                                  Seguro seguroSinistro, Seguradora seguradoraSinistro){
+        boolean temCondutor = false, temSeguro = false;
+        Sinistro sinistro = new Sinistro(dataSinistro, enderecoSinistro, condutorSinistro, seguroSinistro);
+
+        // Verificar se o cliente eh valido, em caso afirmativo gera sinistro caso contrario nao;
+        for (Condutor cond: seguroSinistro.getListaCondutores()){
+            if(cond.getCpf().equals(condutorSinistro.getCpf())){
+                temCondutor = true;
+                // Verifica tambem se o condutor esta habilitado ou nao;
+                if (!cond.isHabilitado()){
+                    System.out.println("Condutor não habilitado, sinistro não pode ser gerado\n");
+                    return false;
+                }
+                break;
+            }
+        }
+        if(!temCondutor){
+            System.out.println("Condutor não cadastrado, sinistro não pode ser gerado\n");
+            return false;
+        }
+
+        // Verifica s o seguro esta contido na seguradora
+        for(Seguro seguro: seguradoraSinistro.getListaSeguros()){
+            if(seguro.getId() == seguroSinistro.getId()){
+                temSeguro = true;
+                break;
+            }
+        }
+        if(!temSeguro){
+            System.out.println("Seguro não existente, sinistro não pode ser gerado\n");
+            return false;
+        }
+        return listaSinistros.add(sinistro);
+    }
+
     // Metodo para adicionar um sinistro na lista de sinistros de cada condutor;
     public void adicionarSinistro(Sinistro sinis){
         listaSinistros.add(sinis);
