@@ -1,14 +1,20 @@
 package Codigos;
 
-public class SeguroPF {
+import java.time.LocalDate;
+
+public class SeguroPF extends Seguro {
     private Veiculo veiculo;
     private ClientePF cliente;
 
-    public SeguroPF(Veiculo veiculo, ClientePF cliente) {
+    // Metodo construtor;
+    public SeguroPF(int id, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora,
+                    Veiculo veiculo, ClientePF cliente) {
+        super(id, dataInicio, dataFim, seguradora);
         this.veiculo = veiculo;
         this.cliente = cliente;
     }
-
+    
+    // Metodos de acesso;
     public Veiculo getVeiculo() {
         return veiculo;
     }
@@ -20,6 +26,17 @@ public class SeguroPF {
     }
     public void setCliente(ClientePF cliente) {
         this.cliente = cliente;
+    }
+
+    @Override
+    public String toString(){
+        String str = "Seguro id "+super.getId()+
+                    "\nData de inicio "+super.getDataInicio()+
+                    "\nData de término "+super.getDataFim()+
+                    "\n Seguradora "+super.getSeguradora().getNome()+
+                    "Cliente CPF "+cliente.getCPF()+
+                    "Veiculo placa "+veiculo.getPlaca()+"\n";
+        return str;
     }
 
     // Metodos para habilitar ou desabilitar um condutor

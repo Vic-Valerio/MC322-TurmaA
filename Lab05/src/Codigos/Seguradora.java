@@ -108,20 +108,6 @@ public class Seguradora {
         }
     }
 
-    // Metodo para gerar sinistros
-    public boolean gerarSinistros(String data, String enderecoSinistro, Seguradora seguradora, Veiculo veiculo, Cliente cliente){
-        Sinistro sinistro = new Sinistro(data, enderecoSinistro, seguradora, veiculo, cliente);
-        // Verificar se o cliente eh valido, em caso afirmativo gera sinistro caso contrario nao
-        for(Cliente c: listaClientes){
-            if(c.getIdentificador() == cliente.getIdentificador()){
-                System.out.println("Sinistro registrado\n");
-                return listaSinistros.add(sinistro);
-            }
-        }
-        System.out.println("Sinistro invalido\n");
-        return false;
-    }
-
     // Metodo para listar sinistros
     public void listarSinistros(){
         System.out.println("Sinistros:\n");

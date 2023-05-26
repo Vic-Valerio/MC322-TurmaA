@@ -64,6 +64,15 @@ public abstract class Seguro {
     public List<Condutor> getListaCondutores() {
         return listaCondutores;
     }
+    
+    @Override
+    public String toString(){
+        String str = "Seguro id "+ getId()+
+                    "\nData de inicio "+getDataInicio()+
+                    "\nData de término "+getDataFim()+
+                    "\n Seguradora "+getSeguradora().getNome()+"\n";
+        return str;
+    }
 
     // Metodo para gerar sinistros (ABSTRACT)
     public abstract boolean gerarSinistros(String dataSinistro, String enderecoSinistro, Condutor condutorSinistro,

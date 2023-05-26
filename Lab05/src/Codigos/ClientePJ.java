@@ -60,6 +60,11 @@ public class ClientePJ extends Cliente {
         return str;
     }
     
+    @Override
+    public String getIdentificador(){
+        return CNPJ;
+    }
+    
     // Metodo para cadastrar nova frota na lista de frotas do cliente PJ;
     public boolean cadastrarFrota(Frota frota) {
         for(Frota f: listaFrota){
@@ -72,11 +77,7 @@ public class ClientePJ extends Cliente {
         return listaFrota.add(frota);
     }
 
-    @Override
-    public String getIdentificador(){
-        return CNPJ;
-    }
-
+    // Metodo para obter os veiculos de uma frota do cliente;
     public boolean getVeiculosporFrota(Frota frota){
         boolean existeFrota = false;
         for (Frota f: listaFrota){
@@ -89,9 +90,64 @@ public class ClientePJ extends Cliente {
         return existeFrota;
     }
 
-    /* public boolean atualizarFrota(Veiculo veiculo, boolean acao){
-        // acao = 0: remove veiculo da frota; acao = 1: adiciona veiculo na frota;
-        // se veiculos = 0 remove a frota
+    // Metodo para atualizar uma frota do cliente;
+    public boolean atualizarFrota(Frota frota, Veiculo veiculo, int acao){
+        boolean existeFrota = false, temVeiculo = false;
+
+        // Verificar se a frota existe e, se existir, verifica o veiculo
+        for (Frota f:listaFrota){
+            if (f.getCode().equals(frota.getCode())){
+                existeFrota = true;
+                for (Veiculo v: f.getListaVeiculos()){
+                   if (v.getPlaca().equals(veiculo.getPlaca())){
+                    temVeiculo = true;
+                    break;
+                   }
+                }
+                break;
+            }
+        }
+        if(!existeFrota){
+            System.out.println("Frota nao encontrada\n");
+            return false;
+        }
+
+        if(acao == 0){ // acao remover = 0;
+            // Se o veiculo estiver na lista ele é excluido;
+            // caso contrario retorna false e nao exclui;
+            if(temVeiculo){
+                frota.removeVeiculo(veiculo);
+                System.out.println("Veiculo de placa "+veiculo.getPlaca()+" removido com sucesso\n");
+                if(frota.getListaVeiculos().size() == 0){
+                    // Se a frota ficar sem veiculos ela é removida;
+                    listaFrota.remove(frota);
+                    System.out.println("Frota "+frota.getCode() +"excluida pela ausencia de veículos\n");
+                    return true;
+                }
+                System.out.println("Frota atualizada\n");
+                return true;
+            }
+            else{
+                System.out.println("Veiculo não encontrado\nFrota não atualizada\n");
+                return false;
+            }
+        }
+        if (acao == 1){ //acao incluir = 1;
+            // Se o veiculo esta cadastrado, nada é feito;
+            // caso contrario, cadastra o veiculo na frota;
+            if(!temVeiculo){
+                frota.adicionarVeiculo(veiculo);
+                System.out.println("Veiculo de placa "+veiculo.getPlaca()+" cadastrado com sucesso\nFrota atualizada\n");
+                return true;
+            }
+            else{
+                System.out.println("Veiculo de placa "+veiculo.getPlaca()+" já cadastrado\nFrota não atualizada\n");
+                return false;
+            }
+        }
+        else{
+            System.out.println("Operação inválida\n");
+            return false;
+        }
     }
-    */
 }

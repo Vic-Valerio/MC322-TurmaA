@@ -1,11 +1,15 @@
 package Codigos;
 
-public class SeguroPJ {
+import java.time.LocalDate;
+
+public class SeguroPJ extends Seguro{
     private Frota frota;
     private ClientePJ cliente;
     
     // Metodo construtor
-    public SeguroPJ(Frota frota, ClientePJ cliente) {
+    public SeguroPJ(int id, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora,
+                    Frota frota, ClientePJ cliente) {
+        super(id, dataInicio, dataFim, seguradora);
         this.frota = frota;
         this.cliente = cliente;
     }
@@ -22,6 +26,17 @@ public class SeguroPJ {
     }
     public void setCliente(ClientePJ cliente) {
         this.cliente = cliente;
+    }
+
+    @Override
+    public String toString(){
+        String str = "Seguro id "+super.getId()+
+                    "\nData de inicio "+super.getDataInicio()+
+                    "\nData de término "+super.getDataFim()+
+                    "\n Seguradora "+super.getSeguradora().getNome()+
+                    "\n Cliente CNPJ "+cliente.getCNPJ()+
+                    "\n Frota "+frota.getCode()+"\n";
+        return str;
     }
 
     // Metodos para habilitar ou desabilitar um condutor
@@ -106,5 +121,4 @@ public class SeguroPJ {
         
         seguro.setValorMensal(valorMensal);
     }
-
 }

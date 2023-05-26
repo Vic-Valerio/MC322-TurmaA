@@ -77,6 +77,16 @@ public class Condutor {
         this.habilitado = habilitado;
     }
 
+    @Override
+    public String toString(){
+        String str = "Condutor " + nome +" CPF: "+ cpf+
+                    "\nEndereço "+endereco+
+                    "\nEmail "+ email+
+                    "Data de nascimento "+dataNasc+"\n";
+        return str;
+    }
+
+    // Metodo para gerar um novo sinistro
     public boolean gerarSinistros(String dataSinistro, String enderecoSinistro, Condutor condutorSinistro,
                                   Seguro seguroSinistro, Seguradora seguradoraSinistro){
         boolean temCondutor = false, temSeguro = false;
