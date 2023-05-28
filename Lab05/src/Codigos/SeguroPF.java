@@ -4,12 +4,12 @@ import java.time.LocalDate;
 
 public class SeguroPF extends Seguro {
     private Veiculo veiculo;
-    private ClientePF cliente;
+    private ClientePF cliente; // tem que ser ClientePF?
 
     // Metodo construtor;
-    public SeguroPF(int id, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora,
+    public SeguroPF(LocalDate dataFim, Seguradora seguradora,
                     Veiculo veiculo, ClientePF cliente) {
-        super(id, dataInicio, dataFim, seguradora);
+        super(dataFim, seguradora);
         this.veiculo = veiculo;
         this.cliente = cliente;
     }
@@ -21,11 +21,10 @@ public class SeguroPF extends Seguro {
     public void setVeiculo(Veiculo veiculo) {
         this.veiculo = veiculo;
     }
-    public ClientePF getCliente() {
+    
+    @Override
+    public ClientePF getClientePF() {
         return cliente;
-    }
-    public void setCliente(ClientePF cliente) {
-        this.cliente = cliente;
     }
 
     @Override

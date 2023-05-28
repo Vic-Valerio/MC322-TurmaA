@@ -5,6 +5,7 @@ import java.util.List;
 
 public abstract class Seguro {
     private final int id;
+    private static int counter = 0;
     private LocalDate dataInicio;
     private LocalDate dataFim;
     private Seguradora seguradora;
@@ -13,11 +14,16 @@ public abstract class Seguro {
     private double valorMensal; 
 
     // Metodo construtor;
-    public Seguro(int id, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora) {
-        this.id = id;
-        this.dataInicio = dataInicio;
+    public Seguro(LocalDate dataFim, Seguradora seguradora) {
+        this.id = setUniqueId();
+        this.dataInicio = LocalDate.now();
         this.dataFim = dataFim;
         this.seguradora = seguradora;
+    }
+
+    // Metodo para gerar ID unico para cada seguro
+    private int setUniqueId() {
+        return counter++;
     }
 
     // Metodos de acesso
@@ -64,6 +70,14 @@ public abstract class Seguro {
     public List<Condutor> getListaCondutores() {
         return listaCondutores;
     }
+
+    public ClientePF getClientePF(){
+        return null;
+    }
+    public ClientePJ getClientePJ(){
+        return null;
+    }
+
     
     @Override
     public String toString(){

@@ -45,11 +45,10 @@ public class Veiculo {
 
     // Metodo de conversao para string
     public String toString() {
-        String str = "";
-        str += "Modelo: " + modelo +"\n" 
+        String str = "Placa: " + placa +"\n"
+                + "Modelo: " + modelo +"\n" 
                 + "Marca: " + marca +"\n" 
-                + "Ano de fabricação: " + anoFabricacao +"\n"
-                + "Placa: " + placa +"\n";
+                + "Ano de fabricação: " + anoFabricacao +"\n";
         return str;
     }
 }

@@ -1,10 +1,12 @@
 package Codigos;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Seguradora {
 
     //Atributos de instancia
+    private final String cnpj;
     private String nome;
     private String telefone;
     private String email;
@@ -13,7 +15,8 @@ public class Seguradora {
     private List<Cliente> listaClientes;
     
     // Metodo construtor
-    public Seguradora(String nome, String telefone, String email, String endereco) {
+    public Seguradora(String cnpj, String nome, String telefone, String email, String endereco) {
+    this.cnpj = cnpj;
     this.nome = nome;
     this.telefone = telefone;
     this.email = email;
@@ -23,6 +26,10 @@ public class Seguradora {
     }
     
     // Metodos de acesso (Getters and setters)
+    public String getCnpj(){
+        return cnpj;
+    }
+
     public String getNome() {
     return nome;
     }
@@ -59,86 +66,137 @@ public class Seguradora {
         return listaClientes;
     }
 
-    /*         Metodo para cadastrar clientes e armazenar numa lista
-    Se o cliente ja esta cadastrado retorna False, se nao, cadastra o cliente e retorna True */
-    public boolean registerCliente(Cliente cliente) {
-        if (listaClientes.contains(cliente))
-            return false;
-        else
-            return listaClientes.add(cliente);
-    }
-
-    /*         Metodo para remover cliente da lista clientes
-    Retorna False se o cliente nao esta na lista e True se removeu o cliente com sucesso */
-    public boolean removeCliente(Cliente cliente) {
-        return listaClientes.remove(cliente);
-    }
-
     // Metodo para listar clientes
     public void listarClientes(String tipoCliente){
         List<Cliente> listaClientesPF = new ArrayList<>();
         List<Cliente> listaClientesPJ = new ArrayList<>();
 
-        if (tipoCliente == "PF")
-            System.out.println("Clientes Pessoa Fisica:\n");
+        for(Cliente c: listaClientes){
+            if(c instanceof ClientePF){
+                listaClientesPF.add(c);
+            }
+            if(c instanceof ClientePJ){
+                listaClientesPJ.add(c);
+            }
+        }
         
-        if (tipoCliente == "PJ")
-            System.out.println("Clientes Pessoa Juridica:\n");
-
-        for(int i = 0; i < listaClientes.size(); i++){
-            if (listaClientes.get(i) instanceof ClientePF){
-                listaClientesPF.add(listaClientes.get(i));
-            }
-            if (listaClientes.get(i) instanceof ClientePJ){
-                listaClientesPJ.add(listaClientes.get(i));
-            }
+        if (tipoCliente.equals("PF")){
+            System.out.println("Clientes pessoa fisica da seguradora "+nome+":\n"+listaClientesPF+"\n");
         }
-
-        if (tipoCliente == "PF"){
-            //System.out.println("Clientes Pessoa Fisica:\n");
-            for (int i = 0; i < listaClientesPF.size(); i++){
-                System.out.println(listaClientesPF.get(i) + "\n");
-            }
-        }
-        if (tipoCliente == "PJ"){
-            //System.out.println("Clientes Pessoa Juridica:\n");
-            for (int i = 0; i < listaClientesPJ.size(); i++){
-                System.out.println(listaClientesPJ.get(i) + "\n");
-            }
+        if (tipoCliente.equals("PJ")){
+            System.out.println("Clientes pessoa juridica da seguradora "+nome+":\n"+listaClientesPJ+"\n");
         }
     }
 
-    // Metodo para listar sinistros
-    public void listarSinistros(){
-        System.out.println("Sinistros:\n");
-        for (Sinistro s: listaSinistros){
-            System.out.println(s + "\n");
-        }
-    }
-
-    // Metodo para visualizar sinistros
-    public boolean visualizarSinistro(String clienteID){
-        // Percorre a lista de sinistros procurando pelo CPF/CNPJ do cliente;
-        // Caso encontre, imprime na tela e retorna True, caso contrario retorna False;
-        for(Sinistro s : listaSinistros){
-            if (s.getCliente().getIdentificador().equals(clienteID)){
-                System.out.println("Sinistro "+ s.getId()+":\n"+ s);
-                return true;
-            }
-        }
+    // Metodo para gerar um novo seguro
+    public boolean gerarSeguro(String tipoClinte){
+        // Como receber os parametros necessarios para instanciar objeto SeguroPF ou seguro PJ?
+        // Criar dois metodos?
         return false;
     }
 
-    // Metodo para calcular o preço do seguro para cada cliente
-    public void calcularPrecoSeguroCliente(Cliente cliente){
-        int qtdSinistros = 0;
-        double score = cliente.calculaScore();
-        for (Sinistro s:listaSinistros){
-            if (s.getCliente().getIdentificador().equals(cliente.getIdentificador())){
-                qtdSinistros++;
+    public boolean gerarSeguroPF(ClientePF cliente, Veiculo veiculo, LocalDate fimContrato){
+        boolean temCliente = false;
+
+        for(Cliente c: listaClientes){
+            if(c.getIdentificador().equals(cliente.getIdentificador())){
+                temCliente = true;
+                break;
             }
         }
-        cliente.setValorSeguro(score *(1 + qtdSinistros));
+        if(!temCliente){
+            System.out.println("Cliente não encontrado, nao foi possível gerar seguro\n");
+            return false;
+        }
+        // Como saber se o cliente possui esse veículo a ser segurado?;
+        
+        Seguro s = new SeguroPF(fimContrato, this, veiculo, cliente);
+        listaSeguros.add(s);
+        return true;
+    }
+
+    // Metodo para cancelar um seguro existente da seguradora
+
+    
+
+    /*         Metodo para cadastrar clientes e armazenar numa lista
+    Se o cliente ja esta cadastrado retorna False, se nao, cadastra o cliente e retorna True */
+    public boolean cadastrarCliente(Cliente cliente) {
+        boolean temCliente = false;
+        for(Cliente c: listaClientes){
+            if(c.getIdentificador().equals(cliente.getIdentificador())){
+                temCliente = true;
+                break;
+            }
+        }
+        if(temCliente){
+            System.out.println("Cliente já cadastrado\n");
+            return false;
+        }
+        else{
+            System.out.println("Cliente cadastrado com sucesso\n");
+            listaClientes.add(cliente);
+            return true;
+        }
+    }
+
+    /*         Metodo para remover cliente da lista clientes
+    Retorna False se o cliente nao esta na lista e True se removeu o cliente com sucesso */
+    public boolean removerCliente(Cliente cliente){
+        boolean temCliente = false;
+        for(Cliente c: listaClientes){
+            if(c.getIdentificador().equals(cliente.getIdentificador())){
+                temCliente = true;
+                break;
+            }
+        }
+        if(temCliente){
+            listaClientes.remove(cliente);
+            System.out.println("Cliente removido com sucesso\n");
+            return true;
+        }
+        else{
+            System.out.println("Cliente não encontrado\n");
+            return false;
+        } 
+    }
+
+    // Metodo para visualizar seguros por cliente;
+    public List<Seguro> getSegurosPorCliente(String clienteID){
+
+        List<Seguro> listaSeguros = new ArrayList<>();
+        // Percorre os seguros de uma seguradora buscando pelo cliente alvo;
+        for(Seguro s:listaSeguros){
+            // Se o cliente for encontrado (PF ou PJ);
+            if(s.getClientePF().getIdentificador().equals(clienteID) || s.getClientePJ().getIdentificador().equals(clienteID)){
+                // Adiciona os Seguros do cliente na lista de Seguros;
+                listaSeguros.add(s);
+            }
+        }
+        return listaSeguros;
+    }
+
+    // Metodo para visualizar sinistros por cliente
+    public List<Sinistro> getSinistrosPorCliente(String clienteID){
+
+        List<Sinistro> listaSinistros = new ArrayList<>();
+        // Percorre os seguros de uma seguradora buscando pelo cliente alvo;
+        for(Seguro s:listaSeguros){
+            // Se o cliente for encontrado (PF ou PJ);
+            if(s.getClientePF().getIdentificador().equals(clienteID) || s.getClientePJ().getIdentificador().equals(clienteID)){
+                // Adiciona os sinistros do cliente na lista de sinistros;
+                for (Sinistro sinis:s.getListaSinistros()){
+                    listaSinistros.add(sinis);
+                }
+                // Adiciona os sinistros dos condutores na lista de sinistros;
+                for (Condutor c: s.getListaCondutores()){
+                    for (Sinistro sinis:c.getListaSinistros()){
+                        listaSinistros.add(sinis);
+                    }   
+                }
+            }
+        }
+        return listaSinistros;
     }
 
     // Metodo para calcular o balanço de seguros de todos os clientes da seguradora;

@@ -26,6 +26,18 @@ public class Frota {
         return listaVeiculos;
     }
 
+    @Override
+    public String toString(){
+        
+        System.out.println("Veiculos:\n");
+        for(Veiculo v: listaVeiculos){
+            System.out.println("Veiculo "+v.getPlaca()+"\n");
+        }
+        String str = "Frota "+ code +"\n";
+
+        return str;
+    }
+
     // Metodo para inserir veiculo na lista de veiculos do cliente
     public boolean adicionarVeiculo(Veiculo veiculo) {
         for(Veiculo v: listaVeiculos){

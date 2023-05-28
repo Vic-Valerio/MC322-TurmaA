@@ -45,9 +45,9 @@ public  abstract class Cliente {
     }
 
     // Metodo de conversao para string 
+    @Override
     public String toString() {
-        String str = "";
-        str += "informacoes do cliente:\n" 
+        String str = "informacoes do cliente:\n" 
                 + "Nome: " + nome +"\n" 
                 + "Endereco: " + endereco +"\n"
                 + "Telefone: " + telefone+"\n"

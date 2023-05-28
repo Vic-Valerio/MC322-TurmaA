@@ -7,9 +7,9 @@ public class SeguroPJ extends Seguro{
     private ClientePJ cliente;
     
     // Metodo construtor
-    public SeguroPJ(int id, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora,
+    public SeguroPJ(LocalDate dataFim, Seguradora seguradora,
                     Frota frota, ClientePJ cliente) {
-        super(id, dataInicio, dataFim, seguradora);
+        super(dataFim, seguradora);
         this.frota = frota;
         this.cliente = cliente;
     }
@@ -21,11 +21,10 @@ public class SeguroPJ extends Seguro{
     public void setFrota(Frota frota) {
         this.frota = frota;
     }
-    public ClientePJ getCliente() {
+
+    @Override
+    public ClientePJ getClientePJ() {
         return cliente;
-    }
-    public void setCliente(ClientePJ cliente) {
-        this.cliente = cliente;
     }
 
     @Override

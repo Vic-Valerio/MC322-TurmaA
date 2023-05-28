@@ -56,9 +56,9 @@ public class Sinistro {
 
     @Override
     public String toString() {
-        String str = "";
-        str += "ID: "+id +"\nData: " + data +
-                "\nEndereço: "+endereco+"\n";
+        String str = "Sinistro ID: "+id 
+                    +"\nData: " + data +
+                    "\nEndereço: "+endereco+"\n";
         return str;
     }
 }
