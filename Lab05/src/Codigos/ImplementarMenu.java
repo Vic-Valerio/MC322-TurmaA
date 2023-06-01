@@ -200,10 +200,27 @@ public class ImplementarMenu {
 
                 System.out.println("Insira a placa do veiculo\n");
                 placa = teclado.nextLine();
-
-                if (buscarVeiculo(c, placa) != null){
+                // Buscando veiculo em um cliente PF
+                if (buscarVeiculo((ClientePF) c, placa) != null){
                     System.out.println("Veiculo já cadastrado\n");
                     break;
+                }
+                Frota f = null;
+                if (c instanceof ClientePJ){
+                    String nomeFrota;
+                   
+                    System.out.println("Insira o nome da frota em que o veiculo sera cadastrado:\n");
+                    nomeFrota = teclado.nextLine();
+                    f = buscarFrota(nomeFrota, (ClientePJ) c);
+                    if (f == null){
+                        System.out.println("Frota não encontrado\n");
+                        break;
+                    }
+                    // Buscando veiculo em um cliente PJ
+                    if (buscarVeiculo((ClientePJ) c, f, placa) != null){
+                        System.out.println("Veiculo já cadastrado\n");
+                        break;
+                    }
                 }
 
                 System.out.println("Insira o modelo do veiculo\n");
@@ -217,7 +234,15 @@ public class ImplementarMenu {
                 teclado.nextLine();
 
                 v = new Veiculo(placa, modelo, marca, anoFabricacao);
-                c.cadastarVeiculo(v);
+                
+                if (c instanceof ClientePF){
+                    ClientePF cPF = (ClientePF) c;
+                    cPF.adicionarVeiculo(v);
+                }
+                else{
+                    f.adicionarVeiculo(v);
+                }
+                
                 System.out.println("Veículo cadastrado com sucesso\n");
                 break;
 
@@ -308,14 +333,40 @@ public class ImplementarMenu {
 
                 System.out.println("Informe  a placa do veículo que deseja excluir\n");
                 placa = teclado.nextLine();
-                v = buscarVeiculo(c, placa);
+
+                // Busca veiculos do cliente PF
+                v = buscarVeiculo((ClientePF) c, placa);
                 if (v == null){
                     System.out.println("Veiculo não encontrado\n");
                     break;
                 }
-                c.removeVeiculo(v);
+
+                Frota f = null;
+                if (c instanceof ClientePJ){
+                    String nomeFrota;
+                    System.out.println("Insira o nome da frota em que o veiculo sera cadastrado:\n");
+                    nomeFrota = teclado.nextLine();
+                    f = buscarFrota(nomeFrota, (ClientePJ) c);
+                    if (f == null){
+                        System.out.println("Frota não encontrado\n");
+                        break;
+                    }
+                    // Buscando veiculo em um cliente PJ
+                    if (buscarVeiculo((ClientePJ) c, f, placa) == null){
+                        System.out.println("Veiculo não encontrado\n");
+                        break;
+                    }
+
+                if (c instanceof ClientePF){
+                    ClientePF cPF = (ClientePF) c;
+                    cPF.removerVeiculo(v);
+                }
+                else{
+                    f.removerVeiculo(v);
+                }
                 System.out.println("Veículo removido com sucesso\n");
                 break;
+            }
 
             case EXCLUIR_SINISTRO: // excluir sinistro;
                 System.out.println("Opção escolhida: Excluir sinistro\nInsira o nome da seguradora que contém o sinistro:\n");
@@ -477,9 +528,9 @@ public class ImplementarMenu {
         return null;
     }
 
-    // Metodo para buscar veiculo na lista de veiculos de um cliente
-    public Veiculo buscarVeiculo (Cliente cliente, String placaVeiculo){
-        for(Veiculo v: cliente.getListaVeiculos()){
+    // Metodo para buscar veiculo na lista de veiculos de um cliente PF
+    public Veiculo buscarVeiculo(ClientePF clientePF, String placaVeiculo){
+        for(Veiculo v: clientePF.getListaVeiculos()){
             if(v.getPlaca().equals(placaVeiculo)){
                 System.out.println("Veiculo encontrado\n");
                 return v;
@@ -487,6 +538,30 @@ public class ImplementarMenu {
         }
         return null;
     }
+    // Metodo para buscar veiculo na lista de veiculos de um cliente PJ
+    public Veiculo buscarVeiculo(ClientePJ clientePJ, Frota frota, String placaVeiculo){
+        for (Frota f: clientePJ.getListaFrota()){
+            for(Veiculo v: f.getListaVeiculos()){
+                if(v.getPlaca().equals(placaVeiculo)){
+                    System.out.println("Veiculo encontrado\n");
+                    return v;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Frota buscarFrota(String nomeFrota, ClientePJ clientePJ){
+        for(Frota frota: clientePJ.getListaFrota()){
+            if(frota.getCode().equals(nomeFrota)){
+                System.out.println("Frota encontrada\n");
+                return frota;
+            }
+        }
+        return null;
+    }
+
+    // public Condutor buscarCondutor(Cliente cliente)
 
     public void listarSinistrosCliente(Seguradora seg, Cliente cli){
         int count = 0;
@@ -528,6 +603,9 @@ public class ImplementarMenu {
         Cliente c;
         Veiculo v;
         String nomeSeguradora, identificadorCliente, placa, dataSinistro, enderecoSinistro;
+        Seguro segu= null;
+
+        
         System.out.println("Informe o nome da seguradora\n");
         nomeSeguradora = teclado.nextLine();
         s = buscarSeguradora(nomeSeguradora);
@@ -544,12 +622,41 @@ public class ImplementarMenu {
             return;
         }
 
+        for (Seguro seguro: s.getListaSeguros()){
+            if(seguro.getClientePF().getIdentificador().equals(c.getIdentificador()) ||
+            seguro.getClientePJ().getIdentificador().equals(c.getIdentificador())){
+                segu = seguro;
+            }
+            else{
+                System.out.println("Seguro não existente\n");
+                return;
+            }
+        }
+
         System.out.println("Informe  a placa do veículo\n");
         placa = teclado.nextLine();
-        v = buscarVeiculo(c, placa);
+
+        // Buscando veiculos do cliente PF
+        v = buscarVeiculo((ClientePF) c, placa);
         if (v == null){
             System.out.println("Veiculo não encontrado\n");
             return;
+        }
+        Frota f = null;
+        if (c instanceof ClientePJ){
+            String nomeFrota;
+            System.out.println("Insira o nome da frota em que o veiculo sera cadastrado:\n");
+            nomeFrota = teclado.nextLine();
+            f = buscarFrota(nomeFrota, (ClientePJ) c);
+            if (f == null){
+                System.out.println("Frota não encontrado\n");
+                return;
+            }
+            // Buscando veiculo em um cliente PJ
+            if (buscarVeiculo((ClientePJ) c, f, placa) == null){
+                System.out.println("Veiculo não encontrado\n");
+                return;
+            }
         }
 
         System.out.println("Insira a data do sinistro no padrao DD/MM/AAAA:\n");
@@ -558,7 +665,12 @@ public class ImplementarMenu {
         System.out.println("Insira o endereco do sinistro:\n");
         enderecoSinistro = teclado.nextLine();
 
-        s.gerarSinistros(dataSinistro, enderecoSinistro, s, v, c);
+        // Gera sinistro do cliente
+        segu.gerarSinistros(dataSinistro, enderecoSinistro, s);
+
+        // Gera sinistro do condutor
+
+
         System.out.println("Sinistro cadastrado com sucesso\n");
         return;
     }

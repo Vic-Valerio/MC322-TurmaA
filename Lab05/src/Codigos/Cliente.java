@@ -51,6 +51,6 @@ public  abstract class Cliente {
         return str;
     }
 
-    // Metodo para receber o identificador do cliente (CPF ou CNPJ) -> Sera sobrescrito
+    // Metodo para receber o identificador do cliente (CPF ou CNPJ) -> Sera sobrescrito;
     public abstract String getIdentificador();
 }

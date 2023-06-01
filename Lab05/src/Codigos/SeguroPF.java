@@ -61,14 +61,14 @@ public class SeguroPF extends Seguro {
         return false;
     }
 
-    // Metodo para gerar um novo sinistro
-    public boolean gerarSinistros(String dataSinistro, String enderecoSinistro, Condutor condutorSinistro,
-                                  Seguro seguroSinistro, Seguradora seguradoraSinistro){
-        boolean temCondutor = false, temSeguro = false;
-        Sinistro sinistro = new Sinistro(dataSinistro, enderecoSinistro, condutorSinistro, seguroSinistro);
+    // Metodo para gerar um sinistro de condutores;
+    public boolean gerarSinistros(String dataSinistro, String enderecoSinistro,
+                                  Condutor condutorSinistro, Seguradora seguradoraSinistro){
+        boolean temCondutor = false;
+        Sinistro sinistro = new Sinistro(dataSinistro, enderecoSinistro, condutorSinistro, this);
 
-        // Verificar se o cliente eh valido, em caso afirmativo gera sinistro caso contrario nao;
-        for (Condutor cond: seguroSinistro.getListaCondutores()){
+        // Verificar se o condutor eh valido, em caso afirmativo gera sinistro caso contrario nao;
+        for (Condutor cond: this.getListaCondutores()){
             if(cond.getCpf().equals(condutorSinistro.getCpf())){
                 temCondutor = true;
                 // Verifica tambem se o condutor esta habilitado ou nao;
@@ -83,24 +83,22 @@ public class SeguroPF extends Seguro {
             System.out.println("Condutor não cadastrado, sinistro não pode ser gerado\n");
             return false;
         }
-
-        // Verifica s o seguro esta contido na seguradora
-        for(Seguro seguro: seguradoraSinistro.getListaSeguros()){
-            if(seguro.getId() == seguroSinistro.getId()){
-                temSeguro = true;
-                break;
-            }
-        }
-        if(!temSeguro){
-            System.out.println("Seguro não existente, sinistro não pode ser gerado\n");
-            return false;
-        }
-        return seguroSinistro.getListaSinistros().add(sinistro);
+        // Adciona o sinistro na lista de sinistros do condutor;
+        condutorSinistro.getListaSinistros().add(sinistro);
+        System.out.println("Sinistro gerado com sucesso\n");
+        return true;
     }
 
-    // Metodo para calcular o valor mensal do seguro
+    // Metodo para gerar um sinistro do cliente;
+    public boolean gerarSinistros(String dataSinistro, String enderecoSinistro, 
+                                  Seguradora seguradoraSinistro){
     
-    // nao usar o seguro como argumento (utilizar this?)
+    Sinistro sinistro = new Sinistro(dataSinistro, enderecoSinistro, null, this);
+    
+    return this.getListaSinistros().add(sinistro);
+    }
+
+    // Metodo para calcular o valor mensal do seguro;
     public void calcularValor(){
         int idade = cliente.getIdade();
         int qtdVeiculos = cliente.getListaVeiculos().size();

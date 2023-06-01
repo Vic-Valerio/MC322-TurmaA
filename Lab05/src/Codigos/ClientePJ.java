@@ -116,7 +116,7 @@ public class ClientePJ extends Cliente {
             // Se o veiculo estiver na lista ele é excluido;
             // caso contrario retorna false e nao exclui;
             if(temVeiculo){
-                frota.removeVeiculo(veiculo);
+                frota.removerVeiculo(veiculo);
                 System.out.println("Veiculo de placa "+veiculo.getPlaca()+" removido com sucesso\n");
                 if(frota.getListaVeiculos().size() == 0){
                     // Se a frota ficar sem veiculos ela é removida;

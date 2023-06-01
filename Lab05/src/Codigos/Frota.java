@@ -46,7 +46,7 @@ public class Frota {
     }
 
     // Metodo para remover veiculo na lista de veiculos do cliente
-    public boolean removeVeiculo(Veiculo veiculo){
+    public boolean removerVeiculo(Veiculo veiculo){
         if (listaVeiculos.remove(veiculo)){
             System.out.println("Veiculo removido com sucesso\n");
             return true;

@@ -84,9 +84,13 @@ public abstract class Seguro {
         return str;
     }
 
-    // Metodo para gerar sinistros (ABSTRACT)
-    public abstract boolean gerarSinistros(String dataSinistro, String enderecoSinistro, Condutor condutorSinistro,
-                                  Seguro seguroSinistro, Seguradora seguradoraSinistro); 
+    // Metodo para gerar sinistros de condutores
+    public abstract boolean gerarSinistros(String dataSinistro, String enderecoSinistro, 
+                                           Condutor condutorSinistro, Seguradora seguradoraSinistro);
+
+    // Metodo para gerar sinistros do proprio cliente
+    public abstract boolean gerarSinistros(String dataSinistro, String enderecoSinistro, 
+                                           Seguradora seguradoraSinistro);
 
     // Metodos para habilitar ou desabilitar um condutor (pode gerar ou nao sinistros);
     public abstract boolean habilitarCondutor(Condutor condutor, Seguro seguro);
