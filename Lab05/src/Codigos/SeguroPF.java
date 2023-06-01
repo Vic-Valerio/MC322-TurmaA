@@ -99,10 +99,12 @@ public class SeguroPF extends Seguro {
     }
 
     // Metodo para calcular o valor mensal do seguro
-    public void calcularValor(Seguro seguro){
+    
+    // nao usar o seguro como argumento (utilizar this?)
+    public void calcularValor(){
         int idade = cliente.getIdade();
         int qtdVeiculos = cliente.getListaVeiculos().size();
-        int qtdSinistrosCliente = seguro.getListaSinistros().size(); // Sinistros do cliente estao armazenados na classe Seguro
+        int qtdSinistrosCliente = this.getListaSinistros().size(); // Sinistros do cliente estao armazenados na classe Seguro
         int qtdSinistrosCondutores = 0; // Sinistros dos condutores estao armazenados na classe Condutor
         double valorBase = CalcSeguro.VALOR_BASE.getFator();
         double valorMensal, fatorIdade = 0;
@@ -110,20 +112,20 @@ public class SeguroPF extends Seguro {
         if (idade < 30){
             fatorIdade = CalcSeguro.FATOR_MENOR_30.getFator();
         }
-        if (idade >= 30 && idade <= 60){
+        else if (idade >= 30 && idade <= 60){
             fatorIdade = CalcSeguro.FATOR_30_60.getFator();
         }
-        if (idade > 60){
+        else if (idade > 60){
             fatorIdade = CalcSeguro.FATOR_MAIOR_60.getFator();
         }
 
-        for(Condutor cond: seguro.getListaCondutores()){
+        for(Condutor cond: this.getListaCondutores()){
             qtdSinistrosCondutores += cond.getListaSinistros().size();
         }
 
         valorMensal = valorBase*fatorIdade*(1+1/(qtdVeiculos+2))*
                       (2+qtdSinistrosCliente/10)*(5+qtdSinistrosCondutores/10);
 
-        seguro.setValorMensal(valorMensal);
+        this.setValorMensal(valorMensal);
     }
 }

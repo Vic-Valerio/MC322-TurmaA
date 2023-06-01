@@ -88,15 +88,11 @@ public class Seguradora {
         }
     }
 
-    // Metodo para gerar um novo seguro
-    public boolean gerarSeguro(String tipoClinte){
-        // Como receber os parametros necessarios para instanciar objeto SeguroPF ou seguro PJ?
-        // Criar dois metodos?
-        return false;
-    }
-
-    public boolean gerarSeguroPF(ClientePF cliente, Veiculo veiculo, LocalDate fimContrato){
-        boolean temCliente = false;
+    // Metodo para gerar um novo seguro PJ
+    //(Sobrecarregado para distinguir SeguroPF e SguroPJ);
+    
+    public boolean gerarSeguro(ClientePJ cliente, Frota frota, LocalDate fimContrato){
+        boolean temCliente = false, temFrota = false;
 
         for(Cliente c: listaClientes){
             if(c.getIdentificador().equals(cliente.getIdentificador())){
@@ -108,16 +104,67 @@ public class Seguradora {
             System.out.println("Cliente não encontrado, nao foi possível gerar seguro\n");
             return false;
         }
-        // Como saber se o cliente possui esse veículo a ser segurado?;
+
+        for(Frota f: cliente.getListaFrota()){
+            if(f.getCode().equals(frota.getCode())){
+                temFrota = true;
+                break;
+            }
+        }
+        if(!temFrota){
+            System.out.println("Frota não encontrada, nao foi possível gerar seguro\n");
+            return false;
+        }
+
+        Seguro s = new SeguroPJ(fimContrato, this, frota, cliente);
+        listaSeguros.add(s);
+
+        return true;
+    }
+    // Metodo para gerar um novo seguro PF
+    //(Sobrecarregado para distinguir SeguroPF e SguroPJ);
+    public boolean gerarSeguro(ClientePF cliente, Veiculo veiculo, LocalDate fimContrato){
+        boolean temCliente = false, temVeiculo = false;
+
+        for(Cliente c: listaClientes){
+            if(c.getIdentificador().equals(cliente.getIdentificador())){
+                temCliente = true;
+                break;
+            }
+        }
+        if(!temCliente){
+            System.out.println("Cliente não encontrado, nao foi possível gerar seguro\n");
+            return false;
+        }
         
+        for(Veiculo v:cliente.getListaVeiculos()){
+            if(v.getPlaca().equals(veiculo.getPlaca())){
+                temVeiculo = true;
+                break;
+            }
+        }
+        if(!temVeiculo){
+            System.out.println("Veículo não cadastrado para o cliente informado, nao foi possível gerar seguro\n");
+            return false;
+        }
+
         Seguro s = new SeguroPF(fimContrato, this, veiculo, cliente);
         listaSeguros.add(s);
         return true;
     }
 
     // Metodo para cancelar um seguro existente da seguradora
-
-    
+    public boolean cancelarSeguro(int seguroID){
+        for(Seguro s:listaSeguros){
+            if(s.getId()== seguroID){
+                listaSeguros.remove(s);
+                System.out.println("Seguro "+s.getId()+" cancelado com sucesso\n");
+                return true;
+            }
+        }
+        System.out.println("Seguro não encontrado\n");
+        return false;
+    }
 
     /*         Metodo para cadastrar clientes e armazenar numa lista
     Se o cliente ja esta cadastrado retorna False, se nao, cadastra o cliente e retorna True */
@@ -134,8 +181,8 @@ public class Seguradora {
             return false;
         }
         else{
-            System.out.println("Cliente cadastrado com sucesso\n");
             listaClientes.add(cliente);
+            System.out.println("Cliente cadastrado com sucesso\n");
             return true;
         }
     }
@@ -164,47 +211,47 @@ public class Seguradora {
     // Metodo para visualizar seguros por cliente;
     public List<Seguro> getSegurosPorCliente(String clienteID){
 
-        List<Seguro> listaSeguros = new ArrayList<>();
+        List<Seguro> listaSegurosCliente = new ArrayList<>();
         // Percorre os seguros de uma seguradora buscando pelo cliente alvo;
         for(Seguro s:listaSeguros){
             // Se o cliente for encontrado (PF ou PJ);
             if(s.getClientePF().getIdentificador().equals(clienteID) || s.getClientePJ().getIdentificador().equals(clienteID)){
                 // Adiciona os Seguros do cliente na lista de Seguros;
-                listaSeguros.add(s);
+                listaSegurosCliente.add(s);
             }
         }
-        return listaSeguros;
+        return listaSegurosCliente;
     }
 
     // Metodo para visualizar sinistros por cliente
     public List<Sinistro> getSinistrosPorCliente(String clienteID){
 
-        List<Sinistro> listaSinistros = new ArrayList<>();
+        List<Sinistro> listaSinistrosCliente = new ArrayList<>();
         // Percorre os seguros de uma seguradora buscando pelo cliente alvo;
         for(Seguro s:listaSeguros){
             // Se o cliente for encontrado (PF ou PJ);
             if(s.getClientePF().getIdentificador().equals(clienteID) || s.getClientePJ().getIdentificador().equals(clienteID)){
                 // Adiciona os sinistros do cliente na lista de sinistros;
                 for (Sinistro sinis:s.getListaSinistros()){
-                    listaSinistros.add(sinis);
+                    listaSinistrosCliente.add(sinis);
                 }
                 // Adiciona os sinistros dos condutores na lista de sinistros;
                 for (Condutor c: s.getListaCondutores()){
                     for (Sinistro sinis:c.getListaSinistros()){
-                        listaSinistros.add(sinis);
+                        listaSinistrosCliente.add(sinis);
                     }   
                 }
             }
         }
-        return listaSinistros;
+        return listaSinistrosCliente;
     }
 
     // Metodo para calcular o balanço de seguros de todos os clientes da seguradora;
     public double calcularReceita(Seguradora seguradora){
         double receita = 0;
-        for(Cliente c:listaClientes){
-            calcularPrecoSeguroCliente(c);
-            receita += c.getValorSeguro();
+        for(Seguro s:listaSeguros){
+            s.calcularValor();
+            receita += s.getValorMensal();
         }
         return receita;
     }

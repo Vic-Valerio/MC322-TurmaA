@@ -70,8 +70,7 @@ public class ClientePF extends Cliente {
     //Metodo de conversao para string
     @Override
     public String toString() {
-        String str = "";
-        str += "Nome: " + super.getNome()+"\n"
+        String str = "Nome: " + super.getNome()+"\n"
                 + "Endereço: "+ super.getEndereco()+"\n"
                 + "Telefone: "+super.getTelefone()+"\n"
                 + "Email: "+super.getEmail()+"\n"

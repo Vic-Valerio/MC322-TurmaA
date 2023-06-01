@@ -99,11 +99,11 @@ public class SeguroPJ extends Seguro{
     }
 
     // Metodo para calcular o valor mensal do seguro
-    public void calcularValor(Seguro seguro){
+    public void calcularValor(){
         int anosPosFundacao = cliente.getTempoFundacao();
-        int qtdFuncionarios = seguro.getListaCondutores().size(); // Assume-se que os condutores sao os funcionarios da empresa inclusos no seguro
+        int qtdFuncionarios = this.getListaCondutores().size(); // Assume-se que os condutores sao os funcionarios da empresa inclusos no seguro
         int qtdVeiculos = 0;
-        int qtdSinistrosCliente = seguro.getListaSinistros().size();
+        int qtdSinistrosCliente = this.getListaSinistros().size();
         int qtdSinistrosCondutores = 0;
         double valorMensal = 0, valorBase = CalcSeguro.VALOR_BASE.getFator();
 
@@ -111,13 +111,13 @@ public class SeguroPJ extends Seguro{
             qtdVeiculos += f.getListaVeiculos().size();
         }
 
-        for (Condutor c: seguro.getListaCondutores()){
+        for (Condutor c: this.getListaCondutores()){
             qtdSinistrosCondutores += c.getListaSinistros().size();
         }
 
         valorMensal = (valorBase*(10+(qtdFuncionarios/10))* (1+1/(qtdVeiculos+2))*
                     (1+1/(anosPosFundacao+2))* (2+qtdSinistrosCliente/10)* (5+qtdSinistrosCondutores/10));
         
-        seguro.setValorMensal(valorMensal);
+        this.setValorMensal(valorMensal);
     }
 }

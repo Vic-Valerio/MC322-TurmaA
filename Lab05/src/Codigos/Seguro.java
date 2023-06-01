@@ -77,14 +77,10 @@ public abstract class Seguro {
     public ClientePJ getClientePJ(){
         return null;
     }
-
     
     @Override
     public String toString(){
-        String str = "Seguro id "+ getId()+
-                    "\nData de inicio "+getDataInicio()+
-                    "\nData de término "+getDataFim()+
-                    "\n Seguradora "+getSeguradora().getNome()+"\n";
+        String str = "Classe abstrata: Seguro\n";
         return str;
     }
 
@@ -98,5 +94,5 @@ public abstract class Seguro {
     public abstract boolean desabilitarCondutor(Condutor condutor, Seguro seguro);
 
     // Metodo para calcular o valor do seguro
-    public abstract void calcularValor(Seguro seguro);
+    public abstract void calcularValor();
 }

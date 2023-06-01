@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Frota {
-    private String code;
+    private final String code;
     private List <Veiculo> listaVeiculos;
 
     // Metodo construtor
@@ -16,10 +16,6 @@ public class Frota {
     // Metodos de acesso
     public String getCode() {
         return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public List<Veiculo> getListaVeiculos() {
@@ -34,7 +30,6 @@ public class Frota {
             System.out.println("Veiculo "+v.getPlaca()+"\n");
         }
         String str = "Frota "+ code +"\n";
-
         return str;
     }
 
@@ -53,8 +48,10 @@ public class Frota {
     // Metodo para remover veiculo na lista de veiculos do cliente
     public boolean removeVeiculo(Veiculo veiculo){
         if (listaVeiculos.remove(veiculo)){
+            System.out.println("Veiculo removido com sucesso\n");
             return true;
         }
+        System.out.println("Veiculo não cadastrado\n");
         return false;
     }
 }
