@@ -247,7 +247,7 @@ public class Seguradora {
     }
 
     // Metodo para calcular o balanço de seguros de todos os clientes da seguradora;
-    public double calcularReceita(Seguradora seguradora){
+    public double calcularReceita(){
         double receita = 0;
         for(Seguro s:listaSeguros){
             s.calcularValor();

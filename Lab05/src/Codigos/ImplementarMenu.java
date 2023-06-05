@@ -33,8 +33,7 @@ public class ImplementarMenu {
                     "(2) Listar\n" +
                     "(3) Excluir\n" +
                     "(4) Gerar sinistro\n" +
-                    "(5) Transferir seguro\n"+
-                    "(6) Calcular receita da seguradora\n"+
+                    "(5) Calcular receita da seguradora\n"+
                     "(0) Sair\n");
             ope = teclado.nextInt();
             teclado.nextLine();
@@ -61,10 +60,6 @@ public class ImplementarMenu {
                     geraSinistro();
                     break;
 
-                case TRANSFERIR_SEGURO:
-                    System.out.println("Opção escolhida: Transferir seguro\n");
-                    transferirSeguro();
-                    break;
                 
                 case CALCULAR_RECEITA_SEGURADORA: 
                     System.out.println("Opção escolhida: Calcular receita da seguradora\n");
@@ -380,18 +375,32 @@ public class ImplementarMenu {
                 System.out.println("Informe  o ID do sinistro que deseja excluir:\n");
                 identificadorSinistro = teclado.nextInt();
                 teclado.nextLine();
-                for(Sinistro sin: s.getListaSinistros()){
-                    if(sin.getId() == identificadorSinistro){
-                        temSinistro = true;
-                        s.getListaSinistros().remove(sin);
-                        System.out.println("Sinistro removido com sucesso\n");
-                        
-                        break;
+
+                for(Seguro seguro:s.getListaSeguros()){
+                    // Procura o sinistro na lista de sinistros do cliente;
+                    for(Sinistro sinis: seguro.getListaSinistros()){
+                        if(sinis.getId() == identificadorSinistro){
+                            temSinistro = true;
+                            seguro.getListaSinistros().remove(sinis);
+                            System.out.println("Sinistro removido com sucesso\n");
+                            break;
+                        }
+                    }
+                    // Procura o sinistro na lista de sinistros do condutor;
+                    for(Condutor cond: seguro.getListaCondutores()){
+                        for(Sinistro sinis: cond.getListaSinistros()){
+                            if(sinis.getId() == identificadorSinistro){
+                                temSinistro = true;
+                                cond.getListaSinistros().remove(sinis);
+                                System.out.println("Sinistro removido com sucesso\n");
+                                break;
+                            }
+                        }
                     }
                 }
-                if(!temSinistro)
-                    System.out.println("Sinistro não encontrado não pode ser removido\n");
-
+                if(!temSinistro){
+                    System.out.println("Sinistro não encontrado e não pode ser removido\n");
+                }
                 break;
 
             case VOLTAR: // Voltar;
@@ -435,7 +444,17 @@ public class ImplementarMenu {
                     System.out.println("Seguradora não encontrada\n");
                     break;
                 }
-                System.out.println("Lista de sinistros da seguradora "+s.getNome()+":\n" + s.getListaSinistros());
+
+                for(Seguro seguro:s.getListaSeguros()){
+                    if(seguro.getListaSinistros() != null){
+                        System.out.println("Lista de sinistros do cliente "+seguro.getClientePF().getIdentificador()+":\n"+seguro.getListaSinistros());
+                    }
+                    for(Condutor cond: seguro.getListaCondutores()){
+                        if(cond.getListaSinistros() != null){
+                            System.out.println("Lista de sinistros do condutor "+cond.getCpf()+":\n"+cond.getListaSinistros());
+                        }
+                    }
+                }
                 break;
 
             case LISTAR_SINISTRO_POR_CLIENTE: // listar sinistros por cliente;
@@ -455,7 +474,7 @@ public class ImplementarMenu {
                     System.out.println("Cliente não encontrado\n");
                     break;
                 }
-                listarSinistrosCliente(s,c);
+                listarSinistrosCliente(s,c); // Olhar esse metodo
                 break;
 
             case LISTAR_VEICULO_POR_CLIENTE: // listar veiculos por cliente
@@ -475,8 +494,20 @@ public class ImplementarMenu {
                     System.out.println("Cliente não encontrado\n");
                     break;
                 }
-                System.out.println("Lista de veiculos do clinte "+c.getNome()+":\n" + c.getListaVeiculos());
-                break;
+
+                if(c instanceof ClientePF){
+                    ClientePF cPF = (ClientePF)c;
+                    System.out.println("Lista de veiculos do clinte " +cPF.getNome()+":\n" +cPF.getListaVeiculos());
+                    break;
+                }
+                else{
+                    ClientePJ cPJ = (ClientePJ)c;
+                    for(Frota frota:cPJ.getListaFrota()){
+                        System.out.println("Lista de veiculos da frota " +frota.getCode()+":\n" +frota.getListaVeiculos());
+                    }
+                    break;
+                }
+                
 
 
             case LISTAR_VEICULO_POR_SEGURADORA: // listar veiculos por seguradora
@@ -507,6 +538,7 @@ public class ImplementarMenu {
     }
 
     // Metodo para buscar uma seguradora na lista de seguradoras;
+    // A busca ainda se manteve pelo nome para evitar muitas modificações no codigo;
     public Seguradora buscarSeguradora(String nomeSeg){
         for (Seguradora seg : listaSeguradoras){
             if(seg.getNome().equals(nomeSeg)){
@@ -561,41 +593,99 @@ public class ImplementarMenu {
         return null;
     }
 
-    // public Condutor buscarCondutor(Cliente cliente)
+    public Condutor buscarCondutor(String cpfDoCondutor, Seguro seguroCondutor){
+        for (Condutor c:seguroCondutor.getListaCondutores()){
+            if(c.getCpf().equals(cpfDoCondutor)){
+                System.out.println("condutor encontrado\n");
+                return c;
+            }
+        }
+        return null;
 
-    public void listarSinistrosCliente(Seguradora seg, Cliente cli){
-        int count = 0;
-        boolean temSinistro = false;
+    }
+
+    public void listarSinistrosCliente(Seguradora seguradora, Cliente cli){
+        boolean temSinistro = false, temCliente = false;
         System.out.println("Sinistros do cliente "+cli.getNome()+":\n");
-        for(Sinistro sin: seg.getListaSinistros()){
-            if (sin.getCliente().getIdentificador().equals(cli.getIdentificador())){
-                System.out.println("Sinistro " + sin);
-                if(!temSinistro){
-                    temSinistro = true;
+
+        for(Cliente c: seguradora.getListaClientes()){
+            if(c.getIdentificador().equals(cli.getIdentificador())){
+                temCliente = true;
+                break;
+            }
+        }
+        if(!temCliente){
+            System.out.println("Cliente não encontrado\n");
+            return;
+        }
+
+        Seguro segu = null;
+        for(Seguro seguro: seguradora.getListaSeguros()){
+            // 1 Cliente PF possui zero ou um seguroPF;
+            if(seguro.getClientePF().getIdentificador().equals(cli.getIdentificador())){
+                segu = seguro;
+                break;
+            }
+            // 1 Cliente PJ pode ter muitos seguroPJ: verificar codigo da frota;
+            else if(seguro.getClientePJ().getIdentificador().equals(cli.getIdentificador())){
+                SeguroPJ seguroPJ = (SeguroPJ)seguro;
+                ClientePJ cPJ = (ClientePJ)cli;
+                for(Frota frota:cPJ.getListaFrota()){
+                    if(seguroPJ.getFrota().getCode().equals(frota.getCode())){
+                        segu = seguro;
+                        break;
+                    }
                 }
             }
-            // Se a lista chegou ao fim e o cliente não foi encontrado, ele não possui sinistros;
-            if(count == seg.getListaSinistros().size() -1 && !temSinistro){
-                System.out.println("Nenhum sinistro gerado por esse cliente\n");
-            }
-            count++;
         }
+        if(segu ==  null){
+            System.out.println("Seguro não existente para esse cliente\n");
+            return;
+        }
+
+        for(Sinistro sinis: segu.getListaSinistros()){
+            if(segu.getListaCondutores()!= null){
+                System.out.println("Sinistros do cliente:\n" + sinis + "\n");
+                temSinistro = true;
+            }
+        }
+
+        for(Condutor condutor: segu.getListaCondutores()){
+            if(condutor.getListaSinistros() != null){
+                temSinistro = true;
+                System.out.println("Sinistros do condutor "+condutor.getCpf()+"\n"+condutor.getListaSinistros()+"\n");
+            }
+        }
+        if(!temSinistro){
+            System.out.println("Nenhum sinistro registrado nesse cliente\n");
+        }  
+        return;
     }
     public void listarVeiculosSeguradora(Seguradora seg){
-        int count = 0;
         boolean temVeiculo = false;
         System.out.println("Lista de veiculos da seguradora "+seg.getNome()+":\n");
-
         for (Cliente cli: seg.getListaClientes()){
-            if(cli.getListaVeiculos() != null){
-                System.out.println(cli.getListaVeiculos()+"\n");
-                temVeiculo = true;
+            if(cli instanceof ClientePF){
+                ClientePF clientePF = (ClientePF)cli;
+                if(clientePF.getListaVeiculos() != null){
+                    System.out.println(clientePF.getListaVeiculos()+"\n");
+                    temVeiculo = true;
+                }
             }
-            if (count == seg.getListaClientes().size() -1 && !temVeiculo){
-                System.out.println("Nenhum veiculo cadastrado para essa seguradora\n");
+            else{
+                ClientePJ clientePJ = (ClientePJ)cli;
+                for (Frota frota: clientePJ.getListaFrota()){
+                    if(clientePJ.getListaFrota() != null){
+                        System.out.println(frota.getListaVeiculos()+"\n");
+                        temVeiculo = true; // Toda frota tem ao menos um veiculo
+                    }  
+                }
             }
-            count++;
         }
+        if (!temVeiculo){
+            System.out.println("Nenhum veiculo cadastrado para essa seguradora\n");
+        }
+        return;
     }
 
     public void geraSinistro(){
@@ -603,14 +693,12 @@ public class ImplementarMenu {
         Cliente c;
         Veiculo v;
         String nomeSeguradora, identificadorCliente, placa, dataSinistro, enderecoSinistro;
-        Seguro segu= null;
-
         
         System.out.println("Informe o nome da seguradora\n");
         nomeSeguradora = teclado.nextLine();
         s = buscarSeguradora(nomeSeguradora);
         if (s ==  null){
-            System.out.println("Seguradora não encontrada\n");
+            System.out.println("Seguradora não encontrada, sinistro nao pode ser gerado\n");
             return;
         }
 
@@ -618,19 +706,31 @@ public class ImplementarMenu {
         identificadorCliente = teclado.nextLine();
         c = buscarCliente(s, identificadorCliente);
         if (c ==  null){
-            System.out.println("Cliente não encontrada\n");
+            System.out.println("Cliente não encontrado, sinistro nao pode ser gerado\n");
             return;
         }
-
+        Seguro segu= null;
         for (Seguro seguro: s.getListaSeguros()){
-            if(seguro.getClientePF().getIdentificador().equals(c.getIdentificador()) ||
-            seguro.getClientePJ().getIdentificador().equals(c.getIdentificador())){
+            // 1 Cliente PF possui zero ou um seguroPF;
+            if(seguro.getClientePF().getIdentificador().equals(c.getIdentificador())){
                 segu = seguro;
+                break;
             }
-            else{
-                System.out.println("Seguro não existente\n");
-                return;
+            // 1 Cliente PJ pode ter muitos seguroPJ: verificar codigo da frota;
+            else if(seguro.getClientePJ().getIdentificador().equals(c.getIdentificador())){
+                SeguroPJ seguroPJ = (SeguroPJ)seguro;
+                ClientePJ cPJ = (ClientePJ)c;
+                for(Frota frota:cPJ.getListaFrota()){
+                    if(seguroPJ.getFrota().getCode().equals(frota.getCode())){
+                        segu = seguro;
+                        break;
+                    }
+                }
             }
+        }
+        if(segu ==  null){
+            System.out.println("Seguro não existente para esse cliente, sinistro nao pode ser gerado\n");
+            return;
         }
 
         System.out.println("Informe  a placa do veículo\n");
@@ -639,7 +739,7 @@ public class ImplementarMenu {
         // Buscando veiculos do cliente PF
         v = buscarVeiculo((ClientePF) c, placa);
         if (v == null){
-            System.out.println("Veiculo não encontrado\n");
+            System.out.println("Veiculo não encontrado, sinistro nao pode ser gerado\n");
             return;
         }
         Frota f = null;
@@ -649,12 +749,12 @@ public class ImplementarMenu {
             nomeFrota = teclado.nextLine();
             f = buscarFrota(nomeFrota, (ClientePJ) c);
             if (f == null){
-                System.out.println("Frota não encontrado\n");
+                System.out.println("Frota não encontrado, sinistro nao pode ser gerado\n");
                 return;
             }
             // Buscando veiculo em um cliente PJ
             if (buscarVeiculo((ClientePJ) c, f, placa) == null){
-                System.out.println("Veiculo não encontrado\n");
+                System.out.println("Veiculo não encontrado, sinistro nao pode ser gerado\n");
                 return;
             }
         }
@@ -665,53 +765,36 @@ public class ImplementarMenu {
         System.out.println("Insira o endereco do sinistro:\n");
         enderecoSinistro = teclado.nextLine();
 
-        // Gera sinistro do cliente
-        segu.gerarSinistros(dataSinistro, enderecoSinistro, s);
+        String opcao = "";
+        System.out.println("O sinistro foi gerado por um condutor? Responda S para sim e N para nao\n");
+        opcao = teclado.nextLine();
 
-        // Gera sinistro do condutor
+        if(opcao.equals("S")){
+            Condutor cond = null;
+            String cpfCondutor = "";
+            System.out.println("Insira o CPF do condutor\n");
+            cpfCondutor = teclado.nextLine();
+            cond = buscarCondutor(cpfCondutor, segu);
+            if (cond == null){
+                System.out.println("condutor não encontrado, sinistro nao pode ser gerado\n");
+                return;
+            }
+            // Gera sinistro do condutor;
+            segu.gerarSinistros(dataSinistro, enderecoSinistro, cond, s);
+            System.out.println("Sinistro registrado na lista de sinistros do condutor "+cond.getCpf()+"\n");
+            return;
 
-
-        System.out.println("Sinistro cadastrado com sucesso\n");
+        }
+        else if(opcao.equals("N")){
+            // Gera sinistro do cliente
+            segu.gerarSinistros(dataSinistro, enderecoSinistro, s);
+            System.out.println("Sinistro registrado na lista de sinistros do cliente "+c.getIdentificador()+"\n");
+            return;
+        }
+        else{
+            System.out.println("Opraçao inválida, sinistro nao pode ser gerado\n");
+        }
         return;
-    }
-
-    public void transferirSeguro(){
-        Seguradora s;
-        Cliente c, cNew;
-        String nomeSeguradora, identificadorCliente, identificadorNewCliente;
-
-        System.out.println("Informe o nome da seguradora\n");
-        nomeSeguradora = teclado.nextLine();
-        s = buscarSeguradora(nomeSeguradora);
-        if (s ==  null){
-            System.out.println("Seguradora não encontrada, transferência nao realizada\n");
-            return;
-        }
-
-        System.out.println("Informe o CPF ou CNPJ do cliente\n");
-        identificadorCliente = teclado.nextLine();
-        c = buscarCliente(s, identificadorCliente);
-        if (c ==  null){
-            System.out.println("Cliente não encontrado, transferência nao realizada\n");
-            return;
-        }
-
-        System.out.println("Informe o CPF ou CNPJ do cliente para o qual deseja transferir o seguro\n");
-        identificadorNewCliente = teclado.nextLine();
-        cNew = buscarCliente(s, identificadorNewCliente);
-        if (cNew ==  null){
-            System.out.println("Cliente não encontrado, transferência invalida\n");
-            return;
-        }
-        // Transfere os veiculos segurados de um cliente para o outro;
-        cNew.getListaVeiculos().addAll(c.getListaVeiculos());
-        // Calculando novamente o score do cliente com novos carros atribuidos
-        s.calcularPrecoSeguroCliente(cNew);
-        // Apaga os veiculos segurados do cliente após transferência;
-        c.getListaVeiculos().removeAll(c.getListaVeiculos());
-        // Atualiza o score do cliente que fez a transferência;
-        s.calcularPrecoSeguroCliente(c);
-        System.out.println("Transferência realizada com sucesso\n");
     }
 
     public void calcularReceitaSeguradora(){
@@ -726,7 +809,7 @@ public class ImplementarMenu {
             System.out.println("Seguradora não encontrada, nao foi possivel calcular receita\n");
             return;
         }
-        receita = s.calcularReceita(s);
+        receita = s.calcularReceita();
         System.out.println("Receita total da seguradora "+s.getNome()+ ": R$"+ String.format("%.1f",receita)+"\n");
         return;
     }

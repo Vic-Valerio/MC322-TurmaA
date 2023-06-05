@@ -5,11 +5,12 @@ public class AppMain {
         // sem a necessidade de aplicar os metodos de validação;
         Seguradora seguradora = new Seguradora("44.668.939/0001-02", "Sol Seguros", "19 99547-8236",
                                 "solseguros@gmail.com", "Rua do castor, 1028");
-
+        seguradora.toString();
         // Instanciando 2 clientes PF com CPFs validos;
         Cliente c1 = new ClientePF("Victor Valerio", "Rua Luverci Pereira", "(19)99161-8109", 
                      "v245146@dac.unicamp.br", "437.355.398-07", "Masculino",
                      "Superior incompleto", ImplementarMenu.converteDataStrToLD("15/03/2001"));
+        c1.toString();
 
         Cliente c2 = new ClientePF("Luiz Almeida", "Rua Amazonas", "(31)99258-7496",
                         "luizalmeida@gmail.com", "431.295.130-60", "Não-binario",

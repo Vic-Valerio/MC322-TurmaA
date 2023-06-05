@@ -4,8 +4,7 @@ public enum MenuPrincipal{
     LISTAR(2),
     EXCLUIR(3),
     GERAR_SINISTRO(4),
-    TRANSFERIR_SEGURO(5),
-    CALCULAR_RECEITA_SEGURADORA(6),
+    CALCULAR_RECEITA_SEGURADORA(5),
     SAIR(0);
 
     public final int operacao;

@@ -62,8 +62,8 @@ public class SeguroPJ extends Seguro{
     }
 
     // Metodo para gerar um sinistro de condutores
-    public boolean gerarSinistros(String dataSinistro, String enderecoSinistro, Condutor condutorSinistro,
-                                  Seguradora seguradoraSinistro){
+    public boolean gerarSinistros(String dataSinistro, String enderecoSinistro,
+                                  Condutor condutorSinistro, Seguradora seguradoraSinistro){
         boolean temCondutor = false;
         Sinistro sinistro = new Sinistro(dataSinistro, enderecoSinistro, condutorSinistro, this);
 
@@ -97,18 +97,14 @@ public class SeguroPJ extends Seguro{
     return this.getListaSinistros().add(sinistro);
     }
 
-    // Metodo para calcular o valor mensal do seguro
+    // Metodo para calcular o valor mensal do seguro;
     public void calcularValor(){
         int anosPosFundacao = cliente.getTempoFundacao();
         int qtdFuncionarios = this.getListaCondutores().size(); // Assume-se que os condutores sao os funcionarios da empresa inclusos no seguro
-        int qtdVeiculos = 0;
+        int qtdVeiculos = frota.getListaVeiculos().size(); // quantidade de veiculos da frota;
         int qtdSinistrosCliente = this.getListaSinistros().size();
         int qtdSinistrosCondutores = 0;
         double valorMensal = 0, valorBase = CalcSeguro.VALOR_BASE.getFator();
-
-        for(Frota f: cliente.getListaFrota()){
-            qtdVeiculos += f.getListaVeiculos().size();
-        }
 
         for (Condutor c: this.getListaCondutores()){
             qtdSinistrosCondutores += c.getListaSinistros().size();
