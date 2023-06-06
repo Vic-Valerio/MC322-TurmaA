@@ -1,10 +1,11 @@
 package Codigos;
-
 import java.time.LocalDate;
+//import java.util.ArrayList;
+//import java.util.List;
 
 public class SeguroPF extends Seguro {
     private Veiculo veiculo;
-    private ClientePF cliente; // tem que ser ClientePF?
+    private ClientePF cliente;
 
     // Metodo construtor;
     public SeguroPF(LocalDate dataFim, Seguradora seguradora,
@@ -23,7 +24,7 @@ public class SeguroPF extends Seguro {
     }
     
     @Override
-    public ClientePF getClientePF() {
+    public Cliente getCliente() {
         return cliente;
     }
 
@@ -33,8 +34,8 @@ public class SeguroPF extends Seguro {
                     "\nData de inicio "+super.getDataInicio()+
                     "\nData de término "+super.getDataFim()+
                     "\n Seguradora "+super.getSeguradora().getNome()+
-                    "Cliente CPF "+cliente.getCPF()+
-                    "Veiculo placa "+veiculo.getPlaca()+"\n";
+                    "\nCliente CPF "+cliente.getIdentificador()+
+                    "\nVeiculo placa "+veiculo.getPlaca()+"\n";
         return str;
     }
 

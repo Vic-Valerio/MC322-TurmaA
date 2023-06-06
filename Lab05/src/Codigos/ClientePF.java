@@ -48,7 +48,8 @@ public class ClientePF extends Cliente {
         this.genero = genero;
     }
 
-    public String getCPF(){
+    @Override
+    public String getIdentificador(){
         return CPF;
     }
     
@@ -89,7 +90,7 @@ public class ClientePF extends Cliente {
                 return false;
             }
         }
-        System.out.println("Veiculo cadastrado com sucesso\n");
+        System.out.println("Veiculo "+veiculo.getPlaca()+" adicionado com sucesso ao cliente"+CPF+"\n");
         return listaVeiculos.add(veiculo);
     }
 
@@ -99,10 +100,5 @@ public class ClientePF extends Cliente {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public String getIdentificador(){
-        return CPF;
     }
 }

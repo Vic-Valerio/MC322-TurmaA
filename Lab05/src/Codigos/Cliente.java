@@ -1,5 +1,4 @@
 package Codigos;
-
 public  abstract class Cliente {
     // Atributos de instância;
     private String nome;

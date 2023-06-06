@@ -37,21 +37,21 @@ public class Frota {
     public boolean adicionarVeiculo(Veiculo veiculo) {
         for(Veiculo v: listaVeiculos){
             if (v.getPlaca().equals(veiculo.getPlaca())){
-                System.out.println("Veiculo já cadastrado\n");
+                System.out.println("Veiculo de placa "+veiculo.getPlaca()+" já cadastrado\n");
                 return false;
             }
         }
-        System.out.println("Veiculo cadastrado com sucesso\n");
+        System.out.println("Veiculo "+veiculo.getPlaca()+" cadastrado à frota com sucesso\n");
         return listaVeiculos.add(veiculo);
     }
 
     // Metodo para remover veiculo na lista de veiculos do cliente
     public boolean removerVeiculo(Veiculo veiculo){
         if (listaVeiculos.remove(veiculo)){
-            System.out.println("Veiculo removido com sucesso\n");
+            System.out.println("Veiculo "+veiculo.getPlaca()+" removido com sucesso\n");
             return true;
         }
-        System.out.println("Veiculo não cadastrado\n");
+        System.out.println("Veiculo  "+veiculo.getPlaca()+"não cadastrado\n");
         return false;
     }
 }

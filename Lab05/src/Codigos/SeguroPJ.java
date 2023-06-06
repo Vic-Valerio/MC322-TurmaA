@@ -1,6 +1,7 @@
 package Codigos;
-
 import java.time.LocalDate;
+//import java.util.ArrayList;
+//import java.util.List;
 
 public class SeguroPJ extends Seguro{
     private Frota frota;
@@ -12,6 +13,7 @@ public class SeguroPJ extends Seguro{
         super(dataFim, seguradora);
         this.frota = frota;
         this.cliente = cliente;
+        //List<Condutor> listaCondutores = new ArrayList<>();
     }
 
     // Metodos de acesso
@@ -23,9 +25,9 @@ public class SeguroPJ extends Seguro{
     }
 
     @Override
-    public ClientePJ getClientePJ() {
+    public Cliente getCliente() {
         return cliente;
-    }
+    }  
 
     @Override
     public String toString(){
@@ -33,7 +35,7 @@ public class SeguroPJ extends Seguro{
                     "\nData de inicio "+super.getDataInicio()+
                     "\nData de término "+super.getDataFim()+
                     "\n Seguradora "+super.getSeguradora().getNome()+
-                    "\n Cliente CNPJ "+cliente.getCNPJ()+
+                    "\n Cliente CNPJ "+cliente.getIdentificador()+
                     "\n Frota "+frota.getCode()+"\n";
         return str;
     }

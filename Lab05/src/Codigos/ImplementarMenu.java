@@ -447,7 +447,7 @@ public class ImplementarMenu {
 
                 for(Seguro seguro:s.getListaSeguros()){
                     if(seguro.getListaSinistros() != null){
-                        System.out.println("Lista de sinistros do cliente "+seguro.getClientePF().getIdentificador()+":\n"+seguro.getListaSinistros());
+                        System.out.println("Lista de sinistros do cliente "+seguro.getCliente().getIdentificador()+":\n"+seguro.getListaSinistros());
                     }
                     for(Condutor cond: seguro.getListaCondutores()){
                         if(cond.getListaSinistros() != null){
@@ -619,15 +619,42 @@ public class ImplementarMenu {
             return;
         }
 
+        for(Seguro seguro: seguradora.getListaSeguros()){
+            System.out.println("Sinistros do cliente no seguro "+seguro.getId()+"\n");
+            if(seguro.getCliente().getIdentificador().equals(cli.getIdentificador())){
+                for(Sinistro sinis: seguro.getListaSinistros()){                    
+                    if(seguro.getListaCondutores()!= null){
+                        temSinistro = true;
+                        System.out.println(sinis +"\n");
+                    }
+                }
+                for(Condutor condutor: seguro.getListaCondutores()){
+                    System.out.println("Sinistros do condutor "+condutor.getCpf()+"\n");
+                    if(condutor.getListaSinistros() != null){
+                        temSinistro = true;
+                        System.out.println(condutor.getListaSinistros()+"\n");
+                    }
+                    else{
+                        System.out.println("Condutor não possui sinistros");
+                    }
+                }
+            }
+            else{
+                System.out.println("Nenhum sinistros do cliente no seguro "+seguro.getId()+"\n");
+            }
+        }
+/*
         Seguro segu = null;
         for(Seguro seguro: seguradora.getListaSeguros()){
             // 1 Cliente PF possui zero ou um seguroPF;
-            if(seguro.getClientePF().getIdentificador().equals(cli.getIdentificador())){
-                segu = seguro;
-                break;
+            if (cli instanceof ClientePF){
+                if(seguro.getCliente().getIdentificador().equals(cli.getIdentificador())){
+                    segu = seguro;
+                    break;
+                }
             }
             // 1 Cliente PJ pode ter muitos seguroPJ: verificar codigo da frota;
-            else if(seguro.getClientePJ().getIdentificador().equals(cli.getIdentificador())){
+            else if(seguro.getCliente().getIdentificador().equals(cli.getIdentificador())){
                 SeguroPJ seguroPJ = (SeguroPJ)seguro;
                 ClientePJ cPJ = (ClientePJ)cli;
                 for(Frota frota:cPJ.getListaFrota()){
@@ -649,13 +676,16 @@ public class ImplementarMenu {
                 temSinistro = true;
             }
         }
-
+        // Printa somente os sinistros d um seguro e nao de todos os seguros...
+        // Modificar esse metodo;
         for(Condutor condutor: segu.getListaCondutores()){
             if(condutor.getListaSinistros() != null){
                 temSinistro = true;
                 System.out.println("Sinistros do condutor "+condutor.getCpf()+"\n"+condutor.getListaSinistros()+"\n");
             }
         }
+*/
+
         if(!temSinistro){
             System.out.println("Nenhum sinistro registrado nesse cliente\n");
         }  
@@ -712,12 +742,14 @@ public class ImplementarMenu {
         Seguro segu= null;
         for (Seguro seguro: s.getListaSeguros()){
             // 1 Cliente PF possui zero ou um seguroPF;
-            if(seguro.getClientePF().getIdentificador().equals(c.getIdentificador())){
-                segu = seguro;
-                break;
+            if (c instanceof ClientePF){
+                if(seguro.getCliente().getIdentificador().equals(c.getIdentificador())){
+                    segu = seguro;
+                    break;
+                }
             }
             // 1 Cliente PJ pode ter muitos seguroPJ: verificar codigo da frota;
-            else if(seguro.getClientePJ().getIdentificador().equals(c.getIdentificador())){
+            else if(seguro.getCliente().getIdentificador().equals(c.getIdentificador())){
                 SeguroPJ seguroPJ = (SeguroPJ)seguro;
                 ClientePJ cPJ = (ClientePJ)c;
                 for(Frota frota:cPJ.getListaFrota()){

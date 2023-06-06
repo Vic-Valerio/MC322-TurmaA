@@ -66,6 +66,16 @@ public class Seguradora {
         return listaClientes;
     }
 
+    @Override
+    public String toString(){
+        String str = "Seguradora "+nome+" CNPJ " +cnpj+
+        "\nTelefone "+telefone+
+        "\nEndereço "+endereco+
+        "\nEmail "+email+"\n";
+        
+        return str;
+    }
+
     // Metodo para listar clientes
     public void listarClientes(String tipoCliente){
         List<Cliente> listaClientesPF = new ArrayList<>();
@@ -182,7 +192,7 @@ public class Seguradora {
         }
         else{
             listaClientes.add(cliente);
-            System.out.println("Cliente cadastrado com sucesso\n");
+            System.out.println("Cliente "+cliente.getIdentificador()+" cadastrado com sucesso\n");
             return true;
         }
     }
@@ -209,15 +219,22 @@ public class Seguradora {
     }
 
     // Metodo para visualizar seguros por cliente;
-    public List<Seguro> getSegurosPorCliente(String clienteID){
+    public List<Seguro> getSegurosPorCliente(Cliente cliente){
 
         List<Seguro> listaSegurosCliente = new ArrayList<>();
         // Percorre os seguros de uma seguradora buscando pelo cliente alvo;
         for(Seguro s:listaSeguros){
-            // Se o cliente for encontrado (PF ou PJ);
-            if(s.getClientePF().getIdentificador().equals(clienteID) || s.getClientePJ().getIdentificador().equals(clienteID)){
-                // Adiciona os Seguros do cliente na lista de Seguros;
-                listaSegurosCliente.add(s);
+            // Se o cliente for do tipo PF;
+            if(cliente instanceof ClientePF){
+                if(s.getCliente().getIdentificador().equals(cliente.getIdentificador())){
+                    listaSegurosCliente.add(s);
+                }
+            }
+            // Se o cliente for do tipo PJ;
+            else{
+                if(s.getCliente().getIdentificador().equals(cliente.getIdentificador())){
+                    listaSegurosCliente.add(s);
+                }
             }
         }
         return listaSegurosCliente;
@@ -230,7 +247,7 @@ public class Seguradora {
         // Percorre os seguros de uma seguradora buscando pelo cliente alvo;
         for(Seguro s:listaSeguros){
             // Se o cliente for encontrado (PF ou PJ);
-            if(s.getClientePF().getIdentificador().equals(clienteID) || s.getClientePJ().getIdentificador().equals(clienteID)){
+            if(s.getCliente().getIdentificador().equals(clienteID)){
                 // Adiciona os sinistros do cliente na lista de sinistros;
                 for (Sinistro sinis:s.getListaSinistros()){
                     listaSinistrosCliente.add(sinis);

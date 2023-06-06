@@ -29,7 +29,8 @@ public class ClientePJ extends Cliente {
     }
 
     // Metodos de acesso
-    public String getCNPJ() {
+    @Override
+    public String getIdentificador(){
         return CNPJ;
     }
 
@@ -60,11 +61,6 @@ public class ClientePJ extends Cliente {
         return str;
     }
     
-    @Override
-    public String getIdentificador(){
-        return CNPJ;
-    }
-    
     // Metodo para cadastrar nova frota na lista de frotas do cliente PJ;
     public boolean cadastrarFrota(Frota frota) {
         for(Frota f: listaFrota){
@@ -73,7 +69,7 @@ public class ClientePJ extends Cliente {
                 return false;
             }
         }
-        System.out.println("Frota cadastrada com sucesso\n");
+        System.out.println("Frota "+ frota.getCode()+" cadastrada com sucesso ao cliente "+CNPJ+"\n");
         return listaFrota.add(frota);
     }
 
@@ -86,6 +82,9 @@ public class ClientePJ extends Cliente {
                 System.out.println("Veiculos da frota "+f.getCode()+":\n" + f.getListaVeiculos());
                 break;
             }
+        }
+        if(!existeFrota){
+            System.out.println("Frota "+frota.getCode()+" não cadastrada ao cliente "+CNPJ+"\n");
         }
         return existeFrota;
     }
@@ -117,18 +116,18 @@ public class ClientePJ extends Cliente {
             // caso contrario retorna false e nao exclui;
             if(temVeiculo){
                 frota.removerVeiculo(veiculo);
-                System.out.println("Veiculo de placa "+veiculo.getPlaca()+" removido com sucesso\n");
+                
                 if(frota.getListaVeiculos().size() == 0){
                     // Se a frota ficar sem veiculos ela é removida;
                     listaFrota.remove(frota);
                     System.out.println("Frota "+frota.getCode() +"excluida pela ausencia de veículos\n");
                     return true;
                 }
-                System.out.println("Frota atualizada\n");
+                System.out.println("Frota "+frota.getCode()+" atualizada\n");
                 return true;
             }
             else{
-                System.out.println("Veiculo não encontrado\nFrota não atualizada\n");
+                System.out.println("Veiculo "+veiculo.getPlaca()+ " não encontrado\nFrota "+frota.getCode()+" não atualizada\n");
                 return false;
             }
         }
@@ -137,11 +136,11 @@ public class ClientePJ extends Cliente {
             // caso contrario, cadastra o veiculo na frota;
             if(!temVeiculo){
                 frota.adicionarVeiculo(veiculo);
-                System.out.println("Veiculo de placa "+veiculo.getPlaca()+" cadastrado com sucesso\nFrota atualizada\n");
+                System.out.println("Frota "+frota.getCode()+" atualizada\n");
                 return true;
             }
             else{
-                System.out.println("Veiculo de placa "+veiculo.getPlaca()+" já cadastrado\nFrota não atualizada\n");
+                System.out.println("Veiculo "+veiculo.getPlaca()+ " já cadastrado\nFrota "+frota.getCode()+" não atualizada\n");
                 return false;
             }
         }

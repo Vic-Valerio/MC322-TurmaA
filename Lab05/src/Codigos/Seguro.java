@@ -1,6 +1,7 @@
 package Codigos;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Seguro {
@@ -19,6 +20,8 @@ public abstract class Seguro {
         this.dataInicio = LocalDate.now();
         this.dataFim = dataFim;
         this.seguradora = seguradora;
+        listaSinistros = new ArrayList<>();
+        listaCondutores = new ArrayList<>();
     }
 
     // Metodo para gerar ID unico para cada seguro
@@ -71,12 +74,9 @@ public abstract class Seguro {
         return listaCondutores;
     }
 
-    public ClientePF getClientePF(){
-        return null;
-    }
-    public ClientePJ getClientePJ(){
-        return null;
-    }
+    public abstract Cliente getCliente();
+        
+    //public abstract ClientePJ getClientePJ();
     
     @Override
     public String toString(){

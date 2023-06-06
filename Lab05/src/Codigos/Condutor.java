@@ -22,7 +22,7 @@ public class Condutor {
         this.telefone = telefone;
         this.email = email;
         this.dataNasc = dataNasc;
-        listaSinistros = new ArrayList<>(null);
+        listaSinistros = new ArrayList<>();
     }
 
     // Metodos de acesso;
