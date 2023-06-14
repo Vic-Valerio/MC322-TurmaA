@@ -12,7 +12,7 @@ public abstract class Seguro {
     private Seguradora seguradora;
     private List<Sinistro> listaSinistros;
     private List<Condutor> listaCondutores;
-    private double valorMensal; 
+    protected double valorMensal; 
 
     // Metodo construtor;
     public Seguro(LocalDate dataFim, Seguradora seguradora) {
@@ -75,8 +75,6 @@ public abstract class Seguro {
     }
 
     public abstract Cliente getCliente();
-        
-    //public abstract ClientePJ getClientePJ();
     
     @Override
     public String toString(){
@@ -86,17 +84,16 @@ public abstract class Seguro {
 
     // Metodo para gerar sinistros de condutores
     public abstract boolean gerarSinistros(String dataSinistro, String enderecoSinistro, 
-                                           Condutor condutorSinistro, Seguradora seguradoraSinistro);
+                                           Condutor condutorSinistro);
 
     // Metodo para gerar sinistros do proprio cliente
-    public abstract boolean gerarSinistros(String dataSinistro, String enderecoSinistro, 
-                                           Seguradora seguradoraSinistro);
+    public abstract boolean gerarSinistros(String dataSinistro, String enderecoSinistro);
 
     // Metodos para habilitar ou desabilitar um condutor (pode gerar ou nao sinistros);
-    public abstract boolean habilitarCondutor(Condutor condutor, Seguro seguro);
+    public abstract boolean habilitarCondutor(Condutor condutor);
 
-    public abstract boolean desabilitarCondutor(Condutor condutor, Seguro seguro);
+    public abstract boolean desabilitarCondutor(Condutor condutor);
 
     // Metodo para calcular o valor do seguro
-    public abstract void calcularValor();
+    public abstract double calcularValor();
 }

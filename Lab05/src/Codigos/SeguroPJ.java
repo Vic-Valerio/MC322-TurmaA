@@ -1,7 +1,5 @@
 package Codigos;
 import java.time.LocalDate;
-//import java.util.ArrayList;
-//import java.util.List;
 
 public class SeguroPJ extends Seguro{
     private Frota frota;
@@ -13,7 +11,7 @@ public class SeguroPJ extends Seguro{
         super(dataFim, seguradora);
         this.frota = frota;
         this.cliente = cliente;
-        //List<Condutor> listaCondutores = new ArrayList<>();
+        this.valorMensal = calcularValor();
     }
 
     // Metodos de acesso
@@ -34,38 +32,62 @@ public class SeguroPJ extends Seguro{
         String str = "Seguro id "+super.getId()+
                     "\nData de inicio "+super.getDataInicio()+
                     "\nData de término "+super.getDataFim()+
-                    "\n Seguradora "+super.getSeguradora().getNome()+
-                    "\n Cliente CNPJ "+cliente.getIdentificador()+
-                    "\n Frota "+frota.getCode()+"\n";
+                    "\nSeguradora "+super.getSeguradora().getNome()+
+                    "\nCliente CNPJ "+cliente.getIdentificador()+
+                    "\nFrota "+frota.getCode()+"\n";
         return str;
     }
 
     // Metodos para habilitar ou desabilitar um condutor
-    public boolean habilitarCondutor(Condutor condutor, Seguro seguro){
-        for(Condutor c: seguro.getListaCondutores()){
+    public boolean habilitarCondutor(Condutor condutor){
+        boolean estaHabilitado = false;
+        for(Condutor c: this.getListaCondutores()){
+            // Se o condutor nao esta na lista, ele nao esta habilitado
             if(c.getCpf().equals(condutor.getCpf())){
-                condutor.setHabilitado(true);
-                return true;
+                estaHabilitado = true;
+                break;
             }
         }
-        System.out.println("Condutor não encontrado\n");
-        return false;
+        if(!estaHabilitado){
+            // Habilita o condutor adicionando-o  na lista e recalcula o valor do seguro;
+            condutor.setHabilitado(true);
+            this.getListaCondutores().add(condutor);
+            System.out.println("Condutor "+condutor.getCpf()+" agora está habilitado no seguro "+this.getId()+"\n");
+            this.setValorMensal(calcularValor());
+            return true;
+        }
+        else{
+            System.out.println("Condutor "+condutor.getCpf()+" já habilitado no seguro "+this.getId()+"\n");
+            return false;
+        }        
     }
 
-    public boolean desabilitarCondutor(Condutor condutor, Seguro seguro){
-        for(Condutor c: seguro.getListaCondutores()){
+    public boolean desabilitarCondutor(Condutor condutor){
+        boolean estaHabilitado = false;
+        for(Condutor c: this.getListaCondutores()){
+            // Se o condutor nao esta na lista, ele nao esta habilitado
             if(c.getCpf().equals(condutor.getCpf())){
-                condutor.setHabilitado(false);
-                return true;
+                estaHabilitado = true;
+                break;
             }
         }
-        System.out.println("Condutor não encontrado\n");
-        return false;
+        if(estaHabilitado){
+            // Desabilita o condutor removendo-o  da lista e recalcula o valor do seguro;
+            condutor.setHabilitado(true);
+            this.getListaCondutores().remove(condutor);
+            System.out.println("Condutor "+condutor.getCpf()+" foi desabilitado do seguro "+this.getId()+"\n");
+            this.setValorMensal(calcularValor());
+            return true;
+        }
+        else{
+            System.out.println("Condutor "+condutor.getCpf()+" já esta desabilitado no seguro "+this.getId()+"\n");
+            return false;
+        }        
     }
 
     // Metodo para gerar um sinistro de condutores
     public boolean gerarSinistros(String dataSinistro, String enderecoSinistro,
-                                  Condutor condutorSinistro, Seguradora seguradoraSinistro){
+                                  Condutor condutorSinistro){
         boolean temCondutor = false;
         Sinistro sinistro = new Sinistro(dataSinistro, enderecoSinistro, condutorSinistro, this);
 
@@ -85,22 +107,25 @@ public class SeguroPJ extends Seguro{
             System.out.println("Condutor não cadastrado, sinistro não pode ser gerado\n");
             return false;
         }
-        condutorSinistro.getListaSinistros().add(sinistro);
-        System.out.println("Sinistro gerado com sucesso\n");
-        return true;
+        if(condutorSinistro.getListaSinistros().add(sinistro)){
+            System.out.println("Sinistro gerado com sucesso\n");
+            return true;
+        }
+        return false;
     }
 
     // Metodo para gerar um sinistro do cliente;
-    public boolean gerarSinistros(String dataSinistro, String enderecoSinistro, 
-                                  Seguradora seguradoraSinistro){
+    public boolean gerarSinistros(String dataSinistro, String enderecoSinistro){
     
     Sinistro sinistro = new Sinistro(dataSinistro, enderecoSinistro, null, this);
-    
-    return this.getListaSinistros().add(sinistro);
+    if(this.getListaSinistros().add(sinistro)){
+        System.out.println("Sinistro gerado com sucesso\n");
+    }
+    return false;
     }
 
     // Metodo para calcular o valor mensal do seguro;
-    public void calcularValor(){
+    public double calcularValor(){
         int anosPosFundacao = cliente.getTempoFundacao();
         int qtdFuncionarios = this.getListaCondutores().size(); // Assume-se que os condutores sao os funcionarios da empresa inclusos no seguro
         int qtdVeiculos = frota.getListaVeiculos().size(); // quantidade de veiculos da frota;
@@ -108,13 +133,21 @@ public class SeguroPJ extends Seguro{
         int qtdSinistrosCondutores = 0;
         double valorMensal = 0, valorBase = CalcSeguro.VALOR_BASE.getFator();
 
-        for (Condutor c: this.getListaCondutores()){
-            qtdSinistrosCondutores += c.getListaSinistros().size();
-        }
+        // Busca todos os sinistros ja gerados pelo cliente e seus condutores na seguradora;
+        for (Seguro seguro: this.getSeguradora().getListaSeguros()){
+            if(seguro.getCliente().getIdentificador().equals(cliente.getIdentificador())){
+                // Soma todos os sinistros do cliente;
+                qtdSinistrosCliente += seguro.getListaSinistros().size();
 
-        valorMensal = (valorBase*(10+(qtdFuncionarios/10))* (1+1/(qtdVeiculos+2))*
-                    (1+1/(anosPosFundacao+2))* (2+qtdSinistrosCliente/10)* (5+qtdSinistrosCondutores/10));
+                for(Condutor cond: seguro.getListaCondutores()){
+                    // Soma todos os sinistros de todos os condutores segurados do cliente
+                    qtdSinistrosCondutores += cond.getListaSinistros().size();
+                }
+            }
+        }
         
-        this.setValorMensal(valorMensal);
+        valorMensal = valorBase*(10+((float)qtdFuncionarios/10))*(1+1.0/(qtdVeiculos+2))*(1+1.0/(anosPosFundacao+2))*(2+qtdSinistrosCliente/10.0)*(5+qtdSinistrosCondutores/10.0);
+        System.out.println("valor mensal: "+valorMensal+"\n");
+        return valorMensal;
     }
 }

@@ -128,7 +128,7 @@ public class Seguradora {
 
         Seguro s = new SeguroPJ(fimContrato, this, frota, cliente);
         listaSeguros.add(s);
-
+        System.out.println("Seguro iniciado para a frota "+frota.getCode()+" do cliente "+cliente.getIdentificador()+"\n");
         return true;
     }
     // Metodo para gerar um novo seguro PF
@@ -159,8 +159,14 @@ public class Seguradora {
         }
 
         Seguro s = new SeguroPF(fimContrato, this, veiculo, cliente);
-        listaSeguros.add(s);
-        return true;
+        if(listaSeguros.add(s)){
+            System.out.println("Seguro iniciado para o veiculo "+veiculo.getPlaca()+" do cliente "+cliente.getIdentificador()+"\n");
+            return true;
+        }
+        else{
+            System.out.println("Seguro nao pode ser gerado para o cliente "+cliente.getIdentificador()+"\n");
+            return false;
+        }   
     }
 
     // Metodo para cancelar um seguro existente da seguradora
@@ -169,6 +175,15 @@ public class Seguradora {
             if(s.getId()== seguroID){
                 listaSeguros.remove(s);
                 System.out.println("Seguro "+s.getId()+" cancelado com sucesso\n");
+                /*
+                // Recalcula o valor mensal dos seguros do cliente após cancelamento de um seguro;
+                String clienteID = s.getCliente().getIdentificador();
+                for(Seguro seguro:this.listaSeguros){
+                    if(seguro.getCliente().getIdentificador().equals(clienteID)){
+                        seguro.calcularValor();
+                    } 
+                }
+                */
                 return true;
             }
         }
@@ -267,7 +282,6 @@ public class Seguradora {
     public double calcularReceita(){
         double receita = 0;
         for(Seguro s:listaSeguros){
-            s.calcularValor();
             receita += s.getValorMensal();
         }
         return receita;

@@ -90,7 +90,7 @@ public class ClientePF extends Cliente {
                 return false;
             }
         }
-        System.out.println("Veiculo "+veiculo.getPlaca()+" adicionado com sucesso ao cliente"+CPF+"\n");
+        System.out.println("Veiculo "+veiculo.getPlaca()+" adicionado com sucesso ao cliente "+CPF+"\n");
         return listaVeiculos.add(veiculo);
     }
 

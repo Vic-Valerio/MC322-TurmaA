@@ -120,7 +120,7 @@ public class ClientePJ extends Cliente {
                 if(frota.getListaVeiculos().size() == 0){
                     // Se a frota ficar sem veiculos ela é removida;
                     listaFrota.remove(frota);
-                    System.out.println("Frota "+frota.getCode() +"excluida pela ausencia de veículos\n");
+                    System.out.println("Frota "+frota.getCode() +" excluida pela ausencia de veículos\n");
                     return true;
                 }
                 System.out.println("Frota "+frota.getCode()+" atualizada\n");

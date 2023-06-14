@@ -812,14 +812,14 @@ public class ImplementarMenu {
                 return;
             }
             // Gera sinistro do condutor;
-            segu.gerarSinistros(dataSinistro, enderecoSinistro, cond, s);
+            segu.gerarSinistros(dataSinistro, enderecoSinistro, cond);
             System.out.println("Sinistro registrado na lista de sinistros do condutor "+cond.getCpf()+"\n");
             return;
 
         }
         else if(opcao.equals("N")){
             // Gera sinistro do cliente
-            segu.gerarSinistros(dataSinistro, enderecoSinistro, s);
+            segu.gerarSinistros(dataSinistro, enderecoSinistro);
             System.out.println("Sinistro registrado na lista de sinistros do cliente "+c.getIdentificador()+"\n");
             return;
         }
